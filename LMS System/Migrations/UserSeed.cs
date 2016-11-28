@@ -6,7 +6,7 @@ using System.Web;
 namespace LMS_System.Migrations
 { 
     public class UserSeed
-    {
+    { 
         public string EMail { get; set; }//
         public string FirstName { get; set; }
         public string LastName { get; set; }
