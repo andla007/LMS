@@ -37,5 +37,6 @@ namespace LMS_System.Models
         }
 
         public System.Data.Entity.DbSet<LMS_System.Models.Course> Courses { get; set; }
+        public System.Data.Entity.DbSet<LMS_System.Models.Module> Modules { get; set; }
     }
 }
