@@ -15,14 +15,14 @@ namespace LMS_System.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Courses
-        [Authorize(Roles="Teacher")]
+        [Authorize(Roles="teacher")]
         public ActionResult Index()
         {
             return View(db.Courses.ToList());
         }
 
         // GET: Courses/Details/5
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "teacher")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,7 +38,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: Courses/Create
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "teacher")]
         public ActionResult Create()
         {
             return View();
@@ -62,7 +62,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: Courses/Edit/5
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "teacher")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -94,7 +94,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: Courses/Delete/5
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
