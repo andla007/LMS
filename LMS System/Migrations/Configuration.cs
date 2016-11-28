@@ -65,14 +65,27 @@ namespace LMS_System.Migrations
             var adminUser = userManager.FindByName("admin@lexicon.se");
             userManager.AddToRole(adminUser.Id, "teacher");
 
-
+            var modules = new[] {
+                new Module
+                {
+                    Name = "Tell your girlfriend",
+                    Description = "How to tell that you love Visual Studio more than her",
+                    StartDate = DateTime.Now.AddMinutes(4),
+                    EndDate = DateTime.Now.AddMinutes(6)
+                }
+            };
+            context.Modules.AddOrUpdate(p => p.Name, modules[0]
+               );
             context.Courses.AddOrUpdate(p => p.Name,
-                new Course {
+                new Course
+                {
                     Name = "Seducing and merry Visual Studio",
                     Description = "The Seducing and Merry Visual Studio Course. Leave your girlfriend and focus on Loads of programming. No worrying about social life",
-                    StartDate=DateTime.Now.AddMinutes(2),
-                    EndDate=DateTime.Now.AddMinutes(4)
-                    }
+                    StartDate = DateTime.Now.AddMinutes(2),
+                    EndDate = DateTime.Now.AddMinutes(8),
+                    Modules = modules
+
+                }
                 );
             //  This method will be called after migrating to the latest version.
 
