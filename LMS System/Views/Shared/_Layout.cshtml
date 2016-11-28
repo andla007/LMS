@@ -35,6 +35,8 @@
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
+        <li>@Html.ActionLink("Temporärt Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Temporärt Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

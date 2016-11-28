@@ -35,5 +35,7 @@ namespace LMS_System.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<LMS_System.Models.Course> Courses { get; set; }
     }
 }
