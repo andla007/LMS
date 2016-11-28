@@ -38,7 +38,7 @@ namespace LMS_System.Migrations
 
             var userSeed = new UserSeed[]
             {
-               new UserSeed() {EMail="headteacher@lexicon.se",FirstName="Oscar",LastName="Jakobsson",TimeOfRegistration=DateTime.Today }
+               new UserSeed() {EMail="admin@lexicon.se",FirstName="Oscar",LastName="Jakobsson",TimeOfRegistration=DateTime.Today }
             };
 
 
@@ -61,6 +61,10 @@ namespace LMS_System.Migrations
                     }
                 }
             }
+
+            var adminUser = userManager.FindByName("admin@lexicon.se");
+            userManager.AddToRole(adminUser.Id, "teacher");
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
