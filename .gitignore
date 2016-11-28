@@ -211,3 +211,6 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/LMS System/Migrations/201611281220427_initial.resx
+/LMS System/Migrations/201611281220427_initial.Designer.cs
+/LMS System/Migrations/201611281220427_initial.cs
