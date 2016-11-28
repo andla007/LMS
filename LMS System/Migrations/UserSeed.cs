@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 namespace LMS_System.Migrations
-{
+{ 
     public class UserSeed
     {
         public string EMail { get; set; }//
