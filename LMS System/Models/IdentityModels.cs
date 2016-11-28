@@ -9,6 +9,7 @@ namespace LMS_System.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -16,6 +17,11 @@ namespace LMS_System.Models
             // Add custom user claims here
             return userIdentity;
         }
+        //
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FullName { get { return FirstName + " " + LastName; } }
+        public System.DateTime TimeOfRegistration { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -29,5 +35,7 @@ namespace LMS_System.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<LMS_System.Models.Course> Courses { get; set; }
     }
 }
