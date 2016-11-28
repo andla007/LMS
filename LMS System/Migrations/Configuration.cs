@@ -65,6 +65,15 @@ namespace LMS_System.Migrations
             var adminUser = userManager.FindByName("admin@lexicon.se");
             userManager.AddToRole(adminUser.Id, "teacher");
 
+
+            context.Courses.AddOrUpdate(p => p.Name,
+                new Course {
+                    Name = "Seducing and merry Visual Studio",
+                    Description = "The Seducing and Merry Visual Studio Course. Leave your girlfriend and focus on Loads of programming. No worrying about social life",
+                    StartDate=DateTime.Now.AddMinutes(2),
+                    EndDate=DateTime.Now.AddMinutes(4)
+                    }
+                );
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
