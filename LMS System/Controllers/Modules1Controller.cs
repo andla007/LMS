@@ -10,19 +10,19 @@ using LMS_System.Models;
 
 namespace LMS_System.Controllers
 {
-    [Authorize]
-    public class ModulesController : Controller
+    public class Modules1Controller : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Modules
-        [Authorize(Roles = "teacher,student")]
+        // GET: Modules1
+        [Authorize(Roles = "student")]
         public ActionResult Index()
         {
             return View(db.Modules.ToList());
         }
 
-        // GET: Modules/Details/5
+        // GET: Modules1/Details/5
+        [Authorize(Roles = "student")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,13 +37,13 @@ namespace LMS_System.Controllers
             return View(module);
         }
 
-        // GET: Modules/Create
+        // GET: Modules1/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Modules/Create
+        // POST: Modules1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -60,7 +60,7 @@ namespace LMS_System.Controllers
             return View(module);
         }
 
-        // GET: Modules/Edit/5
+        // GET: Modules1/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -75,7 +75,7 @@ namespace LMS_System.Controllers
             return View(module);
         }
 
-        // POST: Modules/Edit/5
+        // POST: Modules1/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -91,7 +91,7 @@ namespace LMS_System.Controllers
             return View(module);
         }
 
-        // GET: Modules/Delete/5
+        // GET: Modules1/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -106,7 +106,7 @@ namespace LMS_System.Controllers
             return View(module);
         }
 
-        // POST: Modules/Delete/5
+        // POST: Modules1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
