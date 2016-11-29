@@ -138,9 +138,17 @@ namespace LMS_System.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher")]
-        public ActionResult Register()
+        public ActionResult RegisterStudent()
         {
             return View("RegisterStudent");
+        }
+
+        //
+        // GET: /Account/Register
+        [Authorize(Roles = "teacher")]
+        public ActionResult RegisterTeacher()
+        {
+            return View("RegisterTeacher");
         }
 
         //
