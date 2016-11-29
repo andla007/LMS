@@ -20,7 +20,7 @@ namespace LMS_System.Migrations
             //
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
-            foreach (var roleName in new[] { "teacher" })
+            foreach (var roleName in new[] { "teacher","student" })
             {
                 if (!context.Roles.Any(r => r.Name == roleName))
                 {
@@ -38,7 +38,8 @@ namespace LMS_System.Migrations
 
             var userSeed = new UserSeed[]
             {
-               new UserSeed() {EMail="admin@lexicon.se",FirstName="Oscar",LastName="Jakobsson",TimeOfRegistration=DateTime.Today }
+               new UserSeed() {EMail="admin@lexicon.se",FirstName="Oscar",LastName="Jakobsson",TimeOfRegistration=DateTime.Today },
+               new UserSeed() {EMail="elev@lexicon.se",FirstName="Kalle",LastName="Anka",TimeOfRegistration=DateTime.Today }
             };
 
 
@@ -62,9 +63,33 @@ namespace LMS_System.Migrations
                 }
             }
 
-            var adminUser = userManager.FindByName("admin@lexicon.se");
-            userManager.AddToRole(adminUser.Id, "teacher");
+            var User = userManager.FindByName("admin@lexicon.se");
+            userManager.AddToRole(User.Id, "teacher");
+            User = userManager.FindByName("elev@lexicon.se");
+            userManager.AddToRole(User.Id, "student");
 
+            var modules = new[] {
+                new Module
+                {
+                    Name = "Tell your girlfriend",
+                    Description = "How to tell that you love Visual Studio more than her",
+                    StartDate = DateTime.Now.AddMinutes(4),
+                    EndDate = DateTime.Now.AddMinutes(6)
+                }
+            };
+            context.Modules.AddOrUpdate(p => p.Name, modules[0]
+               );
+            context.Courses.AddOrUpdate(p => p.Name,
+                new Course
+                {
+                    Name = "Seducing and merry Visual Studio",
+                    Description = "The Seducing and Merry Visual Studio Course. Leave your girlfriend and focus on Loads of programming. No worrying about social life",
+                    StartDate = DateTime.Now.AddMinutes(2),
+                    EndDate = DateTime.Now.AddMinutes(8),
+                    Modules = modules
+
+                }
+                ); 
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

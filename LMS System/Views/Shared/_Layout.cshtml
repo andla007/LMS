@@ -21,9 +21,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Create", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Skapa kurser", "Create", "Courses")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -35,8 +36,12 @@
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
-        <div>@Html.ActionLink("Temporärt Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</div>
-        <div>@Html.ActionLink("Temporärt Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</div>
+        <li>@Html.ActionLink("Temporärt Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Temporärt Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+
+        <li>@Html.ActionLink("Temporärt Kurser", "Index", "Courses")</li>
+        <li>@Html.ActionLink("Temporärt Moduler", "Index", "Modules")</li>
+
     </div>
 
     @Scripts.Render("~/bundles/jquery")

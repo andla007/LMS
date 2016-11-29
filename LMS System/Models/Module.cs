@@ -5,7 +5,7 @@ using System.Web;
 
 namespace LMS_System.Models
 {
-    public class Course
+    public class Module
     {
 
         public int Id { get; set; }
@@ -14,11 +14,7 @@ namespace LMS_System.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-
-
-        public virtual ICollection<ApplicationUser> Students { get; set; }
-        public virtual ICollection<ApplicationUser> Teachers { get; set; } 
-        public virtual ICollection<Module> Modules { get; set; }
-        //public virtual ICollection<Document> CourseDocuments { get; set; }
+        //public virtual ICollection<Activity> Activities { get; set; }
+        //public virtual ICollection<Document> ModuleDocuments { get; set; }
     }
 }
