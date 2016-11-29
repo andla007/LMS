@@ -20,7 +20,7 @@ namespace LMS_System.Migrations
             //
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
-            foreach (var roleName in new[] { "teacher" })
+            foreach (var roleName in new[] { "teacher","student" })
             {
                 if (!context.Roles.Any(r => r.Name == roleName))
                 {
@@ -38,7 +38,8 @@ namespace LMS_System.Migrations
 
             var userSeed = new UserSeed[]
             {
-               new UserSeed() {EMail="admin@lexicon.se",FirstName="Oscar",LastName="Jakobsson",TimeOfRegistration=DateTime.Today }
+               new UserSeed() {EMail="admin@lexicon.se",FirstName="Oscar",LastName="Jakobsson",TimeOfRegistration=DateTime.Today },
+               new UserSeed() {EMail="elev@lexicon.se",FirstName="Kalle",LastName="Anka",TimeOfRegistration=DateTime.Today }
             };
 
 
@@ -62,8 +63,10 @@ namespace LMS_System.Migrations
                 }
             }
 
-            var adminUser = userManager.FindByName("admin@lexicon.se");
-            userManager.AddToRole(adminUser.Id, "teacher");
+            var User = userManager.FindByName("admin@lexicon.se");
+            userManager.AddToRole(User.Id, "teacher");
+            User = userManager.FindByName("elev@lexicon.se");
+            userManager.AddToRole(User.Id, "student");
 
             var modules = new[] {
                 new Module
