@@ -15,6 +15,7 @@ namespace LMS_System.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Modules
+        [Authorize(Roles = "teacher,student")]
         public ActionResult Index()
         {
             return View(db.Modules.ToList());
