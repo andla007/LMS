@@ -38,6 +38,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: Modules/Create
+        [Authorize(Roles = "teacher")]
         public ActionResult Create()
         {
             return View();
@@ -61,6 +62,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: Modules/Edit/5
+        [Authorize(Roles = "teacher")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -80,6 +82,7 @@ namespace LMS_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "teacher")]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module)
         {
             if (ModelState.IsValid)
@@ -92,6 +95,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: Modules/Delete/5
+        [Authorize(Roles = "teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,6 +111,7 @@ namespace LMS_System.Controllers
         }
 
         // POST: Modules/Delete/5
+        [Authorize(Roles = "teacher")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
