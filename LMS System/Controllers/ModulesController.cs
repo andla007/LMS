@@ -10,6 +10,7 @@ using LMS_System.Models;
 
 namespace LMS_System.Controllers
 {
+    [Authorize]
     public class ModulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
