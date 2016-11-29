@@ -175,6 +175,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611291358292_init.cs" />
+    <Compile Include="Migrations\201611291358292_init.Designer.cs">
+      <DependentUpon>201611291358292_init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -186,6 +190,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-LMS System-20161125035635.mdf" />
+    <Content Include="App_Data\aspnet-LMS System-20161125035635_log.ldf">
+      <DependentUpon>aspnet-LMS System-20161125035635.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -254,7 +262,9 @@
     <Content Include="Views\Modules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <EmbeddedResource Include="Migrations\201611291358292_init.resx">
+      <DependentUpon>201611291358292_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
