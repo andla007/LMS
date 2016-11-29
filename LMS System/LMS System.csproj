@@ -168,6 +168,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -260,6 +261,11 @@
     <Content Include="Views\Modules\Details.cshtml" />
     <Content Include="Views\Modules\Edit.cshtml" />
     <Content Include="Views\Modules\Index.cshtml" />
+    <Content Include="Views\AppUsers\Create.cshtml" />
+    <Content Include="Views\AppUsers\Delete.cshtml" />
+    <Content Include="Views\AppUsers\Details.cshtml" />
+    <Content Include="Views\AppUsers\Edit.cshtml" />
+    <Content Include="Views\AppUsers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611291358292_init.resx">

@@ -17,13 +17,13 @@ namespace LMS_System.Controllers
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private AppUsersManager _userManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(AppUsersManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -41,11 +41,11 @@ namespace LMS_System.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
+        public AppUsersManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<AppUsersManager>();
             }
             private set
             {
@@ -162,7 +162,7 @@ namespace LMS_System.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser {FirstName = model.FirstName, LastName = model.LastName,
+                    var user = new AppUsers {FirstName = model.FirstName, LastName = model.LastName,
                                                     UserName = model.Email, TimeOfRegistration = DateTime.Now,
                                                     Email = model.Email };
                     var result = await UserManager.CreateAsync(user, model.Password);
@@ -172,8 +172,8 @@ namespace LMS_System.Controllers
                         var roleStore = new RoleStore<IdentityRole>(context);
                         var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-                        var userStore = new UserStore<ApplicationUser>(context);
-                        var userManager = new UserManager<ApplicationUser>(userStore);
+                        var userStore = new UserStore<AppUsers>(context);
+                        var userManager = new UserManager<AppUsers>(userStore);
                         userManager.AddToRole(user.Id, role);
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
@@ -388,7 +388,7 @@ namespace LMS_System.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new AppUsers { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

@@ -16,8 +16,8 @@ namespace LMS_System.Models
 
 
 
-        public virtual ICollection<ApplicationUser> Students { get; set; }
-        public virtual ICollection<ApplicationUser> Teachers { get; set; } 
+        public virtual ICollection<AppUsers> Students { get; set; }
+        public virtual ICollection<AppUsers> Teachers { get; set; } 
         public virtual ICollection<Module> Modules { get; set; }
         //public virtual ICollection<Document> CourseDocuments { get; set; }
     }
