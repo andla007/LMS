@@ -7,7 +7,7 @@
 <h2>Register Student</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Register", "Account", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     

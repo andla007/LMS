@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<LMS_System.Models.Course>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Courses";
 }
 
-<h2>Index</h2>
+<h2>Courses</h2>
 
 @if (User.IsInRole("teacher"))
     {
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add new course", "Create")
 </p>
 }
 
