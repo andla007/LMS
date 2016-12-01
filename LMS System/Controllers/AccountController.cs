@@ -74,6 +74,10 @@ namespace LMS_System.Controllers
                 return View(model);
             }
 
+            //var user =  UserManager.Users.Where(u => u.Email == model.Email).FirstOrDefault();
+
+            //var test = UserManager.IsInRole(user.Id, "teacher");
+            
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -412,6 +416,10 @@ namespace LMS_System.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            var userid = User.Identity.GetUserId();
+
+            var test = User.IsInRole("teacher");
+
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
