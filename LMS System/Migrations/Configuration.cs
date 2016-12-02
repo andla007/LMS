@@ -96,16 +96,16 @@ namespace LMS_System.Migrations
                                         Description = "How to tell that you love Visual Studio more than her",
                                         StartDate = DateTime.Now.AddMinutes(4),
                                         EndDate = DateTime.Now.AddMinutes(6),
-                                        Course_Id = 1
+                                        CourseId = 1
 
                                     }
                                 };
             context.Modules.AddOrUpdate(p => p.Name, modules[0]);
             context.SaveChanges();
 
-            var course = context.Courses.FirstOrDefault();
-            course.Modules.Add(modules[0]);
-            context.Courses.AddOrUpdate(c => c.Name, course);
+            //var course = context.Courses.FirstOrDefault();
+            //course.Modules.Add(modules[0]);
+            //context.Courses.AddOrUpdate(c => c.Name, course);
 
 
 
