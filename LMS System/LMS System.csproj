@@ -175,9 +175,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612020943164_initial.cs" />
-    <Compile Include="Migrations\201612020943164_initial.Designer.cs">
-      <DependentUpon>201612020943164_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201612021011122_init.cs" />
+    <Compile Include="Migrations\201612021011122_init.Designer.cs">
+      <DependentUpon>201612021011122_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
@@ -260,6 +260,7 @@
     <Content Include="Views\Modules\Details.cshtml" />
     <Content Include="Views\Modules\Edit.cshtml" />
     <Content Include="Views\Modules\Index.cshtml" />
+    <Content Include="Visual studio stuff.hnd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -270,8 +271,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612020943164_initial.resx">
-      <DependentUpon>201612020943164_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612021011122_init.resx">
+      <DependentUpon>201612021011122_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

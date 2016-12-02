@@ -20,7 +20,7 @@ namespace LMS_System.Migrations
             //
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
-            foreach (var roleName in new[] { "teacher","student" })
+            foreach (var roleName in new[] { "teacher", "student" })
             {
                 if (!context.Roles.Any(r => r.Name == roleName))
                 {
@@ -64,32 +64,56 @@ namespace LMS_System.Migrations
             }
 
             var User = userManager.FindByName("admin@lexicon.se");
-            userManager.AddToRole(User.Id, "teacher");
+            if (!userManager.IsInRole(User.Id, "teacher"))
+            {
+                userManager.AddToRole(User.Id, "teacher");
+            }
             User = userManager.FindByName("elev@lexicon.se");
-            userManager.AddToRole(User.Id, "student");
+            if (!userManager.IsInRole(User.Id, "teacher"))
+            {
+                userManager.AddToRole(User.Id, "student");
+            }
+
+
+            context.Courses.AddOrUpdate(p => p.Name,
+            new Course
+            {
+                Id = 1,
+                Name = "Seducing and merry Visual Studio",
+                Description = "The Seducing and Merry Visual Studio Course. Leave your girlfriend and focus on Loads of programming. No worrying about social life",
+                StartDate = DateTime.Now.AddMinutes(2),
+                EndDate = DateTime.Now.AddMinutes(8),
+            }
+            );
+            context.SaveChanges();
+
+
 
             var modules = new[] {
-                new Module
-                {
-                    Name = "Tell your girlfriend",
-                    Description = "How to tell that you love Visual Studio more than her",
-                    StartDate = DateTime.Now.AddMinutes(4),
-                    EndDate = DateTime.Now.AddMinutes(6)
-                }
-            };
-            context.Modules.AddOrUpdate(p => p.Name, modules[0]
-               );
-            context.Courses.AddOrUpdate(p => p.Name,
-                new Course
-                {
-                    Name = "Seducing and merry Visual Studio",
-                    Description = "The Seducing and Merry Visual Studio Course. Leave your girlfriend and focus on Loads of programming. No worrying about social life",
-                    StartDate = DateTime.Now.AddMinutes(2),
-                    EndDate = DateTime.Now.AddMinutes(8),
-                    Modules = modules
+                                    new Module
+                                    {
+                                        Name = "Tell your girlfriend",
+                                        Description = "How to tell that you love Visual Studio more than her",
+                                        StartDate = DateTime.Now.AddMinutes(4),
+                                        EndDate = DateTime.Now.AddMinutes(6),
+                                        Course_Id = 1
 
-                }
-                ); 
+                                    }
+                                };
+            context.Modules.AddOrUpdate(p => p.Name, modules[0]);
+            context.SaveChanges();
+
+            var course = context.Courses.FirstOrDefault();
+            course.Modules.Add(modules[0]);
+            context.Courses.AddOrUpdate(c => c.Name, course);
+
+
+
+
+
+
+
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
