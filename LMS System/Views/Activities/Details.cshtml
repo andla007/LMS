@@ -1,12 +1,13 @@
-﻿@model LMS_System.Models.Course
+﻿@model LMS_System.Models.Activity
 
 @{
-    ViewBag.Title = "Course Details";
+    ViewBag.Title = "Details";
 }
 
-<h2>Course Details</h2>
+<h2>Details</h2>
 
 <div>
+    <h4>Activity</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -37,34 +38,13 @@
             @Html.DisplayNameFor(model => model.EndDate)
         </dt>
 
-
         <dd>
             @Html.DisplayFor(model => model.EndDate)
         </dd>
 
-        <dt>
-            Manuellt tillagt @Html.DisplayNameFor(model => model.Modules):
-        </dt>
-
-        <dd>
-            @foreach (var m in Model.Modules)
-            {
-                            <div>@m.Name</div><br />
-            }
-        </dd>
     </dl>
-@if (User.IsInRole("teacher"))
-{
-    <div>
-        <input type="button" value="Add module" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Create", "Modules") + "'");"/>
-    </div>
-}
-    <br/>
 </div>
 <p>
-@if (User.IsInRole("teacher"))
-{
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span>|</span>
-}
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

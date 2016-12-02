@@ -15,6 +15,6 @@ namespace LMS_System.Models
         public DateTime EndDate { get; set; }
 
         public virtual ICollection<Activity> Activities { get; set; }
-        public virtual ICollection<Document> ModuleDocuments { get; set; }
+        public virtual ICollection<Document> ModuleDocuments { get; set; } 
     }
 }

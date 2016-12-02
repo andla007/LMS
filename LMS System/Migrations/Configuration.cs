@@ -96,11 +96,25 @@ namespace LMS_System.Migrations
                                         Description = "How to tell that you love Visual Studio more than her",
                                         StartDate = DateTime.Now.AddMinutes(4),
                                         EndDate = DateTime.Now.AddMinutes(6),
-                                        Course_Id = 1
+                                        CourseId = 1
 
                                     }
                                 };
             context.Modules.AddOrUpdate(p => p.Name, modules[0]);
+            context.SaveChanges();
+
+            var activites = new[]
+            {
+                new Activity
+                {
+                    Name="Föreläsning",
+                    Description="En snubbe med stora manliga bröst föreläser hur man undviker onödiga knappnedtryckning när man sitter nära skärmen",
+                    ModuleId = 1,
+                    StartDate = DateTime.Now.AddMinutes(4),
+                    EndDate = DateTime.Now.AddMinutes(6)
+                }
+            };
+            context.Activities.AddOrUpdate(p => p.Name, activites[0]);
             context.SaveChanges();
 
             //var course = context.Courses.FirstOrDefault();
