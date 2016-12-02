@@ -16,6 +16,7 @@ namespace LMS_System.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: AppUsers
+        [Authorize]
         public ActionResult Index(string CourseId, string Role, string orderby)
         {
             IEnumerable<AppUsers> users = null;
