@@ -1,13 +1,12 @@
 ﻿@model LMS_System.Models.Course
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Course Details";
 }
 
-<h2>Details</h2>
+<h2>Course Details</h2>
 
 <div>
-    <h4>Course</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -53,11 +52,19 @@
                 @m.Name<br />
             }
         </dd>
-
-
     </dl>
+@if (User.IsInRole("teacher"))
+{
+    <div>
+        <input type="button" value="Add module" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Create", "Modules") + "'");"/>
+    </div>
+}
+    <br/>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+@if (User.IsInRole("teacher"))
+{
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span>|</span>
+}
     @Html.ActionLink("Back to List", "Index")
 </p>

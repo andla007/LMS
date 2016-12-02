@@ -80,7 +80,30 @@ namespace LMS_System.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    {
+                        var user = UserManager
+                                  .Users
+                                  .Where(u => u.Email == model.Email)
+                                  .FirstOrDefault();
+                        var userRoleIsTeacher = UserManager.IsInRole(user.Id, "teacher");
+                        if (userRoleIsTeacher)
+                            return RedirectToAction("Index", "Courses");
+                        else
+                        {
+                            // Find course student is enrolled in 
+                          
+                            var dbContext = new ApplicationDbContext();
+                            var enrolledCourse = (from course in dbContext.Courses
+                                                 from student in course.Students
+                                                 where student.Id == user.Id
+                                                 select course).FirstOrDefault();
+                            if (enrolledCourse == null)
+                                return RedirectToAction("Index", "Courses");
+                            else
+                                return RedirectToAction("Details", "Courses", enrolledCourse.Id);
+
+                        }
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
