@@ -53,12 +53,14 @@
             }
         </dd>
     </dl>
-@if (User.IsInRole("teacher"))
-{
-    <div>
-        <input type="button" value="Add module" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Create", "Modules") + "'");"/>
-    </div>
-}
+
+    @if (User.IsInRole("teacher"))
+    {
+        <div>
+            <input type="button" value="Add module" class="btn btn-default" onclick="@("window.location.href='" + 
+               @Url.Action("Create", "Modules") + $"?id={Model.Id}&name={Model.Name}'");"/>
+        </div>
+    }
     <br/>
 </div>
 <p>

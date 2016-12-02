@@ -104,7 +104,7 @@ namespace LMS_System.Controllers
                             if (enrolledCourse == null)
                                 return RedirectToAction("Index", "Courses");
                             else
-                                return RedirectToAction("Details", "Courses", enrolledCourse.Id);
+                                return RedirectToAction("Details", "Courses", new { Id = enrolledCourse.Id });
 
                         }
                     }
