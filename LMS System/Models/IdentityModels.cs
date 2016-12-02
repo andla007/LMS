@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace LMS_System.Models
 {
@@ -22,6 +23,23 @@ namespace LMS_System.Models
         public string LastName { get; set; }
         public string FullName { get { return FirstName + " " + LastName; } }
         public System.DateTime TimeOfRegistration { get; set; }
+        
+        public string RoleName
+        {
+            get
+            {
+                string roleName = "";
+                var context = new ApplicationDbContext();
+                var userStore = new UserStore<AppUsers>(context);
+                var userManager = new UserManager<AppUsers>(userStore);
+                if(userManager.IsInRole(this.Id, "teacher")) { roleName = "teacher"; }
+                if(userManager.IsInRole(this.Id, "student")) { roleName = "student"; }
+                return roleName;
+            }
+        }
+
+
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<AppUsers>

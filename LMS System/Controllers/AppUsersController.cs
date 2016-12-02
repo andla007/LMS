@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LMS_System.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LMS_System.Controllers
 {
@@ -15,9 +16,45 @@ namespace LMS_System.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: AppUsers
-        public ActionResult Index()
+        public ActionResult Index(string CourseId, string Role, string orderby)
         {
-            return View(db.Users.ToList());
+            IEnumerable<AppUsers> users = null;
+            if (User.IsInRole("teacher"))
+            {
+                users = db.Users.ToList();
+            }
+            else
+            {
+                users = db.Users.ToList().Where(u => u.RoleName == "student");
+            }
+
+            if (Role != null && Role != "")
+            {
+                users = users.Where(u => u.RoleName == Role);
+            }
+            if (orderby != null)
+            {
+                switch (orderby.ToLower())
+                {
+                    case "firstname":
+                        users = users.OrderBy(u => u.FirstName);
+                        break;
+                    case "lastname":
+                        users = users.OrderBy(u => u.LastName);
+                        break;
+                    case "email":
+                        users = users.OrderBy(u => u.Email);
+                        break;
+                    case "phonenumber":
+                        users = users.OrderBy(u => u.PhoneNumber);
+                        break;
+                    case "rolename":
+                        users = users.OrderBy(u => u.RoleName);
+                        break;
+                }
+            }
+
+            return View(users.ToList());
         }
 
         // GET: AppUsers/Details/5
@@ -78,7 +115,7 @@ namespace LMS_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,TimeOfRegistration,Email,EmailConfirmed,PasswordHash,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AppUsers appUsers)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,TimeOfRegistration,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AppUsers appUsers)
         {
             if (ModelState.IsValid)
             {

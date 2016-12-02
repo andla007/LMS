@@ -175,7 +175,7 @@ namespace LMS_System.Controllers
                         var userStore = new UserStore<AppUsers>(context);
                         var userManager = new UserManager<AppUsers>(userStore);
                         userManager.AddToRole(user.Id, role);
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                         // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                         // Send an email with this link
