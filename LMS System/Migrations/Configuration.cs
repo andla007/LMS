@@ -103,9 +103,9 @@ namespace LMS_System.Migrations
             context.Modules.AddOrUpdate(p => p.Name, modules[0]);
             context.SaveChanges();
 
-            var course = context.Courses.FirstOrDefault();
-            course.Modules.Add(modules[0]);
-            context.Courses.AddOrUpdate(c => c.Name, course);
+            //var course = context.Courses.FirstOrDefault();
+            //course.Modules.Add(modules[0]);
+            //context.Courses.AddOrUpdate(c => c.Name, course);
 
 
 
