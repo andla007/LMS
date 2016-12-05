@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Add module</h2>
+<h2>Add module to course @ViewBag.CourseName</h2>
 
 
 @using (Html.BeginForm()) 
@@ -45,6 +45,9 @@
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <input type="hidden" name="id" value=@ViewBag.CourseId />
+        @Html.Hidden("id", (int)@ViewBag.CourseId)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
