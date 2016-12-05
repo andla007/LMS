@@ -86,11 +86,6 @@ namespace LMS_System.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (returnUrl == "/" && User.IsInRole("teacher")) { returnUrl = "/Courses"; }
-                    else if (returnUrl == "/" && User.IsInRole("student"))
-                    {
-                        returnUrl = "/Courses/Details/1";
-                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
