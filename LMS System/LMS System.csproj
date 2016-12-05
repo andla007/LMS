@@ -176,13 +176,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612021311130_db5.cs" />
-    <Compile Include="Migrations\201612021311130_db5.Designer.cs">
-      <DependentUpon>201612021311130_db5.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201612021352010_db6.cs" />
     <Compile Include="Migrations\201612021352010_db6.Designer.cs">
       <DependentUpon>201612021352010_db6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612051221217_init6.cs" />
+    <Compile Include="Migrations\201612051221217_init6.Designer.cs">
+      <DependentUpon>201612051221217_init6.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
@@ -283,11 +283,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612021311130_db5.resx">
-      <DependentUpon>201612021311130_db5.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612021352010_db6.resx">
       <DependentUpon>201612021352010_db6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612051221217_init6.resx">
+      <DependentUpon>201612051221217_init6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
