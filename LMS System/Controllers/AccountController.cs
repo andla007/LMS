@@ -26,7 +26,7 @@ namespace LMS_System.Controllers
         {
         }
 
-        public AccountController(AppUsersManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(AppUsersManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -38,9 +38,9 @@ namespace LMS_System.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -72,9 +72,11 @@ namespace LMS_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+
+
             if (!ModelState.IsValid)
             {
-          
+
                 return View(model);
             }
 
@@ -84,6 +86,11 @@ namespace LMS_System.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    if (returnUrl == "/" && User.IsInRole("teacher")) { returnUrl = "/Courses"; }
+                    else if (returnUrl == "/" && User.IsInRole("student"))
+                    {
+                        returnUrl = "/Courses/Details/1";
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -125,7 +132,7 @@ namespace LMS_System.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -142,9 +149,31 @@ namespace LMS_System.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles = "teacher")]
-        public ActionResult CourseTeacherView(int id)
+        [Authorize(Roles = "teacher,student")]
+        public ActionResult CourseTeacherView(int id, string orderby)
         {
+            IEnumerable<AppUsers> users = null;
+            users = db.Users.ToList().Where(u => u.RoleName == "student");
+        
+            if (orderby != null)
+            {
+                switch (orderby.ToLower())
+                {
+                    case "firstname":
+                        users = users.OrderBy(u => u.FirstName);
+                        break;
+                    case "lastname":
+                        users = users.OrderBy(u => u.LastName);
+                        break;
+                    case "email":
+                        users = users.OrderBy(u => u.Email);
+                        break;
+                }
+            }
+
+            ViewBag.AppUser = users;
+
+
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
 
             int a = course.Students.Count();

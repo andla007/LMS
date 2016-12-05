@@ -180,10 +180,6 @@
     <Compile Include="Migrations\201612021352010_db6.Designer.cs">
       <DependentUpon>201612021352010_db6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612051221217_init6.cs" />
-    <Compile Include="Migrations\201612051221217_init6.Designer.cs">
-      <DependentUpon>201612051221217_init6.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -271,6 +267,8 @@
     <Content Include="Views\AppUsers\Edit.cshtml" />
     <Content Include="Views\AppUsers\Index.cshtml" />
     <Content Include="Views\Courses\Error.cshtml" />
+    <Content Include="Views\Courses\CourseTeacherView.cshtml" />
+    <Content Include="Views\Account\CourseTeacherView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -285,9 +283,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201612021352010_db6.resx">
       <DependentUpon>201612021352010_db6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612051221217_init6.resx">
-      <DependentUpon>201612051221217_init6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

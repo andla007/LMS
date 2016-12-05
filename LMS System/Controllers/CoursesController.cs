@@ -23,7 +23,7 @@ namespace LMS_System.Controllers
 
 
         // GET: Courses/Details/5
-        [Authorize(Roles = "teacher")]
+        [Authorize(Roles = "teacher,student")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -33,9 +33,15 @@ namespace LMS_System.Controllers
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
             var students = course.Students;
-            
-            return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id });
-           // return View(course);
+
+            if (User.IsInRole("teacher"))
+            {
+                return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id });
+            }
+            else
+            {
+                return View(course);
+            }
         }
 
         // GET: Courses/Create
