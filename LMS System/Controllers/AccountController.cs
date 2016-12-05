@@ -11,7 +11,7 @@ using Microsoft.Owin.Security;
 using LMS_System.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
-
+using System.Data.Entity.Validation;
 
 namespace LMS_System.Controllers
 {
@@ -225,7 +225,7 @@ namespace LMS_System.Controllers
         {
 
             using (var context = new ApplicationDbContext())
-            {
+            {               
                 if (ModelState.IsValid)
                 {
                     var user = new AppUsers {FirstName = model.FirstName, LastName = model.LastName,
@@ -241,6 +241,41 @@ namespace LMS_System.Controllers
                         var userStore = new UserStore<AppUsers>(context);
                         var userManager = new UserManager<AppUsers>(userStore);
                         userManager.AddToRole(user.Id, role);
+
+                        try
+                        {
+                            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+
+                            course.Students.Add(user);
+                            db.SaveChanges();
+                        }
+                        catch (DbEntityValidationException e)
+                        {
+                            foreach (var eve in e.EntityValidationErrors)
+                            {
+                                Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                                foreach (var ve in eve.ValidationErrors)
+                                {
+                                    Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                        ve.PropertyName, ve.ErrorMessage);
+                                }
+                            }
+                            //throw;
+                        }
+
+
+
+
+
+
+
+                        //Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+                        
+                        //course.Students.Add(user);
+                        //db.SaveChanges();
+
+
                         //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                         // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
