@@ -5,7 +5,13 @@
 }
 
 <h2>Details</h2>
+@using (Html.BeginForm("ActivityUpload", "Activities", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   @Html.Hidden("Id", Model.Id);
+    <input type="file" name="file"/>
 
+<input type="submit" value="OK" />
+}
 <div>
     <h4>Activity</h4>
     <hr />

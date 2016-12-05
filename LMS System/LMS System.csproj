@@ -276,6 +276,7 @@
     <Content Include="Views\Activities\Edit.cshtml" />
     <Content Include="Views\Activities\Index.cshtml" />
     <Content Include="Visual studio stuff.hnd-journal" />
+    <Content Include="Visual studio stuff Andreas.hnd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

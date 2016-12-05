@@ -36,6 +36,13 @@ namespace LMS_System.Controllers
             return View(activity);
         }
 
+
+    // This action handles the form POST and the upload
+        [HttpPost]
+        public ActionResult ActivityUpload(HttpPostedFileBase file, int? Id)
+        {
+            return RedirectToAction("Details","Activities", new { id = Id });
+        }
         // GET: Activities/Create
         [Authorize(Roles = "teacher")]
         public ActionResult Create()
