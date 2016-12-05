@@ -33,8 +33,8 @@ namespace LMS_System.Controllers
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
 
-           // return RedirectToAction("CourseTeacherView","Account");
-            return View(course);
+            return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id });
+           // return View(course);
         }
 
         // GET: Courses/Create
