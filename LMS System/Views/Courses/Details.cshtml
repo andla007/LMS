@@ -57,6 +57,7 @@
 {
     <div>
         <input type="button" value="Add module" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Create", "Modules") + "'");"/>
+        @Html.ActionLink("Add student", "RegisterStudent", "Account", null, new { @class = "btn btn-default" })
     </div>
 }
     <br/>

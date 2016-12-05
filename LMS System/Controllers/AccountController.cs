@@ -18,6 +18,7 @@ namespace LMS_System.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private AppUsersManager _userManager;
 
