@@ -128,5 +128,12 @@ namespace LMS_System.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // Student with no course attached
+        [Authorize(Roles = "teacher,student")]
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

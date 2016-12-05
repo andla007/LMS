@@ -10,12 +10,15 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS_System.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+
 
 namespace LMS_System.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private AppUsersManager _userManager;
 
@@ -97,10 +100,18 @@ namespace LMS_System.Controllers
                                                  from student in course.Students
                                                  where student.Id == user.Id
                                                  select course).FirstOrDefault();
-                            if (enrolledCourse == null)
+                            if (User.IsInRole("teacher"))
+                            {
                                 return RedirectToAction("Index", "Courses");
-                            else
+                            }
+                            else if (enrolledCourse != null)
+                            {
                                 return RedirectToAction("Details", "Courses", enrolledCourse.Id);
+                            }
+                            else
+                            {
+                                return RedirectToAction("Error", "Courses");
+                            }
 
                         }
                     }
@@ -169,8 +180,43 @@ namespace LMS_System.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher")]
-        public ActionResult RegisterTeacher()
+        public ActionResult RegisterTeacher(string orderby)
         {
+            string Role = "teacher";
+            
+
+            IEnumerable<AppUsers> users = null;
+            if (User.IsInRole("teacher"))
+            {
+                users = db.Users.ToList();
+            }
+            else
+            {
+                users = db.Users.ToList().Where(u => u.RoleName == "student");
+            }
+
+            if (Role != null && Role != "")
+            {
+                users = users.Where(u => u.RoleName == Role);
+            }
+            if (orderby != null)
+            {
+                switch (orderby.ToLower())
+                {
+                    case "firstname":
+                        users = users.OrderBy(u => u.FirstName);
+                        break;
+                    case "lastname":
+                        users = users.OrderBy(u => u.LastName);
+                        break;
+                    case "email":
+                        users = users.OrderBy(u => u.Email);
+                        break;
+                }
+            }
+
+            ViewBag.AppUser = users;
+
             return View("RegisterTeacher");
         }
 
@@ -206,7 +252,7 @@ namespace LMS_System.Controllers
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("RegisterTeacher", "Account");
                     }
                     AddErrors(result);
                 }

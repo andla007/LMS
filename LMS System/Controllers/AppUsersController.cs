@@ -122,7 +122,7 @@ namespace LMS_System.Controllers
             {
                 db.Entry(appUsers).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("RegisterTeacher", "Account");
             }
             return View(appUsers);
         }
@@ -150,7 +150,7 @@ namespace LMS_System.Controllers
             AppUsers appUsers = db.Users.Find(id);
             db.Users.Remove(appUsers);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("RegisterTeacher", "Account");
         }
 
         protected override void Dispose(bool disposing)
