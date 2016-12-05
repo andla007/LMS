@@ -10,21 +10,22 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS_System.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+
 
 namespace LMS_System.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();                              // changed
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private AppUsersManager _userManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(AppUsersManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -42,11 +43,11 @@ namespace LMS_System.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
+        public AppUsersManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<AppUsersManager>();
             }
             private set
             {
@@ -80,34 +81,9 @@ namespace LMS_System.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
-            {       
+            {
                 case SignInStatus.Success:
-                    {
-
-                        //var user = UserManager.FindByEmail(model.Email);
-                        //var role = UserManager.GetRoles(user.Id).FirstOrDefault();
-
-                        var user = UserManager
-                            .Users
-                            .Where(u => u.Email == model.Email)
-                            .FirstOrDefault();
-
-                        var userRoleisTeacher = UserManager.IsInRole(user.Id,"teacher");
-
-                        if (userRoleisTeacher)
-                            return RedirectToAction("index", "Courses");
-
-                        else 
-                        {
-
-                            return RedirectToAction("StudentView", "Courses", new { id = user.UserName });
-                        }     
-                        //else 
-                        //    return RedirectToLocal(returnUrl);
-                    }
-
-
-             
+                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -199,8 +175,43 @@ namespace LMS_System.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher")]
-        public ActionResult RegisterTeacher()
+        public ActionResult RegisterTeacher(string orderby)
         {
+            string Role = "teacher";
+            
+
+            IEnumerable<AppUsers> users = null;
+            if (User.IsInRole("teacher"))
+            {
+                users = db.Users.ToList();
+            }
+            else
+            {
+                users = db.Users.ToList().Where(u => u.RoleName == "student");
+            }
+
+            if (Role != null && Role != "")
+            {
+                users = users.Where(u => u.RoleName == Role);
+            }
+            if (orderby != null)
+            {
+                switch (orderby.ToLower())
+        {
+                    case "firstname":
+                        users = users.OrderBy(u => u.FirstName);
+                        break;
+                    case "lastname":
+                        users = users.OrderBy(u => u.LastName);
+                        break;
+                    case "email":
+                        users = users.OrderBy(u => u.Email);
+                        break;
+                }
+            }
+
+            ViewBag.AppUser = users;
+
             return View("RegisterTeacher");
         }
 
@@ -216,7 +227,7 @@ namespace LMS_System.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser {FirstName = model.FirstName, LastName = model.LastName,
+                    var user = new AppUsers {FirstName = model.FirstName, LastName = model.LastName,
                                                     UserName = model.Email, TimeOfRegistration = DateTime.Now,
                                                     Email = model.Email };
                     var result = await UserManager.CreateAsync(user, model.Password);
@@ -226,10 +237,10 @@ namespace LMS_System.Controllers
                         var roleStore = new RoleStore<IdentityRole>(context);
                         var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-                        var userStore = new UserStore<ApplicationUser>(context);
-                        var userManager = new UserManager<ApplicationUser>(userStore);
+                        var userStore = new UserStore<AppUsers>(context);
+                        var userManager = new UserManager<AppUsers>(userStore);
                         userManager.AddToRole(user.Id, role);
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                         // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                         // Send an email with this link
@@ -237,7 +248,7 @@ namespace LMS_System.Controllers
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("RegisterTeacher", "Account");
                     }
                     AddErrors(result);
                 }
@@ -442,7 +453,7 @@ namespace LMS_System.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new AppUsers { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
