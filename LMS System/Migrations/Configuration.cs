@@ -33,8 +33,8 @@ namespace LMS_System.Migrations
                 }
             }
 
-            var userStore = new UserStore<ApplicationUser>(context);
-            var userManager = new UserManager<ApplicationUser>(userStore);
+            var userStore = new UserStore<AppUsers>(context);
+            var userManager = new UserManager<AppUsers>(userStore);
 
             var userSeed = new UserSeed[]
             {
@@ -47,7 +47,7 @@ namespace LMS_System.Migrations
             {
                 if (!context.Users.Any(u => u.Email == us.EMail))
                 {
-                    var user = new ApplicationUser
+                    var user = new AppUsers
                     {
                         UserName = us.EMail,
                         Email = us.EMail,

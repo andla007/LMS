@@ -1,16 +1,21 @@
 ﻿@model LMS_System.Models.RegisterViewModel
 
+
+
+<h2>@ViewData["Name"]</h2>
+
+<h3>@ViewData["Modulename"]</h3>
+
+<h4>@ViewData["Id"]</h4>
+
+
+
 @{
-    ViewBag.Title = "Register Teacher";
-}
-
-<h2>Teachers</h2>
-
-
-@{ 
     var AppUser = ViewBag.Appuser;
 }
 
+<hr/>
+<h2>Students in course</h2>
 
 <table class="table">
     <tr>
@@ -28,41 +33,53 @@
 
     @foreach (var item in AppUser)
     {
-        <tr>
-            <td>
-                @item.FirstName
-            </td>
-            <td>
-                @item.LastName
-            </td>
-            <td>
-                <a href="mailto:@item.Email">@item.Email</a>
-            </td>
+    <tr>
+        <td>
+            @item.FirstName
+        </td>
+        <td>
+            @item.LastName
+        </td>
+        <td>
+            <a href="mailto:@item.Email">@item.Email</a>
+        </td>
 
 
-            @if (User.IsInRole("teacher"))
-            {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "Appusers",  new { id = item.Id }, null) |
 
-                    @Html.ActionLink("Details", "Details", "Appusers", new { id = item.Id }, null) |
+        @if (User.IsInRole("teacher"))
+        {
+        <td>
+            @Html.ActionLink("Edit", "Edit", "Appusers",  new { id = item.Id }, null) |
 
-                    @Html.ActionLink("Delete", "Delete", "Appusers", new { id = item.Id }, null)
-                </td>
-            }
+            @Html.ActionLink("Details", "Details", "Appusers", new { id = item.Id }, null) |
 
-        </tr>
+            @Html.ActionLink("Delete", "Delete", "Appusers", new { id = item.Id }, null)
+        </td>
+        }
+
+    </tr>
     }
 
 </table>
 
 
-<h2>Register Teacher</h2>
+
+
+
+
+
+
+
+
+
+
+<h2>Register Student</h2>
+
 
 @using (Html.BeginForm("Register", "Account", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -106,8 +123,11 @@
             </div>
         </div>
 
-        <input type="hidden" name="role" value="teacher" />
-        @Html.Hidden("role", "teacher")
+        <input type="hidden" name="role" value="student" />
+
+        @Html.Hidden("role", "student")
+        @Html.Hidden("Id", ViewData["Id"])
+     
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -117,7 +137,9 @@
     </div>
 }
 
-
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
