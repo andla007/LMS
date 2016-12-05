@@ -21,6 +21,7 @@ namespace LMS_System.Controllers
             return View(db.Courses.ToList());
         }
 
+
         // GET: Courses/Details/5
         [Authorize(Roles = "teacher")]
         public ActionResult Details(int? id)
@@ -29,11 +30,10 @@ namespace LMS_System.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
+
+            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+
+           // return RedirectToAction("CourseTeacherView","Account");
             return View(course);
         }
 
@@ -52,9 +52,10 @@ namespace LMS_System.Controllers
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
             if (ModelState.IsValid)
-            {
+            { 
                 db.Courses.Add(course);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
