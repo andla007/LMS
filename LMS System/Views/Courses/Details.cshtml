@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Course Details";
 }
+<head>
+    <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
+</head>
 
 <h2>Course Details</h2>
 
@@ -43,23 +46,49 @@
         </dd>
 
         <dt>
-            Manuellt tillagt @Html.DisplayNameFor(model => model.Modules):
+            Moduler
         </dt>
 
         <dd>
-            @foreach (var m in Model.Modules)
-            {
-                @m.Name<br />
-            }
+            <table class="module">
+                @if (User.IsInRole("student"))
+                {
+                    foreach (var module in Model.Modules)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@module.Name, "Details", "Modules", new { id = module.Id }, null)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    foreach (var module in Model.Modules)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@module.Name, "Details", "Modules", new { id = module.Id }, null)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id }, null) |
+                                @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id }, null)
+                            </td>
+                            <td>
+                        </tr>
+                    }
+                    <tr class="button">
+                        <td>
+                            <div>
+                                <input type="button" value="Add module" class="btn btn-default" onclick="@("window.location.href='" +
+                                @Url.Action("Create", "Modules") + $"?id={Model.Id}&name={Model.Name}'")" />
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
         </dd>
     </dl>
-@if (User.IsInRole("teacher"))
-{
-    <div>
-        <input type="button" value="Add module" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Create", "Modules") + "'");"/>
-        @Html.ActionLink("Add student", "RegisterStudent", "Account", null, new { @class = "btn btn-default" })
-    </div>
-}
     <br/>
 </div>
 <p>

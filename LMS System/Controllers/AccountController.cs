@@ -80,13 +80,42 @@ namespace LMS_System.Controllers
                 return View(model);
             }
 
+            //var user =  UserManager.Users.Where(u => u.Email == model.Email).FirstOrDefault();
+
+            //var test = UserManager.IsInRole(user.Id, "teacher");
+            
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (returnUrl == "/" && User.IsInRole("teacher")) { returnUrl = "/Courses"; }
+                    else if (returnUrl == "/" && User.IsInRole("student"))
+                    {
+                        var user = UserManager
+                                  .Users
+                                  .Where(u => u.Email == model.Email)
+                                  .FirstOrDefault();
+                        var userRoleIsTeacher = UserManager.IsInRole(user.Id, "teacher");
+                        if (userRoleIsTeacher)
+                            return RedirectToAction("Index", "Courses");
+                        else
+                        {
+                            // Find course student is enrolled in 
+                          
+                            var dbContext = new ApplicationDbContext();
+                            var enrolledCourse = (from course in dbContext.Courses
+                                                 from student in course.Students
+                                                 where student.Id == user.Id
+                                                 select course).FirstOrDefault();
+                            if (enrolledCourse == null)
+                                return RedirectToAction("Index", "Courses");
+                            else
+                                return RedirectToAction("Details", "Courses", new { Id = enrolledCourse.Id });
+
+                        }
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -537,6 +566,10 @@ namespace LMS_System.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            var userid = User.Identity.GetUserId();
+
+            var test = User.IsInRole("teacher");
+
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
