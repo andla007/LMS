@@ -19,6 +19,14 @@ namespace LMS_System.Models
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }   
 
+        public void AddStudent(string id)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            AppUsers student = context.Users.Where(u => u.Id == id).FirstOrDefault();
+            Students.Add(student);
+            context.SaveChanges();
+        }
+
 
 
         public virtual ICollection<AppUsers> Students { get; set; }
