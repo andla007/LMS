@@ -168,16 +168,23 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\Modules1Controller.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612051410356_initial.cs" />
-    <Compile Include="Migrations\201612051410356_initial.Designer.cs">
-      <DependentUpon>201612051410356_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201612051457289_db8.cs" />
+    <Compile Include="Migrations\201612051457289_db8.Designer.cs">
+      <DependentUpon>201612051457289_db8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612051503448_db9.cs" />
+    <Compile Include="Migrations\201612051503448_db9.Designer.cs">
+      <DependentUpon>201612051503448_db9.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
@@ -193,6 +200,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\aspnet-LMS System-20161125035635.mdf" />
+    <Content Include="App_Data\aspnet-LMS System-20161125035635x.mdf" />
+    <Content Include="App_Data\aspnet-LMS System-20161125035635x_log.ldf">
+      <DependentUpon>aspnet-LMS System-20161125035635x.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\aspnet-LMS System-20161125035635_log.ldf">
       <DependentUpon>aspnet-LMS System-20161125035635.mdf</DependentUpon>
     </Content>
@@ -203,6 +214,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\logo-lexicon2x.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -264,6 +276,17 @@
     <Content Include="Views\Modules\Edit.cshtml" />
     <Content Include="Views\Modules\Index.cshtml" />
     <Content Include="Visual studio stuff.hnd" />
+    <Content Include="Views\AppUsers\Create.cshtml" />
+    <Content Include="Views\AppUsers\Delete.cshtml" />
+    <Content Include="Views\AppUsers\Details.cshtml" />
+    <Content Include="Views\AppUsers\Edit.cshtml" />
+    <Content Include="Views\AppUsers\Index.cshtml" />
+    <Content Include="Views\Activities\Create.cshtml" />
+    <Content Include="Views\Activities\Delete.cshtml" />
+    <Content Include="Views\Activities\Edit.cshtml" />
+    <Content Include="Views\Activities\Index.cshtml" />
+    <Content Include="Views\Courses\CourseTeacherView.cshtml" />
+    <Content Include="Views\Courses\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -274,8 +297,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612051410356_initial.resx">
-      <DependentUpon>201612051410356_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612051457289_db8.resx">
+      <DependentUpon>201612051457289_db8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612051503448_db9.resx">
+      <DependentUpon>201612051503448_db9.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

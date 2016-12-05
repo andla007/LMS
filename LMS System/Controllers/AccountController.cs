@@ -90,8 +90,8 @@ namespace LMS_System.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (returnUrl == "/" && User.IsInRole("teacher")) { returnUrl = "/Courses"; }
-                    else if (returnUrl == "/" && User.IsInRole("student"))
+                    //if (returnUrl == "/" && User.IsInRole("teacher")) { returnUrl = "/Courses"; }
+                    //else if (returnUrl == "/" && User.IsInRole("student"))
                     {
                         var user = UserManager
                                   .Users
