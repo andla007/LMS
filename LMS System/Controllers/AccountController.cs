@@ -53,6 +53,12 @@ namespace LMS_System.Controllers
             }
         }
 
+
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index","Home");
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]

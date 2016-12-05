@@ -30,6 +30,11 @@
         </div>
     </div>
     <div class="container body-content">
+        <!-- #region Breadcrumb -->
+        @{ 
+            @Html.Raw(Html.BuildBreadcrumbNavigation());
+        }
+        <!-- #endregion -->
         @RenderBody()
         <hr />
         <footer>

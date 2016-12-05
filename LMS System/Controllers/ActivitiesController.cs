@@ -55,7 +55,7 @@ namespace LMS_System.Controllers
             {
                 db.Activities.Add(activity);
                 db.SaveChanges();
-                return RedirectToAction("Index",null,);
+                return RedirectToAction("Index");
             }
 
             return View(activity);
