@@ -1,0 +1,7 @@
+﻿table.module td:first-child a {
+    color: black;
+}
+
+tr.button div {
+    padding-top: 0.75em;
+}
