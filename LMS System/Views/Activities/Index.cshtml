@@ -41,7 +41,7 @@
             @Html.DisplayFor(modelItem => item.EndDate)
         </td>
         <td>
-            @if (User.IsInRole("admin"))
+            @if (User.IsInRole("teacher"))
                 {
                 <div>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

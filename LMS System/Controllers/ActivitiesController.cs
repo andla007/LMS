@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LMS_System.Models;
+using System.IO;
 
 namespace LMS_System.Controllers
 {
@@ -37,11 +38,23 @@ namespace LMS_System.Controllers
         }
 
 
-    // This action handles the form POST and the upload
+
+
+        //// This action handles the form POST and the upload
         [HttpPost]
         public ActionResult ActivityUpload(HttpPostedFileBase file, int? Id)
         {
-            return RedirectToAction("Details","Activities", new { id = Id });
+            //Verifiering
+            if (file != null && file.ContentLength > 0)
+            {
+                // extract only the filename
+
+                var fileName = Path.GetFileName(file.FileName);
+                // store the file inside ~/App_Data/uploads folder
+                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                file.SaveAs(path);
+            }
+            return RedirectToAction("Details", "Activities", new { id = Id });
         }
         // GET: Activities/Create
         [Authorize(Roles = "teacher")]
