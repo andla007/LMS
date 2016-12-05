@@ -71,6 +71,7 @@ namespace LMS_System.Controllers
         {
             if (!ModelState.IsValid)
             {
+          
                 return View(model);
             }
 
@@ -78,9 +79,34 @@ namespace LMS_System.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
-            {
+            {       
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    {
+
+                        //var user = UserManager.FindByEmail(model.Email);
+                        //var role = UserManager.GetRoles(user.Id).FirstOrDefault();
+
+                        var user = UserManager
+                            .Users
+                            .Where(u => u.Email == model.Email)
+                            .FirstOrDefault();
+
+                        var userRoleisTeacher = UserManager.IsInRole(user.Id,"teacher");
+
+                        if (userRoleisTeacher)
+                            return RedirectToAction("index", "Courses");
+
+                        else 
+                        {
+
+                            return RedirectToAction("StudentView", "Courses", new { id = user.UserName });
+                        }     
+                        //else 
+                        //    return RedirectToLocal(returnUrl);
+                    }
+
+
+             
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
