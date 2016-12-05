@@ -11,6 +11,7 @@ namespace LMS_System.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            //This is a test1.
             return View();
         }
 
