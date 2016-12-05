@@ -16,6 +16,7 @@ namespace LMS_System.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();                              // changed
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -161,6 +162,32 @@ namespace LMS_System.Controllers
             }
         }
 
+
+        //
+        // GET: /Account/Register
+        [Authorize(Roles = "teacher")]
+        public ActionResult CourseTeacherView(int id)
+        {
+            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+
+            int a = course.Students.Count();
+
+            var modules = course.Modules;
+
+            foreach(var module in modules) { ViewData["Modulename"] = module.Name; }
+            ViewData["Modules"] = course.Modules;
+            ViewData["Id"] = course.Id;
+            ViewData["Name"] = course.Name;
+            ViewData["Description"] = course.Description;
+            ViewData["StartDate"] = course.StartDate;
+            ViewData["EndDate"] = course.EndDate;
+
+            return View("CourseTeacherView");
+        }
+
+
+
+
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher")]
@@ -182,8 +209,9 @@ namespace LMS_System.Controllers
         [HttpPost]
         [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, string role)
+        public async Task<ActionResult> Register(RegisterViewModel model,string role, int id)
         {
+
             using (var context = new ApplicationDbContext())
             {
                 if (ModelState.IsValid)
