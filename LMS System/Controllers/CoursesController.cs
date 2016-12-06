@@ -21,20 +21,27 @@ namespace LMS_System.Controllers
             return View(db.Courses.ToList());
         }
 
+
         // GET: Courses/Details/5
-        [Authorize(Roles = "teacher")]
+        [Authorize(Roles = "teacher,student")]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
-            if (course == null)
+
+            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+            var students = course.Students;
+
+            if (User.IsInRole("teacher"))
             {
-                return HttpNotFound();
+                return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id });
             }
-            return View(course);
+            else
+            {
+                return View(course);
+            }
         }
 
         // GET: Courses/Create
@@ -52,9 +59,10 @@ namespace LMS_System.Controllers
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
             if (ModelState.IsValid)
-            {
+            { 
                 db.Courses.Add(course);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -127,6 +135,13 @@ namespace LMS_System.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        // Student with no course attached
+        [Authorize(Roles = "teacher,student")]
+        public ActionResult Error()
+        {
+            return View();
         }
     }
 }
