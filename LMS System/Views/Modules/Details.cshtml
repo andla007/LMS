@@ -41,14 +41,25 @@
             @Html.DisplayFor(model => model.EndDate)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Activities)
+        </dt>
+
+        <dd>
+            @foreach (var activity in Model.Activities)
+            {
+                <div>@activity.Name</div>
+            }
+            @Html.ActionLink("Add activity", "Create", "Activities",
+                                                   new { id = Model.Id, name = Model.Name },
+                                                   new { @class = "btn btn-default" })
+        </dd>
+
+
+
     </dl>
 </div>
-@{
-    foreach (var activity in Model.Activities)
-    {
-        <div>@activity.Name;</div>
-    }
-}
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
