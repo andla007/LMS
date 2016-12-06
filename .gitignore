@@ -222,3 +222,4 @@ ModelManifest.xml
 /LMS System/Migrations/201612021348203_ini4.cs
 /LMS System/Migrations/201611281533597_w.Designer.cs
 /LMS System/Migrations/201611281533597_w.cs
+*.zip
