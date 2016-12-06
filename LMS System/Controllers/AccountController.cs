@@ -352,7 +352,7 @@ namespace LMS_System.Controllers
             }
             else
             {
-                return RedirectToAction("Account/CourseTeacherView/1");
+                return RedirectToAction("CourseTeacherView/1");
             }
 
 
