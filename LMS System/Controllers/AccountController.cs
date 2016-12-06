@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 
+
 namespace LMS_System.Controllers
 {
     [Authorize]
@@ -289,47 +290,35 @@ namespace LMS_System.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
+
+
                         // Add a role for a user ("teacher" / "student") after registration in MVC 5
-                        var roleStore = new RoleStore<IdentityRole>(context);
-                        var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-                        var userStore = new UserStore<AppUsers>(context);
-                        var userManager = new UserManager<AppUsers>(userStore);
-                        userManager.AddToRole(user.Id, role);
-
-                        try
+                        if (role == "student")
                         {
+                            var roleStore = new RoleStore<IdentityRole>(context);
+                            var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+                            var userStore = new UserStore<AppUsers>(context);
+                            var userManager = new UserManager<AppUsers>(userStore);
+                            userManager.AddToRole(user.Id, role);
+
                             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-
-                            course.Students.Add(user);
-                            db.SaveChanges();
-                        }
-                        catch (DbEntityValidationException e)
-                        {
-                            foreach (var eve in e.EntityValidationErrors)
+                            if (course.Students.Contains(user))
                             {
-                                Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                                foreach (var ve in eve.ValidationErrors)
-                                {
-                                    Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                        ve.PropertyName, ve.ErrorMessage);
-                                }
+                                course.Students.Remove(user);
                             }
-                            //throw;
+                            else
+                            {
+
+                                course.AddStudent(user.Id);
+
+                               
+
+                            }
+
+
                         }
-
-
-
-
-
-
-
-                        //Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-                        
-                        //course.Students.Add(user);
-                        //db.SaveChanges();
-
 
                         //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
@@ -338,8 +327,10 @@ namespace LMS_System.Controllers
                         // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                        return RedirectToAction("RegisterTeacher", "Account");
+                        else
+                        {
+                            return RedirectToAction("RegisterTeacher", "Account");
+                        }
                     }
                     AddErrors(result);
                 }

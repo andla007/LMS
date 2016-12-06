@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -11,8 +12,20 @@ namespace LMS_System.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }   
+
+        public void AddStudent(string id)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            AppUsers student = context.Users.Where(u => u.Id == id).FirstOrDefault();
+            Students.Add(student);
+            context.SaveChanges();
+        }
 
 
 
