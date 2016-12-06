@@ -4,9 +4,17 @@
 
 <h2>@ViewData["Name"]</h2>
 
+@var ModulesNames =  (string[]) ViewData["ModuleNames"] as string[];
+@ModulesNames[0];
+@ModulesNames[1];
+
+
+
 <h3>@ViewData["Modulename"]</h3>
 
 <h4>@ViewData["Id"]</h4>
+
+
 
 
 
