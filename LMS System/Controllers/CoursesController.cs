@@ -32,7 +32,6 @@ namespace LMS_System.Controllers
             }
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-            var students = course.Students;
 
             if (User.IsInRole("teacher"))
             {
@@ -52,11 +51,6 @@ namespace LMS_System.Controllers
         }
 
 
-
-
-
-
-     
 
         // POST: Courses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
