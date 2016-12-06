@@ -36,6 +36,7 @@ namespace LMS_System.Controllers
 
             if (User.IsInRole("teacher"))
             {
+                return View(course);
                 return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id });
             }
             else
