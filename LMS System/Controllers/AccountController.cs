@@ -272,6 +272,8 @@ namespace LMS_System.Controllers
 
         //
         // POST: /Account/Register
+        // Register Teacher/Student
+        //
         [HttpPost]
         [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
