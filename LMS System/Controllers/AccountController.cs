@@ -84,15 +84,15 @@ namespace LMS_System.Controllers
             //var user =  UserManager.Users.Where(u => u.Email == model.Email).FirstOrDefault();
 
             //var test = UserManager.IsInRole(user.Id, "teacher");
-            
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (returnUrl == "/" && User.IsInRole("teacher")) { returnUrl = "/Courses"; }
-                    else if (returnUrl == "/" && User.IsInRole("student"))
+                    //if (returnUrl == "/" && User.IsInRole("teacher")) { returnUrl = "/Courses"; }
+                    //else if (returnUrl == "/" && User.IsInRole("student"))
                     {
                         var user = UserManager
                                   .Users
@@ -104,12 +104,12 @@ namespace LMS_System.Controllers
                         else
                         {
                             // Find course student is enrolled in 
-                          
+
                             var dbContext = new ApplicationDbContext();
                             var enrolledCourse = (from course in dbContext.Courses
-                                                 from student in course.Students
-                                                 where student.Id == user.Id
-                                                 select course).FirstOrDefault();
+                                                  from student in course.Students
+                                                  where student.Id == user.Id
+                                                  select course).FirstOrDefault();
                             if (enrolledCourse == null)
                                 return RedirectToAction("Index", "Courses");
                             else
@@ -179,7 +179,7 @@ namespace LMS_System.Controllers
         {
             IEnumerable<AppUsers> users = null;
             users = db.Users.ToList().Where(u => u.RoleName == "student");
-        
+
             if (orderby != null)
             {
                 switch (orderby.ToLower())
@@ -203,9 +203,25 @@ namespace LMS_System.Controllers
 
             int a = course.Students.Count();
 
-            var modules = course.Modules;
+            var modules = course.Modules.ToList();
+            var students = course.Students;
 
-            foreach(var module in modules) { ViewData["Modulename"] = module.Name; }
+            int TotalModules = modules.Count();
+
+            
+
+            string[] Modulesnames = new string[TotalModules];
+            int i = 0;
+            foreach (var module in modules)
+            {
+                id++;
+                Modulesnames[i] = module.Name;
+            }
+
+            ViewData["ModuleNames"] = Modulesnames;
+       
+
+            foreach (var module in modules) { ViewData["Modulename"] = module.Name; }
             ViewData["Modules"] = course.Modules;
             ViewData["Id"] = course.Id;
             ViewData["Name"] = course.Name;
@@ -213,10 +229,9 @@ namespace LMS_System.Controllers
             ViewData["StartDate"] = course.StartDate;
             ViewData["EndDate"] = course.EndDate;
 
+
             return View("CourseTeacherView");
         }
-
-
 
 
         //
@@ -233,7 +248,7 @@ namespace LMS_System.Controllers
         public ActionResult RegisterTeacher(string orderby)
         {
             string Role = "teacher";
-            
+
 
             IEnumerable<AppUsers> users = null;
             if (User.IsInRole("teacher"))
@@ -252,7 +267,7 @@ namespace LMS_System.Controllers
             if (orderby != null)
             {
                 switch (orderby.ToLower())
-        {
+                {
                     case "firstname":
                         users = users.OrderBy(u => u.FirstName);
                         break;
@@ -275,16 +290,18 @@ namespace LMS_System.Controllers
         [HttpPost]
         [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model,string role, int id)
+        public async Task<ActionResult> Register(RegisterViewModel model, string role, int id)
         {
 
             using (var context = new ApplicationDbContext())
-            {               
+            {
                 if (ModelState.IsValid)
                 {
-                    var user = new AppUsers {FirstName = model.FirstName, LastName = model.LastName,
-                                                    UserName = model.Email, TimeOfRegistration = DateTime.Now,
-                                                    Email = model.Email };
+                    var user = new AppUsers { FirstName = model.FirstName, LastName = model.LastName,
+                        UserName = model.Email, TimeOfRegistration = DateTime.Now,
+                        Email = model.Email };
+               
+                    db.SaveChanges();
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
@@ -302,41 +319,48 @@ namespace LMS_System.Controllers
                             userManager.AddToRole(user.Id, role);
 
                             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+                            course.Students.Add(user);
+                            ApplicationDbContext cont = new ApplicationDbContext();
+
+
+                            //Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
                             if (course.Students.Contains(user))
                             {
                                 course.Students.Remove(user);
                             }
                             else
                             {
+                                course.Students.Add(user);
 
-                                course.AddStudent(user.Id);
-
-                               
-
+                                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
                             }
 
 
-                        }
-
-                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                        // Send an email with this link
-                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                        else
-                        {
-                            return RedirectToAction("RegisterTeacher", "Account");
+                            return RedirectToAction("Details", "Courses", new { id = course.Id });
                         }
                     }
-                    AddErrors(result);
+
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    else
+                    {
+                        return RedirectToAction("RegisterTeacher", "Account");
+                    }
                 }
+                //AddErrors(result);
             }
+        
 
             // If we got this far, something failed, redisplay form
             return View(model);
-        }
+    }
+
 
         //
         // GET: /Account/ConfirmEmail
