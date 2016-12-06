@@ -21,6 +21,7 @@ namespace LMS_System.Controllers
 
         public ActionResult About()
         {
+            //This is test 2
             ViewBag.Message = "Your application description page.";
 
             return View();
