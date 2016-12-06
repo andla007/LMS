@@ -294,43 +294,34 @@ namespace LMS_System.Controllers
 
                         // Add a role for a user ("teacher" / "student") after registration in MVC 5
 
-                        if (role == "student")
+                        var roleStore = new RoleStore<IdentityRole>(context);
+                        var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+                        var userStore = new UserStore<AppUsers>(context);
+                        var userManager = new UserManager<AppUsers>(userStore);
+                        userManager.AddToRole(user.Id, role);
+
+                        Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+                        if (course.Students.Contains(user))
                         {
-                            var roleStore = new RoleStore<IdentityRole>(context);
-                            var roleManager = new RoleManager<IdentityRole>(roleStore);
-
-                            var userStore = new UserStore<AppUsers>(context);
-                            var userManager = new UserManager<AppUsers>(userStore);
-                            userManager.AddToRole(user.Id, role);
-
-                            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-                            if (course.Students.Contains(user))
-                            {
-                                course.Students.Remove(user);
-                            }
-                            else
-                            {
-
-                                course.AddStudent(user.Id);
-
-                               
-
-                            }
-
-
+                            course.Students.Remove(user);
                         }
-
-                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                        // Send an email with this link
-                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                         else
                         {
-                            return RedirectToAction("RegisterTeacher", "Account");
+                            course.AddStudent(user.Id);
                         }
+                    }
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    else
+                    {
+                        return RedirectToAction("RegisterTeacher", "Account");
+                    }
                     }
                     AddErrors(result);
                 }
