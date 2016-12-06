@@ -181,11 +181,11 @@ namespace LMS_System.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher,student")]
-        public ActionResult CourseTeacherView(int id, string orderby)
+        public ActionResult CourseTeacherView(int? id, string orderby)
         {
             IEnumerable<AppUsers> users = null;
             users = db.Users.ToList().Where(u => u.RoleName == "student");
-        
+
             if (orderby != null)
             {
                 switch (orderby.ToLower())
@@ -204,6 +204,7 @@ namespace LMS_System.Controllers
 
             ViewBag.AppUser = users;
 
+            if (id == null) { id = 1; }
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
 
@@ -211,7 +212,7 @@ namespace LMS_System.Controllers
 
             var modules = course.Modules;
 
-            foreach(var module in modules) { ViewData["Modulename"] = module.Name; }
+            foreach (var module in modules) { ViewData["Modulename"] = module.Name; }
             ViewData["Modules"] = course.Modules;
             ViewData["Id"] = course.Id;
             ViewData["Name"] = course.Name;
@@ -287,12 +288,17 @@ namespace LMS_System.Controllers
         {
 
             using (var context = new ApplicationDbContext())
-            {               
+            {
                 if (ModelState.IsValid)
                 {
-                    var user = new AppUsers {FirstName = model.FirstName, LastName = model.LastName,
-                                                    UserName = model.Email, TimeOfRegistration = DateTime.Now,
-                                                    Email = model.Email };
+                    var user = new AppUsers
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        UserName = model.Email,
+                        TimeOfRegistration = DateTime.Now,
+                        Email = model.Email
+                    };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
@@ -307,14 +313,17 @@ namespace LMS_System.Controllers
                         var userManager = new UserManager<AppUsers>(userStore);
                         userManager.AddToRole(user.Id, role);
 
-                        Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-                        if (course.Students.Contains(user))
+                        if (role == "student")
                         {
-                            course.Students.Remove(user);
-                        }
-                        else
-                        {
-                            course.AddStudent(user.Id);
+                            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+                            if (course.Students.Contains(user))
+                            {
+                                course.Students.Remove(user);
+                            }
+                            else
+                            {
+                                course.AddStudent(user.Id);
+                            }
                         }
                     }
                     else
@@ -331,11 +340,24 @@ namespace LMS_System.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                 }
-                    
-                }
+
+            }
          
 
             // If we got this far, something failed, redisplay form
+
+            if(role == "teacher")
+            {
+                return RedirectToAction("RegisterTeacher");
+            }
+            else
+            {
+                return RedirectToAction("Account/CourseTeacherView/1");
+            }
+
+
+
+
             return View(model);
         }
 
