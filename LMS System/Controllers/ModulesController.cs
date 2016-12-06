@@ -23,7 +23,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: Modules/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? courseID)
         {
             if (id == null)
             {
@@ -34,6 +34,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseID = courseID;
             return View(module);
         }
 
