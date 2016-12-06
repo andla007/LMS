@@ -32,17 +32,7 @@ namespace LMS_System.Controllers
             }
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-            var students = course.Students;
-
-            if (User.IsInRole("teacher"))
-            {
-                return View(course);
-                return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id });
-            }
-            else
-            {
-                return View(course);
-            }
+            return View(course);
         }
 
         // GET: Courses/Create

@@ -203,11 +203,9 @@ namespace LMS_System.Controllers
             }
 
             ViewBag.AppUser = users;
-
             if (id == null) { id = 1; }
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-
             int a = course.Students.Count();
 
             var modules = course.Modules;
