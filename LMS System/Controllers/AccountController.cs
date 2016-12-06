@@ -271,10 +271,12 @@ namespace LMS_System.Controllers
 
         //
         // POST: /Account/Register
+        // Register Teacher/Student
+        //
         [HttpPost]
         [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model,string role, int id)
+        public async Task<ActionResult> Register(RegisterViewModel model,string role, int? id)
         {
 
             using (var context = new ApplicationDbContext())
