@@ -103,6 +103,20 @@ namespace LMS_System.Migrations
             context.Modules.AddOrUpdate(p => p.Name, modules[0]);
             context.SaveChanges();
 
+            var activites = new[]
+            {
+                new Activity
+                {
+                    Name="Föreläsning",
+                    Description="En snubbe med stora manliga bröst föreläser hur man undviker onödiga knappnedtryckning när man sitter nära skärmen",
+                    ModuleId = 1,
+                    StartDate = DateTime.Now.AddMinutes(4),
+                    EndDate = DateTime.Now.AddMinutes(6)
+                }
+            };
+            context.Activities.AddOrUpdate(p => p.Name, activites[0]);
+            context.SaveChanges();
+
             //var course = context.Courses.FirstOrDefault();
             //course.Modules.Add(modules[0]);
             //context.Courses.AddOrUpdate(c => c.Name, course);
