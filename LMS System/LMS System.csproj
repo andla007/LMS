@@ -257,7 +257,6 @@
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
     <Content Include="Views\Account\RegisterStudent.cshtml" />
-    <Content Include="Visual studio stuff.chm" />
     <Content Include="Views\Modules\Create.cshtml" />
     <Content Include="Views\Modules\Delete.cshtml" />
     <Content Include="Views\Modules\Details.cshtml" />
