@@ -59,7 +59,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: AppUsers/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(string id, string courseid)
         {
             if (id == null)
             {

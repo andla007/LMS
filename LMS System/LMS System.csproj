@@ -174,6 +174,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -188,6 +189,7 @@
     <Compile Include="Models\Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Views\Helpers\ApplicationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\aspnet-LMS System-20161125035635.mdf" />
@@ -255,13 +257,11 @@
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
     <Content Include="Views\Account\RegisterStudent.cshtml" />
-    <Content Include="Visual studio stuff.chm" />
     <Content Include="Views\Modules\Create.cshtml" />
     <Content Include="Views\Modules\Delete.cshtml" />
     <Content Include="Views\Modules\Details.cshtml" />
     <Content Include="Views\Modules\Edit.cshtml" />
     <Content Include="Views\Modules\Index.cshtml" />
-    <Content Include="Visual studio stuff.hnd" />
     <Content Include="Views\Courses\CourseTeacherView.cshtml" />
     <Content Include="Views\Courses\Error.cshtml" />
     <Content Include="Views\Courses\StundentList.cshtml" />
@@ -274,6 +274,7 @@
     <Content Include="Views\Activities\Delete.cshtml" />
     <Content Include="Views\Activities\Edit.cshtml" />
     <Content Include="Views\Activities\Index.cshtml" />
+    <Content Include="Views\Account\CourseTeacherView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
