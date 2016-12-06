@@ -48,11 +48,13 @@
         <dd>
             @foreach (var activity in Model.Activities)
             {
-                <div>@activity.Name</div>
+                @*<div>@activity.Name</div>*@
+                @Html.ActionLink(activity.Name,"Index","Activities", new { id = Model.Id }, null)
+
             }
-            @Html.ActionLink("Add activity", "Create", "Activities",
+            @*@Html.ActionLink("Add activity", "Create", "Activities",
                                                    new { id = Model.Id, name = Model.Name },
-                                                   new { @class = "btn btn-default" })
+                                                   new { @class = "btn btn-default" })*@
         </dd>
 
 
