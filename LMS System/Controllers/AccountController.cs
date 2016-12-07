@@ -325,7 +325,7 @@ namespace LMS_System.Controllers
                     {
                         return RedirectToAction("RegisterTeacher", "Account");
                     }
-                    AddErrors(result);
+                    //AddErrors(result);
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -333,12 +333,9 @@ namespace LMS_System.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    else
-                    {
-                        return RedirectToAction("RegisterTeacher", "Account");
-                    }
-                    }
-                    AddErrors(result);
+                
+                    
+                    //AddErrors(result);
                 }
             }
 
