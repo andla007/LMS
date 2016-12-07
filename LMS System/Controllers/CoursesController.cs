@@ -141,5 +141,26 @@ namespace LMS_System.Controllers
         {
             return View();
         }
+
+        [Authorize(Roles = "teacher,student")]
+        public ActionResult Schedule(int courseid)
+        {
+            var innerJoinQuery =
+                from modules in db.Modules
+                join activities in db.Activities on modules.Id equals activities.ModuleId
+                orderby modules.StartDate, activities.StartDate
+                where modules.CourseId == courseid
+                select new { Modulename = modules.Name, Activityname = activities.Name, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate };
+
+            return View(innerJoinQuery.ToList());
+            //return View(db.Modules.ToList().Where(m => m.CourseId == courseid).OrderBy(m => m.StartDate));
+        }
+    }
+    public class CommentsViewModel
+    {
+        public int MessageId { get; set; }
+        public string ImageCrop { get; set; }
+        public string CommenterName { get; set; }
+        public string Comment { get; set; }
     }
 }

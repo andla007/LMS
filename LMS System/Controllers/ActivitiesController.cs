@@ -52,7 +52,8 @@ namespace LMS_System.Controllers
             {
                 db.Activities.Add(activity);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Details", "Modules", new { id = activity.ModuleId });
             }
 
             return View(activity);
@@ -84,7 +85,7 @@ namespace LMS_System.Controllers
             {
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Modules", new { Id = activity.ModuleId });
             }
             return View(activity);
         }

@@ -6,6 +6,10 @@
 
 <h3>Details for module @Model.Name</h3>
 
+@if (User.IsInRole("teacher"))
+{
+       @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, new { @class = "btn btn-default" })
+}
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -46,25 +50,34 @@
         </dt>
 
         <dd>
-            @{
-                if (User.IsInRole("teacher"))
-                {
-                    //var mid = Model.FirstOrDefault(m => true).ModuleId;
-                    <div>
-                        @*@Html.ActionLink("Create New Activity", "Create","Activites", new { ModuleId = Model.Id })*@
-                        @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, null)
-                    </div>
-                }
-            }
-            @foreach (var activity in Model.Activities)
+            <table>
+                @foreach (var activity in Model.Activities)
             {
-                @*<div>@activity.Name</div>*@
-                @Html.ActionLink(activity.Name,"Index","Activities", new { id = Model.Id }, null)<br />
 
-            }
-            @*@Html.ActionLink("Add activity", "Create", "Activities",
-                                                   new { id = Model.Id, name = Model.Name },
-                                                   new { @class = "btn btn-default" })*@
+                    <tr>
+                        <td class="tablemargin">@Html.ActionLink(activity.Name, "Details", "Activities", new { id = activity.Id }, null)</td>
+                        <td class="tablemargin">@activity.StartDate.ToShortDateString() - @activity.EndDate.ToShortDateString()</td>
+                        <td class="tablemargin">@activity.Days days</td>
+
+                    
+
+<td class="tablemargin">
+                            @Html.ActionLink("Edit", "Edit", "Activities", new { id = activity.Id }, null) |
+                            @Html.ActionLink("Delete", "Delete", "Activities", new { id = activity.Id, courseID = Model.Id }, null)
+                        </td>
+                        @if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
+                        {
+                            <td class="tablemargin">
+                                Some dates are wrong!
+                            </td>
+                        }
+
+
+</tr>
+
+                }
+            </table>
+
         </dd>
 
 
