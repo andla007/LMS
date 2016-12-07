@@ -41,9 +41,38 @@
             @Html.DisplayFor(model => model.EndDate)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Activities)
+        </dt>
+
+        <dd>
+            @{
+                if (User.IsInRole("teacher"))
+                {
+                    //var mid = Model.FirstOrDefault(m => true).ModuleId;
+                    <div>
+                        @*@Html.ActionLink("Create New Activity", "Create","Activites", new { ModuleId = Model.Id })*@
+                        @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, null)
+                    </div>
+                }
+            }
+            @foreach (var activity in Model.Activities)
+            {
+                @*<div>@activity.Name</div>*@
+                @Html.ActionLink(activity.Name,"Index","Activities", new { id = Model.Id }, null)<br />
+
+            }
+            @*@Html.ActionLink("Add activity", "Create", "Activities",
+                                                   new { id = Model.Id, name = Model.Name },
+                                                   new { @class = "btn btn-default" })*@
+        </dd>
+
+
+
     </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Details", "Courses", new { id = ViewBag.CourseID }, null)
 </p>

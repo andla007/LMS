@@ -1,0 +1,4 @@
+Som lärare vill jag kunna skapa/ta bort/redigera aktiviteter
+Systemet har fått sig en kyss så vi kan endast nå aktiviteter här:
+http://localhost:63965/Activities/
+

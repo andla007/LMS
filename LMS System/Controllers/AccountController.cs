@@ -57,6 +57,12 @@ namespace LMS_System.Controllers
             }
         }
 
+
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index","Home");
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -175,7 +181,7 @@ namespace LMS_System.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher,student")]
-        public ActionResult CourseTeacherView(int id, string orderby)
+        public ActionResult CourseTeacherView(int? id, string orderby)
         {
             IEnumerable<AppUsers> users = null;
             users = db.Users.ToList().Where(u => u.RoleName == "student");
@@ -197,15 +203,14 @@ namespace LMS_System.Controllers
             }
 
             ViewBag.AppUser = users;
-
+            if (id == null) { id = 1; }
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-
             int a = course.Students.Count();
 
             var modules = course.Modules;
 
-            foreach(var module in modules) { ViewData["Modulename"] = module.Name; }
+            foreach (var module in modules) { ViewData["Modulename"] = module.Name; }
             ViewData["Modules"] = course.Modules;
             ViewData["Id"] = course.Id;
             ViewData["Name"] = course.Name;
@@ -284,23 +289,27 @@ namespace LMS_System.Controllers
             {               
                 if (ModelState.IsValid)
                 {
-                    var user = new AppUsers {FirstName = model.FirstName, LastName = model.LastName,
-                                                    UserName = model.Email, TimeOfRegistration = DateTime.Now,
-                                                    Email = model.Email };
+                    var user = new AppUsers
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        UserName = model.Email,
+                        TimeOfRegistration = DateTime.Now,
+                        Email = model.Email
+                    };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-
-
                         // Add a role for a user ("teacher" / "student") after registration in MVC 5
 
                         var roleStore = new RoleStore<IdentityRole>(context);
                         var roleManager = new RoleManager<IdentityRole>(roleStore);
-
                         var userStore = new UserStore<AppUsers>(context);
                         var userManager = new UserManager<AppUsers>(userStore);
                         userManager.AddToRole(user.Id, role);
 
+                        if (role == "student")
+                        {
                         Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
                         if (course.Students.Contains(user))
                         {
@@ -310,7 +319,13 @@ namespace LMS_System.Controllers
                         {
                             course.AddStudent(user.Id);
                         }
+                        }
                     }
+                    else
+                    {
+                        return RedirectToAction("RegisterTeacher", "Account");
+                    }
+                    AddErrors(result);
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -323,12 +338,18 @@ namespace LMS_System.Controllers
                         return RedirectToAction("RegisterTeacher", "Account");
                     }
                     }
-                    //AddErrors(result);
+                    AddErrors(result);
                 }
-            
+            }
+
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+
+            if(role == "teacher")
+                return RedirectToAction("RegisterTeacher");
+          
+            else
+                return RedirectToAction("CourseTeacherView/1");
         }
 
         //

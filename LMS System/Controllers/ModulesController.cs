@@ -19,11 +19,13 @@ namespace LMS_System.Controllers
         [Authorize(Roles = "teacher,student")]
         public ActionResult Index()
         {
+            var courseID = db.Modules.FirstOrDefault().CourseId;
+            ViewBag.CourseID = courseID;
             return View(db.Modules.ToList());
         }
 
         // GET: Modules/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? courseID)
         {
             if (id == null)
             {
@@ -34,6 +36,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseID = courseID;
             return View(module);
         }
 
@@ -85,7 +88,7 @@ namespace LMS_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "teacher")]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module)
+        public ActionResult Edit([Bind(Include = "CourseId,Id,Name,Description,StartDate,EndDate")] Module module)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +101,7 @@ namespace LMS_System.Controllers
 
         // GET: Modules/Delete/5
         [Authorize(Roles = "teacher")]
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, int? courseId)
         {
             if (id == null)
             {
@@ -109,6 +112,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseId = courseId;
             return View(module);
         }
 
@@ -116,12 +120,12 @@ namespace LMS_System.Controllers
         [Authorize(Roles = "teacher")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int courseID)
         {
             Module module = db.Modules.Find(id);
             db.Modules.Remove(module);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Courses", new { id = courseID });
         }
 
         protected override void Dispose(bool disposing)
