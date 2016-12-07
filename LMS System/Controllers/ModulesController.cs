@@ -19,6 +19,8 @@ namespace LMS_System.Controllers
         [Authorize(Roles = "teacher,student")]
         public ActionResult Index()
         {
+            var courseID = db.Modules.FirstOrDefault().CourseId;
+            ViewBag.CourseID = courseID;
             return View(db.Modules.ToList());
         }
 

@@ -257,7 +257,7 @@ namespace LMS_System.Controllers
             if (orderby != null)
             {
                 switch (orderby.ToLower())
-        {
+                {
                     case "firstname":
                         users = users.OrderBy(u => u.FirstName);
                         break;
@@ -300,13 +300,10 @@ namespace LMS_System.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-
-
                         // Add a role for a user ("teacher" / "student") after registration in MVC 5
 
                         var roleStore = new RoleStore<IdentityRole>(context);
                         var roleManager = new RoleManager<IdentityRole>(roleStore);
-
                         var userStore = new UserStore<AppUsers>(context);
                         var userManager = new UserManager<AppUsers>(userStore);
                         userManager.AddToRole(user.Id, role);
@@ -345,18 +342,10 @@ namespace LMS_System.Controllers
             // If we got this far, something failed, redisplay form
 
             if(role == "teacher")
-            {
                 return RedirectToAction("RegisterTeacher");
-            }
+          
             else
-            {
                 return RedirectToAction("CourseTeacherView/1");
-            }
-
-
-
-
-            return View(model);
         }
 
         //

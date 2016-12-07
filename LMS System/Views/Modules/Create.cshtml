@@ -47,7 +47,10 @@
         </div>
 
         <input type="hidden" name="id" value=@ViewBag.CourseId />
-        @Html.Hidden("id", (int)@ViewBag.CourseId)
+        @if(ViewBag.CourseId!=null)
+        {
+            @Html.Hidden("id", (int)@ViewBag.CourseId)
+        }
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

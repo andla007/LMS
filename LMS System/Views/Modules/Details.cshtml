@@ -46,10 +46,20 @@
         </dt>
 
         <dd>
+            @{
+                if (User.IsInRole("teacher"))
+                {
+                    //var mid = Model.FirstOrDefault(m => true).ModuleId;
+                    <div>
+                        @*@Html.ActionLink("Create New Activity", "Create","Activites", new { ModuleId = Model.Id })*@
+                        @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, null)
+                    </div>
+                }
+            }
             @foreach (var activity in Model.Activities)
             {
                 @*<div>@activity.Name</div>*@
-                @Html.ActionLink(activity.Name,"Index","Activities", new { id = Model.Id }, null)
+                @Html.ActionLink(activity.Name,"Index","Activities", new { id = Model.Id }, null)<br />
 
             }
             @*@Html.ActionLink("Add activity", "Create", "Activities",

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
 </head>
 
-<h2>Course Details</h2>
+<h3>Details for course @Model.Name</h3>
 
 <div>
     <hr />
@@ -52,7 +52,7 @@
         <dd>
             <table class="module">
                 @if (User.IsInRole("student"))
-            {
+                {
                     foreach (var module in Model.Modules)
                     {
                         <tr>
@@ -62,12 +62,12 @@
                                                  null)
                             </td>
                         </tr>
-            }
+                    }
                 }
                 else
                 {
                     foreach (var module in Model.Modules)
-{
+                    {
                         <tr>
                             <td>
                                 @Html.ActionLink(@module.Name, "Details", "Modules", 
