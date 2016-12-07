@@ -11,7 +11,11 @@ namespace LMS_System.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            //This is a test1.
+            if (User.IsInRole("teacher")) { return RedirectToAction("Index", "Courses"); }
+            else if (User.IsInRole("student"))
+            {
+                return RedirectToAction("Details", "Courses" , new { id = 1 }); ;
+            }
             return View();
         }
 

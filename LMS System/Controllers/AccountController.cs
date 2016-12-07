@@ -10,20 +10,24 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS_System.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using System.Data.Entity.Validation;
+
 
 namespace LMS_System.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private AppUsersManager _userManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(AppUsersManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -35,17 +39,17 @@ namespace LMS_System.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
-        public ApplicationUserManager UserManager
+        public AppUsersManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<AppUsersManager>();
             }
             private set
             {
@@ -75,8 +79,11 @@ namespace LMS_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+
+
             if (!ModelState.IsValid)
             {
+
                 return View(model);
             }
 
@@ -90,6 +97,8 @@ namespace LMS_System.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //if (returnUrl == "/" && User.IsInRole("teacher")) { returnUrl = "/Courses"; }
+                    //else if (returnUrl == "/" && User.IsInRole("student"))
                     {
                         var user = UserManager
                                   .Users
@@ -110,7 +119,7 @@ namespace LMS_System.Controllers
                             if (enrolledCourse == null)
                                 return RedirectToAction("Index", "Courses");
                             else
-                                return RedirectToAction("Details", "Courses", enrolledCourse.Id);
+                                return RedirectToAction("Details", "Courses", new { Id = enrolledCourse.Id });
 
                         }
                     }
@@ -154,7 +163,7 @@ namespace LMS_System.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -168,6 +177,53 @@ namespace LMS_System.Controllers
             }
         }
 
+
+        //
+        // GET: /Account/Register
+        [Authorize(Roles = "teacher,student")]
+        public ActionResult CourseTeacherView(int? id, string orderby)
+        {
+            IEnumerable<AppUsers> users = null;
+            users = db.Users.ToList().Where(u => u.RoleName == "student");
+
+            if (orderby != null)
+            {
+                switch (orderby.ToLower())
+                {
+                    case "firstname":
+                        users = users.OrderBy(u => u.FirstName);
+                        break;
+                    case "lastname":
+                        users = users.OrderBy(u => u.LastName);
+                        break;
+                    case "email":
+                        users = users.OrderBy(u => u.Email);
+                        break;
+                }
+            }
+
+            ViewBag.AppUser = users;
+            if (id == null) { id = 1; }
+
+            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+            int a = course.Students.Count();
+
+            var modules = course.Modules;
+
+            foreach (var module in modules) { ViewData["Modulename"] = module.Name; }
+            ViewData["Modules"] = course.Modules;
+            ViewData["Id"] = course.Id;
+            ViewData["Name"] = course.Name;
+            ViewData["Description"] = course.Description;
+            ViewData["StartDate"] = course.StartDate;
+            ViewData["EndDate"] = course.EndDate;
+
+            return View("CourseTeacherView");
+        }
+
+
+
+
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher")]
@@ -179,50 +235,127 @@ namespace LMS_System.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher")]
-        public ActionResult RegisterTeacher()
+        public ActionResult RegisterTeacher(string orderby)
         {
+            string Role = "teacher";
+            
+
+            IEnumerable<AppUsers> users = null;
+            if (User.IsInRole("teacher"))
+            {
+                users = db.Users.ToList();
+            }
+            else
+            {
+                users = db.Users.ToList().Where(u => u.RoleName == "student");
+            }
+
+            if (Role != null && Role != "")
+            {
+                users = users.Where(u => u.RoleName == Role);
+            }
+            if (orderby != null)
+            {
+                switch (orderby.ToLower())
+        {
+                    case "firstname":
+                        users = users.OrderBy(u => u.FirstName);
+                        break;
+                    case "lastname":
+                        users = users.OrderBy(u => u.LastName);
+                        break;
+                    case "email":
+                        users = users.OrderBy(u => u.Email);
+                        break;
+                }
+            }
+
+            ViewBag.AppUser = users;
+
             return View("RegisterTeacher");
         }
 
         //
         // POST: /Account/Register
+        // Register Teacher/Student
+        //
         [HttpPost]
         [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, string role)
+        public async Task<ActionResult> Register(RegisterViewModel model,string role, int? id)
         {
+
             using (var context = new ApplicationDbContext())
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser {FirstName = model.FirstName, LastName = model.LastName,
-                                                    UserName = model.Email, TimeOfRegistration = DateTime.Now,
-                                                    Email = model.Email };
+                    var user = new AppUsers
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        UserName = model.Email,
+                        TimeOfRegistration = DateTime.Now,
+                        Email = model.Email
+                    };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
+
+
                         // Add a role for a user ("teacher" / "student") after registration in MVC 5
+
                         var roleStore = new RoleStore<IdentityRole>(context);
                         var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-                        var userStore = new UserStore<ApplicationUser>(context);
-                        var userManager = new UserManager<ApplicationUser>(userStore);
+                        var userStore = new UserStore<AppUsers>(context);
+                        var userManager = new UserManager<AppUsers>(userStore);
                         userManager.AddToRole(user.Id, role);
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                        // Send an email with this link
-                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                        return RedirectToAction("Index", "Home");
+                        if (role == "student")
+                        {
+                            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+                            if (course.Students.Contains(user))
+                            {
+                                course.Students.Remove(user);
+                            }
+                            else
+                            {
+                                course.AddStudent(user.Id);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("RegisterTeacher", "Account");
                     }
                     AddErrors(result);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
                 }
+
             }
+         
 
             // If we got this far, something failed, redisplay form
+
+            if(role == "teacher")
+            {
+                return RedirectToAction("RegisterTeacher");
+            }
+            else
+            {
+                return RedirectToAction("CourseTeacherView/1");
+            }
+
+
+
+
             return View(model);
         }
 
@@ -421,7 +554,7 @@ namespace LMS_System.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new AppUsers { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

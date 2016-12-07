@@ -21,19 +21,17 @@ namespace LMS_System.Controllers
             return View(db.Courses.ToList());
         }
 
+
         // GET: Courses/Details/5
-        [Authorize(Roles = "teacher")]
+        [Authorize(Roles = "teacher,student")]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
+
+            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
             return View(course);
         }
 
@@ -44,6 +42,13 @@ namespace LMS_System.Controllers
             return View();
         }
 
+
+
+
+
+
+     
+
         // POST: Courses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -52,9 +57,10 @@ namespace LMS_System.Controllers
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
             if (ModelState.IsValid)
-            {
+            { 
                 db.Courses.Add(course);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -127,6 +133,13 @@ namespace LMS_System.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        // Student with no course attached
+        [Authorize(Roles = "teacher,student")]
+        public ActionResult Error()
+        {
+            return View();
         }
     }
 }

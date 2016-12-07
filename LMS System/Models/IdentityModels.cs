@@ -3,14 +3,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace LMS_System.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser
+    // You can add profile data for the user by adding more properties to your AppUsers class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+    public class AppUsers : IdentityUser
     {
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AppUsers> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -22,9 +23,26 @@ namespace LMS_System.Models
         public string LastName { get; set; }
         public string FullName { get { return FirstName + " " + LastName; } }
         public System.DateTime TimeOfRegistration { get; set; }
+        
+        public string RoleName
+        {
+            get
+            {
+                string roleName = "";
+                var context = new ApplicationDbContext();
+                var userStore = new UserStore<AppUsers>(context);
+                var userManager = new UserManager<AppUsers>(userStore);
+                if(userManager.IsInRole(this.Id, "teacher")) { roleName = "teacher"; }
+                if(userManager.IsInRole(this.Id, "student")) { roleName = "student"; }
+                return roleName;
+            }
+        }
+
+
+
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<AppUsers>
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -41,5 +59,6 @@ namespace LMS_System.Models
         public System.Data.Entity.DbSet<LMS_System.Models.Module> Modules { get; set; }
 
         public System.Data.Entity.DbSet<LMS_System.Models.Activity> Activities { get; set; }
+
     }
 }

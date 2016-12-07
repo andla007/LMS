@@ -1,68 +1,17 @@
 ﻿@model LMS_System.Models.RegisterViewModel
 
+
 @{
-    ViewBag.Title = "Register Teacher";
+    ViewBag.Title = "Register Student";
 }
 
-<h2>Teachers</h2>
+<h2>Register Student for the course @ViewBag.Name</h2>
 
-
-@{ 
-    var AppUser = ViewBag.Appuser;
-}
-
-
-<table class="table">
-    <tr>
-        <th>
-            <a href="?orderby=FirstName">FirstName</a>
-        </th>
-        <th>
-            <a href="?orderby=LastName">LastName</a>
-        </th>
-        <th>
-            <a href="?orderby=Email">Email</a>
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in AppUser)
-    {
-        <tr>
-            <td>
-                @item.FirstName
-            </td>
-            <td>
-                @item.LastName
-            </td>
-            <td>
-                <a href="mailto:@item.Email">@item.Email</a>
-            </td>
-
-
-            @if (User.IsInRole("teacher"))
-            {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "Appusers",  new { id = item.Id }, null) |
-
-                    @Html.ActionLink("Details", "Details", "Appusers", new { id = item.Id }, null) |
-
-                    @Html.ActionLink("Delete", "Delete", "Appusers", new { id = item.Id }, null)
-                </td>
-            }
-
-        </tr>
-    }
-
-</table>
-
-
-<h2>Register Teacher</h2>
 
 @using (Html.BeginForm("Register", "Account", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -106,18 +55,20 @@
             </div>
         </div>
 
-        <input type="hidden" name="role" value="teacher" />
-        @Html.Hidden("role", "teacher")
+        <input type="hidden" name="role" value="student" />
+        @Html.Hidden("role", "student")
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Register" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
-
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

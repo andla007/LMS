@@ -23,7 +23,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: Modules/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? courseID)
         {
             if (id == null)
             {
@@ -34,13 +34,16 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseID = courseID;
             return View(module);
         }
 
         // GET: Modules/Create
         [Authorize(Roles = "teacher")]
-        public ActionResult Create()
+        public ActionResult Create(int? id, string name)
         {
+            ViewBag.CourseId = id;
+            ViewBag.CourseName = name;
             return View();
         }
 
@@ -49,15 +52,15 @@ namespace LMS_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module, int id)
         {
             if (ModelState.IsValid)
             {
+                module.CourseId = id;
                 db.Modules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Courses", new { Id = id });
             }
-
             return View(module);
         }
 
@@ -83,7 +86,7 @@ namespace LMS_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "teacher")]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module)
+        public ActionResult Edit([Bind(Include = "CourseId,Id,Name,Description,StartDate,EndDate")] Module module)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +99,7 @@ namespace LMS_System.Controllers
 
         // GET: Modules/Delete/5
         [Authorize(Roles = "teacher")]
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, int? courseId)
         {
             if (id == null)
             {
@@ -107,6 +110,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseId = courseId;
             return View(module);
         }
 
@@ -114,12 +118,12 @@ namespace LMS_System.Controllers
         [Authorize(Roles = "teacher")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int courseID)
         {
             Module module = db.Modules.Find(id);
             db.Modules.Remove(module);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Courses", new { id = courseID });
         }
 
         protected override void Dispose(bool disposing)

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<LMS_System.Models.AppUsers>
+
+@{
+    ViewBag.Title = "User Management";
+}
+
+<h2>User Management</h2>
+
+
+    @if (User.IsInRole("teacher"))
+    {
+        <p>
+            @Html.ActionLink("Add teacher", "RegisterTeacher", "Account", null, new { @class = "btn btn-default" })
+            @Html.ActionLink("Add student", "RegisterStudent", "Account", null, new { @class = "btn btn-default" })
+            <a href="?role=student&orderby=@HttpContext.Current.Request.QueryString["orderby"]" class="btn btn-default">Show students</a>
+            <a href="?role=teacher&orderby=@HttpContext.Current.Request.QueryString["orderby"]" class="btn btn-default">Show teachers</a>
+            <a href="?role=&orderby=@HttpContext.Current.Request.QueryString["orderby"]" class="btn btn-default">Show all users</a>
+        </p>
+    }
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="?orderby=@Html.DisplayNameFor(model => model.FirstName)&role=@HttpContext.Current.Request.QueryString["role"]">@Html.DisplayNameFor(model => model.FirstName)</a>
+        </th>
+        <th>
+            <a href="?orderby=@Html.DisplayNameFor(model => model.LastName)&role=@HttpContext.Current.Request.QueryString["role"]">@Html.DisplayNameFor(model => model.LastName)</a>
+</th>
+        <th>
+            <a href="?orderby=@Html.DisplayNameFor(model => model.Email)&role=@HttpContext.Current.Request.QueryString["role"]">@Html.DisplayNameFor(model => model.Email)</a>
+</th>
+        <th>
+            <a href="?orderby=@Html.DisplayNameFor(model => model.PhoneNumber)&role=@HttpContext.Current.Request.QueryString["role"]">@Html.DisplayNameFor(model => model.PhoneNumber)</a>
+</th>
+        <th>
+            <a href="?orderby=@Html.DisplayNameFor(model => model.RoleName)&role=@HttpContext.Current.Request.QueryString["role"]">@Html.DisplayNameFor(model => model.RoleName)</a>
+</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoleName )
+        </td>
+
+
+        @if (User.IsInRole("teacher"))
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) | 
+
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        }
+
+    </tr>
+}
+
+</table>

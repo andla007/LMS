@@ -169,6 +169,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -176,10 +177,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612051519254_init.cs" />
-    <Compile Include="Migrations\201612051519254_init.Designer.cs">
-      <DependentUpon>201612051519254_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
@@ -201,6 +198,7 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CourseDetails.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -259,20 +257,25 @@
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
     <Content Include="Views\Account\RegisterStudent.cshtml" />
-    <Content Include="Visual studio stuff.chm" />
     <Content Include="Views\Modules\Create.cshtml" />
     <Content Include="Views\Modules\Delete.cshtml" />
     <Content Include="Views\Modules\Details.cshtml" />
     <Content Include="Views\Modules\Edit.cshtml" />
     <Content Include="Views\Modules\Index.cshtml" />
-    <Content Include="Visual studio stuff.hnd" />
+    <Content Include="Views\Courses\CourseTeacherView.cshtml" />
+    <Content Include="Views\Courses\Error.cshtml" />
+    <Content Include="Views\Courses\StundentList.cshtml" />
+    <Content Include="Views\AppUsers\Create.cshtml" />
+    <Content Include="Views\AppUsers\Delete.cshtml" />
+    <Content Include="Views\AppUsers\Details.cshtml" />
+    <Content Include="Views\AppUsers\Edit.cshtml" />
+    <Content Include="Views\AppUsers\Index.cshtml" />
     <Content Include="Views\Activities\Create.cshtml" />
     <Content Include="Views\Activities\Delete.cshtml" />
-    <Content Include="Views\Activities\Details.cshtml" />
     <Content Include="Views\Activities\Edit.cshtml" />
     <Content Include="Views\Activities\Index.cshtml" />
-    <Content Include="Visual studio stuff.hnd-journal" />
-    <Content Include="Visual studio stuff Andreas.hnd" />
+    <Content Include="Views\Account\CourseTeacherView.cshtml" />
+    <Content Include="Views\Activities\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -282,11 +285,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612051519254_init.resx">
-      <DependentUpon>201612051519254_init.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
+  
   <ItemGroup>
     <Folder Include="LexiconSecretVault\" />
     <Folder Include="uploads\" />
