@@ -3,18 +3,22 @@
 
 <h2>@ViewData["Name"]</h2>
 
-<h2>Course: @ViewData["Name"]</h2>
+@*@var ModulesNames =  (string[]) ViewData["ModuleNames"] as string[];
+    @ModulesNames[0];
+    @ModulesNames[1];*@
 
-<!--h3>@ViewData["Modulename"]</h3-->
 
-<!--h4>@ViewData["Id"]</h4--->
+
+<h3>@ViewData["Modulename"]</h3>
+
+<h4>@ViewData["Id"]</h4>
 
 
 @{
     var AppUser = ViewBag.Appuser;
 }
 
-<hr/>
+<hr />
 <h2>Students in course</h2>
 
 <table class="table">
@@ -33,31 +37,31 @@
 
     @foreach (var item in AppUser)
     {
-    <tr>
-        <td>
-            @item.FirstName
-        </td>
-        <td>
-            @item.LastName
-        </td>
-        <td>
-            <a href="mailto:@item.Email">@item.Email</a>
-        </td>
+        <tr>
+            <td>
+                @item.FirstName
+            </td>
+            <td>
+                @item.LastName
+            </td>
+            <td>
+                <a href="mailto:@item.Email">@item.Email</a>
+            </td>
 
 
 
-        @if (User.IsInRole("teacher"))
-        {
-        <td>
-            @Html.ActionLink("Edit", "Edit", "Appusers",  new { id = item.Id }, null) |
+            @if (User.IsInRole("teacher"))
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Appusers", new { id = item.Id }, null) |
 
-            @Html.ActionLink("Details", "Details", "Appusers", new { id = item.Id, CourseId = @ViewData["Id"] }, null) |
+                    @Html.ActionLink("Details", "Details", "Appusers", new { id = item.Id }, null) |
 
-            @Html.ActionLink("Delete", "Delete", "Appusers", new { id = item.Id }, null)
-        </td>
-        }
+                    @Html.ActionLink("Delete", "Delete", "Appusers", new { id = item.Id }, null)
+                </td>
+            }
 
-    </tr>
+        </tr>
     }
 
 </table>
@@ -127,7 +131,7 @@
 
         @Html.Hidden("role", "student")
         @Html.Hidden("Id", ViewData["Id"])
-     
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -138,7 +142,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to course", "Details", "Courses", new { id = ViewBag.Id }, null)
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
