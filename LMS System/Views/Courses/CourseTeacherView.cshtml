@@ -67,7 +67,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to course", "Index")
+    @Html.ActionLink("Back to course", "Details", "Courses", new { id = ViewBag.CourseId })
 </div>
 
 @section Scripts {
