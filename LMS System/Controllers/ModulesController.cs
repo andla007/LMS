@@ -86,7 +86,7 @@ namespace LMS_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "teacher")]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Module module)
+        public ActionResult Edit([Bind(Include = "CourseId,Id,Name,Description,StartDate,EndDate")] Module module)
         {
             if (ModelState.IsValid)
             {
