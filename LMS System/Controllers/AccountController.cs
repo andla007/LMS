@@ -326,8 +326,7 @@ namespace LMS_System.Controllers
                         if (role == "student")
                         {
                             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-                            // fixed
-                            //Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+                          
                             if (course.Students.Contains(user))
                             {
                                 course.Students.Remove(user);
