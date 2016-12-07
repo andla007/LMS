@@ -78,7 +78,7 @@
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id }, null) |
-                                @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id }, null)
+                                @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id, courseID = Model.Id }, null)
                             </td>
                             <td>
                         </tr>
