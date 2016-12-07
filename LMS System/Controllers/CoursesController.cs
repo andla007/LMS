@@ -41,7 +41,7 @@ namespace LMS_System.Controllers
             {
                 return View(course);
             }
-
+        }
         // GET: Courses/Create
         [Authorize(Roles = "teacher")]
         public ActionResult Create()
