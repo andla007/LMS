@@ -198,31 +198,29 @@ namespace LMS_System.Controllers
 
             ViewBag.AppUser = users;
 
-
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-
-            int a = course.Students.Count();
 
             var modules = course.Modules.ToList();
             var students = course.Students;
 
-            int TotalModules = modules.Count();
+            List<Module> Modules = new List<Module>();
+            List<Activity> Activities = new List<Activity>();
 
-            
-
-            string[] Modulesnames = new string[TotalModules];
-            int i = 0;
-            foreach (var module in modules)
+            List<string> ModulesNames = new List<string>();
+            List<string> ActivitiesNames = new List<string>();
+            foreach (var module in Modules)
             {
-                id++;
-                Modulesnames[i] = module.Name;
+                ModulesNames.Add(module.Name);             
             }
 
-            ViewData["ModuleNames"] = Modulesnames;
-       
+            foreach (var activity in Activities)
+            {
+                ActivitiesNames.Add(activity.Name);
+            }
 
-            foreach (var module in modules) { ViewData["Modulename"] = module.Name; }
-            ViewData["Modules"] = course.Modules;
+            ViewData["ModuleNames"] = ModulesNames;
+            ViewData["ActivitiesNames"] = ActivitiesNames;
+           
             ViewData["Id"] = course.Id;
             ViewData["Name"] = course.Name;
             ViewData["Description"] = course.Description;
