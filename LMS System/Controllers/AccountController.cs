@@ -326,10 +326,7 @@ namespace LMS_System.Controllers
                         if (role == "student")
                         {
                             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-                            course.Students.Add(user);
-                            ApplicationDbContext cont = new ApplicationDbContext();
-
-
+                            // fixed
                             //Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
                             if (course.Students.Contains(user))
                             {
@@ -338,7 +335,7 @@ namespace LMS_System.Controllers
                             else
                             {
                                 course.Students.Add(user);
-
+                                
                                 db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                                 db.SaveChanges();
                             }
