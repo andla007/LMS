@@ -36,15 +36,15 @@ namespace LMS_System.Controllers
             }
 
             
-            var moduledocuments = module.ModuleDocuments;
-            List<string> DocumentsNames = new List<string>();
+            //var moduledocuments = module.ModuleDocuments;
+            //List<string> DocumentsNames = new List<string>();
 
-            foreach (var moduledocument in moduledocuments)
-            {
-                DocumentsNames.Add(moduledocument.Name);
-            }
+            //foreach (var moduledocument in moduledocuments)
+            //{
+            //    DocumentsNames.Add(moduledocument.Name);
+            //}
 
-            ViewData["DocumentsNames"] = DocumentsNames;
+            //ViewData["DocumentsNames"] = DocumentsNames;
             return View(module);
         }
 
