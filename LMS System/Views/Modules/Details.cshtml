@@ -43,6 +43,7 @@
 
         <dt>
             @Html.DisplayNameFor(model => model.Activities)
+
         </dt>
 
         <dd>
@@ -61,6 +62,49 @@
                 @*<div>@activity.Name</div>*@
                 @Html.ActionLink(activity.Name,"Index","Activities", new { id = Model.Id }, null)<br />
 
+                if (User.IsInRole("student"))
+                    { 
+                <table>
+
+                  @foreach (var DokumentName in (List<string>)ViewData["DocumentNames"])
+                  {
+                        <tr>
+                            <td>
+                                @DokumentName
+                            </td>
+
+                            <td>
+
+                                @Html.ActionLink("Download", "Download", new { FileName = @DokumentName.ToString() })
+                            </td>
+
+                        </tr>
+                  }
+
+                </table>
+
+                }
+
+                if (User.IsInRole("teacher"))
+                {
+
+                    using (Html.BeginForm("Upload", "Modules", FormMethod.Post,
+                                new { enctype = "multipart/form-data" }))
+                    {
+                    @Html.AntiForgeryToken()
+
+                    <fieldset>
+                        <legend>Upload a document</legend>
+                        <div class="editor-field">
+                            @Html.TextBox("file", "", new { type = "file" })
+                        </div>
+                        <div class="editor-field">
+                            <input type="submit" value="Upload" />
+                        </div>
+                    </fieldset>
+                    }
+                }
+
             }
             @*@Html.ActionLink("Add activity", "Create", "Activities",
                                                    new { id = Model.Id, name = Model.Name },
@@ -76,3 +120,7 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Details", "Courses", new { id = ViewBag.CourseID }, null)
 </p>
+
+
+
+
