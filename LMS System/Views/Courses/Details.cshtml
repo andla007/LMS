@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
 </head>
 
-<h2>Course Details</h2>
+<h3>Details for course @Model.Name</h3>
 
 <div>
     <hr />
@@ -46,21 +46,44 @@
         </dd>
 
         <dt>
-            Moduler
+            Modules
         </dt>
 
         <dd>
+            <br />
             <table class="module">
+                <tr>
+                    <th>Name</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                </tr>
                 @if (User.IsInRole("student"))
                 {
                     foreach (var module in Model.Modules)
                     {
                         <tr>
                             <td>
-                                @Html.ActionLink(@module.Name, "Details", "Modules", new { id = module.Id }, null)
+                                @Html.ActionLink(@module.Name, "Details", "Modules",
+                                                 new { id = module.Id, courseID = Model.Id },
+                                                 null)
+                            </td>
+                            <td>
+                                @module.StartDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @module.EndDate.ToShortDateString()
                             </td>
                         </tr>
                     }
+                    <tr class="button">
+                        <td>
+                            <div>
+                                @Html.ActionLink("Show students", "CourseTeacherView", "Account",
+                                                 new { id = Model.Id, orderBy = "firstname" },
+                                                 new { @class = "btn btn-default" })
+                            </div>
+                        </td>
+                    </tr>
                 }
                 else
                 {
@@ -68,21 +91,33 @@
                     {
                         <tr>
                             <td>
-                                @Html.ActionLink(@module.Name, "Details", "Modules", new { id = module.Id }, null)
+                                @Html.ActionLink(@module.Name, "Details", "Modules", 
+                                                 new { id = module.Id, courseID = Model.Id }, 
+                                                 null)
+                            </td>
+                            <td>
+                                @module.StartDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @module.EndDate.ToShortDateString()
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id }, null) |
-                                @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id }, null)
+                                @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id, courseID = Model.Id }, null)
                             </td>
                             <td>
                         </tr>
                     }
                     <tr class="button">
                         <td>
-                            <div>
-                                <input type="button" value="Add module" class="btn btn-default" onclick="@("window.location.href='" +
-                                @Url.Action("Create", "Modules") + $"?id={Model.Id}&name={Model.Name}'")" />
-                            </div>
+                             <div>
+                                 @Html.ActionLink("Add module", "Create", "Modules", 
+                                                   new { id = Model.Id, name = Model.Name }, 
+                                                   new { @class = "btn btn-default" })
+                                 @Html.ActionLink("Add student", "CourseTeacherView", "Account",
+                                                   new { id = Model.Id, orderBy ="firstname"},
+                                                   new { @class = "btn btn-default" })
+                             </div>
                         </td>
                     </tr>
                 }

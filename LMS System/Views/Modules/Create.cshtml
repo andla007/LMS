@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Add module to course @ViewBag.CourseName</h2>
+<h3>Add module to course @ViewBag.CourseName</h3>
 
 
 @using (Html.BeginForm()) 
@@ -47,7 +47,10 @@
         </div>
 
         <input type="hidden" name="id" value=@ViewBag.CourseId />
-        @Html.Hidden("id", (int)@ViewBag.CourseId)
+        @if(ViewBag.CourseId!=null)
+        {
+            @Html.Hidden("id", (int)@ViewBag.CourseId)
+        }
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -58,7 +61,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to course", "Details", "Courses", new { id = ViewBag.CourseId }, null)
 </div>
 
 @section Scripts {

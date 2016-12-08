@@ -57,6 +57,12 @@ namespace LMS_System.Controllers
             }
         }
 
+
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index","Home");
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -84,7 +90,7 @@ namespace LMS_System.Controllers
             //var user =  UserManager.Users.Where(u => u.Email == model.Email).FirstOrDefault();
 
             //var test = UserManager.IsInRole(user.Id, "teacher");
-
+            
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -104,12 +110,12 @@ namespace LMS_System.Controllers
                         else
                         {
                             // Find course student is enrolled in 
-
+                          
                             var dbContext = new ApplicationDbContext();
                             var enrolledCourse = (from course in dbContext.Courses
-                                                  from student in course.Students
-                                                  where student.Id == user.Id
-                                                  select course).FirstOrDefault();
+                                                 from student in course.Students
+                                                 where student.Id == user.Id
+                                                 select course).FirstOrDefault();
                             if (enrolledCourse == null)
                                 return RedirectToAction("Index", "Courses");
                             else
@@ -175,11 +181,11 @@ namespace LMS_System.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher,student")]
-        public ActionResult CourseTeacherView(int id, string orderby)
+        public ActionResult CourseTeacherView(int? id, string orderby)
         {
             IEnumerable<AppUsers> users = null;
             users = db.Users.ToList().Where(u => u.RoleName == "student");
-
+        
             if (orderby != null)
             {
                 switch (orderby.ToLower())
@@ -197,6 +203,7 @@ namespace LMS_System.Controllers
             }
 
             ViewBag.AppUser = users;
+            if (id == null) { id = 1; }
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
 
@@ -220,7 +227,7 @@ namespace LMS_System.Controllers
 
             ViewData["ModuleNames"] = ModulesNames;
             ViewData["ActivitiesNames"] = ActivitiesNames;
-           
+
             ViewData["Id"] = course.Id;
             ViewData["Name"] = course.Name;
             ViewData["Description"] = course.Description;
@@ -246,7 +253,7 @@ namespace LMS_System.Controllers
         public ActionResult RegisterTeacher(string orderby)
         {
             string Role = "teacher";
-
+            
 
             IEnumerable<AppUsers> users = null;
             if (User.IsInRole("teacher"))
@@ -265,7 +272,7 @@ namespace LMS_System.Controllers
             if (orderby != null)
             {
                 switch (orderby.ToLower())
-                {
+        {
                     case "firstname":
                         users = users.OrderBy(u => u.FirstName);
                         break;
@@ -285,43 +292,41 @@ namespace LMS_System.Controllers
 
         //
         // POST: /Account/Register
+        // Register Teacher/Student
+        //
         [HttpPost]
         [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, string role, int id)
+        public async Task<ActionResult> Register(RegisterViewModel model,string role, int? id)
         {
 
             using (var context = new ApplicationDbContext())
-            {
+            {               
                 if (ModelState.IsValid)
                 {
-                    var user = new AppUsers { FirstName = model.FirstName, LastName = model.LastName,
-                        UserName = model.Email, TimeOfRegistration = DateTime.Now,
-                        Email = model.Email };
-               
-                    db.SaveChanges();
+                    var user = new AppUsers
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        UserName = model.Email,
+                        TimeOfRegistration = DateTime.Now,
+                        Email = model.Email
+                    };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-
-
                         // Add a role for a user ("teacher" / "student") after registration in MVC 5
 
-                        if (role == "student")
-                        {
                             var roleStore = new RoleStore<IdentityRole>(context);
                             var roleManager = new RoleManager<IdentityRole>(roleStore);
-
                             var userStore = new UserStore<AppUsers>(context);
                             var userManager = new UserManager<AppUsers>(userStore);
                             userManager.AddToRole(user.Id, role);
 
+                        if (role == "student")
+                        {
                             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-                            course.Students.Add(user);
-                            ApplicationDbContext cont = new ApplicationDbContext();
-
-
-                            //Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+                          
                             if (course.Students.Contains(user))
                             {
                                 course.Students.Remove(user);
@@ -329,7 +334,7 @@ namespace LMS_System.Controllers
                             else
                             {
                                 course.Students.Add(user);
-
+                                
                                 db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                                 db.SaveChanges();
                             }
@@ -337,15 +342,15 @@ namespace LMS_System.Controllers
 
                             return RedirectToAction("Details", "Courses", new { id = course.Id });
                         }
-                    }
+                        }
+                    //AddErrors(result);
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     else
                     {
                         return RedirectToAction("RegisterTeacher", "Account");
@@ -353,11 +358,16 @@ namespace LMS_System.Controllers
                 }
                 //AddErrors(result);
             }
-        
+
 
             // If we got this far, something failed, redisplay form
-            return View(model);
-    }
+
+            if(role == "teacher")
+                return RedirectToAction("RegisterTeacher");
+          
+            else
+                return RedirectToAction("CourseTeacherView/1");
+        }
 
 
         //

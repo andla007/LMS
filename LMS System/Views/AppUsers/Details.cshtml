@@ -27,6 +27,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.RoleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoleName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.TimeOfRegistration)
         </dt>
 
@@ -62,5 +70,17 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to registration", "RegisterTeacher", "Account", null, null)")
+
+
+
+
+
+    @if (HttpContext.Current.Request.QueryString["CourseId"] == null)
+    {
+        @Html.ActionLink("Back to registration", "RegisterTeacher", "Account", null, null)
+    }
+    else
+    {
+        @Html.ActionLink("Back to registration", "CourseTeacherView", "Account", new { id = @HttpContext.Current.Request.QueryString["CourseId"] }, null);
+    }
 </p>

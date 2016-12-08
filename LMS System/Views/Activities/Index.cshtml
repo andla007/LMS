@@ -7,7 +7,15 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @{
+        if (User.IsInRole("teacher"))
+        {
+            var mid = Model.FirstOrDefault(m => true).ModuleId;
+            <div>
+                @Html.ActionLink("Create New", "Create", new { ModuleId = mid })
+            </div>
+        }
+    }
 </p>
 <table class="table">
     <tr>
@@ -25,8 +33,11 @@
         </th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
+   
+@foreach (var item in Model)
+{
+    
+   @Html.Hidden("ModuleId", item.ModuleId)
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -41,9 +52,18 @@
             @Html.DisplayFor(modelItem => item.EndDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @if (User.IsInRole("teacher"))
+                {
+                <div>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </div>
+            }
+            else
+            {
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+            }
         </td>
     </tr>
 }
