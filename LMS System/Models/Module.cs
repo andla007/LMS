@@ -23,6 +23,13 @@ namespace LMS_System.Models
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+        public int Days
+        {
+            get
+            {
+                return (this.EndDate - this.StartDate).Days + 1;
+            }
+        }
 
         public int CourseId { get; set; }
         public virtual Course Course { get; set; }

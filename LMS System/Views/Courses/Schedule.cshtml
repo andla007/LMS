@@ -45,7 +45,8 @@
                 }
                 else
                 {
-                <td>[Add module]</td>
+
+                <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId }, new { @class = "btn btn-default" })</td>
                 }
 
                 @if (item.Activityname != null)

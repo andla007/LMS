@@ -159,7 +159,7 @@ namespace LMS_System.Controllers
                 from modules in db.Modules
                 orderby modules.StartDate
                 where modules.CourseId == courseid
-                select new ScheduleItem { Modulename = modules.Name, Id = modules.Id, ModuleStartDate = modules.StartDate, ModuleEndDate = modules.EndDate };
+                select new ScheduleItem { Modulename = modules.Name, Id = modules.Id, ModuleStartDate = modules.StartDate, ModuleEndDate = modules.EndDate, CourseId = modules.CourseId };
 
             //var Activities =
             //    from activities in db.Activities
@@ -171,7 +171,7 @@ namespace LMS_System.Controllers
                 join activities in db.Activities on modules.Id equals activities.ModuleId
                 orderby modules.StartDate, activities.StartDate
                 where modules.CourseId == courseid
-                select new ScheduleItem { Activityname = activities.Name, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate };
+                select new ScheduleItem { Activityname = activities.Name, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate, ModuleId = activities.ModuleId };
 
             DateTime date = coursestartdate;
             List<ScheduleItem> schedule = new List<ScheduleItem>();
@@ -187,6 +187,7 @@ namespace LMS_System.Controllers
                     sItem.Modulename += item.Modulename + ",";
                     sItem.ModuleStartDate = item.ModuleStartDate;
                     sItem.ModuleEndDate = item.ModuleEndDate;
+                    sItem.CourseId = item.CourseId;
 
                     List<ScheduleItem> asi = Activities.Where(s => s.Activitystartdate <= date && s.Activityenddate >= date).ToList();
                     foreach (var aitem in asi)
@@ -194,6 +195,7 @@ namespace LMS_System.Controllers
                         sItem.Activityname = aitem.Activityname + ",";
                         sItem.Activitystartdate = aitem.Activitystartdate;
                         sItem.Activityenddate = aitem.Activityenddate;
+                        sItem.ModuleId = aitem.ModuleId;
                     }
 
                 }
@@ -230,5 +232,7 @@ namespace LMS_System.Controllers
         public string Activityname { get; set; }
         public DateTime Activitystartdate { get; set; }
         public DateTime Activityenddate { get; set; }
+        public int CourseId { get; set; }
+        public int ModuleId { get; set; }
     }
 }

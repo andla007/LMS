@@ -71,7 +71,7 @@
                         @if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
                         {
                             <td class="tablemargin">
-                                Some dates are wrong!
+                                Some dates are out of boundry!
                             </td>
                         }
 
@@ -93,5 +93,5 @@
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })        <span> | </span>
     }
-    @Html.ActionLink("Back to List", "Details", "Courses", new { id = ViewBag.CourseID }, null)
+    @Html.ActionLink("Back to Course Details", "Details", "Courses", new { Id = Model.CourseId }, null)
 </p>

@@ -44,9 +44,13 @@ namespace LMS_System.Controllers
         [Authorize(Roles = "teacher")]
         public ActionResult Create(int? id, string name)
         {
+            var course = db.Courses.Where(m => m.Id == id).FirstOrDefault();
+
+            Module module = new Module();
+            module.Course = course;
             ViewBag.CourseId = id;
             ViewBag.CourseName = name;
-            return View();
+            return View(module);
         }
 
         // POST: Modules/Create
@@ -94,7 +98,7 @@ namespace LMS_System.Controllers
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Courses", new { Id =  module.CourseId});
             }
             return View(module);
         }
