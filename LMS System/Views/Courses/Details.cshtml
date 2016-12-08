@@ -50,7 +50,13 @@
         </dt>
 
         <dd>
+            <br />
             <table class="module">
+                <tr>
+                    <th>Name</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                </tr>
                 @if (User.IsInRole("student"))
                 {
                     foreach (var module in Model.Modules)
@@ -61,8 +67,23 @@
                                                  new { id = module.Id, courseID = Model.Id },
                                                  null)
                             </td>
+                            <td>
+                                @module.StartDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @module.EndDate.ToShortDateString()
+                            </td>
                         </tr>
                     }
+                    <tr class="button">
+                        <td>
+                            <div>
+                                @Html.ActionLink("Show students", "CourseTeacherView", "Account",
+                                                 new { id = Model.Id, orderBy = "firstname" },
+                                                 new { @class = "btn btn-default" })
+                            </div>
+                        </td>
+                    </tr>
                 }
                 else
                 {
@@ -74,7 +95,11 @@
                                                  new { id = module.Id, courseID = Model.Id }, 
                                                  null)
                             </td>
-                            <td width="30">
+                            <td>
+                                @module.StartDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @module.EndDate.ToShortDateString()
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id }, null) |
@@ -89,13 +114,13 @@
                                  @Html.ActionLink("Add module", "Create", "Modules", 
                                                    new { id = Model.Id, name = Model.Name }, 
                                                    new { @class = "btn btn-default" })
-                                 @Html.ActionLink("View students", "CourseTeacherView", "Account",
+                                 @Html.ActionLink("Add student", "CourseTeacherView", "Account",
                                                    new { id = Model.Id, orderBy ="firstname"},
                                                    new { @class = "btn btn-default" })
                              </div>
                         </td>
                     </tr>
-}
+                }
             </table>
         </dd>
     </dl>

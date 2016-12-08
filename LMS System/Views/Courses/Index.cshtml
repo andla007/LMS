@@ -50,15 +50,12 @@
         <td>
             @if (User.IsInRole("teacher"))
             {
-              
-        
                 <div>
-              
                     @*@Html.Action("CourseTeacherView","Accounts" )*@
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", "Courses", new { id = item.Id }, null) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </div>
+                </div>
             }
             else
             {
