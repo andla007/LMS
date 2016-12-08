@@ -34,6 +34,17 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+
+            
+            var moduledocuments = module.ModuleDocuments;
+            List<string> DocumentsNames = new List<string>();
+
+            foreach (var moduledocument in moduledocuments)
+            {
+                DocumentsNames.Add(moduledocument.Name);
+            }
+
+            ViewData["DocumentsNames"] = DocumentsNames;
             return View(module);
         }
 
