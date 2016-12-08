@@ -183,58 +183,11 @@ namespace LMS_System.Controllers
         [Authorize(Roles = "teacher,student")]
         public ActionResult CourseTeacherView(int? id, string orderby)
         {
-            IEnumerable<AppUsers> users = null;
-            users = db.Users.ToList().Where(u => u.RoleName == "student");
-        
-            if (orderby != null)
-            {
-                switch (orderby.ToLower())
-                {
-                    case "firstname":
-                        users = users.OrderBy(u => u.FirstName);
-                        break;
-                    case "lastname":
-                        users = users.OrderBy(u => u.LastName);
-                        break;
-                    case "email":
-                        users = users.OrderBy(u => u.Email);
-                        break;
-                }
-            }
-
-            ViewBag.AppUser = users;
-            if (id == null) { id = 1; }
-
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-
-            var modules = course.Modules.ToList();
-            var students = course.Students;
-
-            List<Module> Modules = new List<Module>();
-            List<Activity> Activities = new List<Activity>();
-
-            List<string> ModulesNames = new List<string>();
-            List<string> ActivitiesNames = new List<string>();
-            foreach (var module in Modules)
-            {
-                ModulesNames.Add(module.Name);             
-            }
-
-            foreach (var activity in Activities)
-            {
-                ActivitiesNames.Add(activity.Name);
-            }
-
-            ViewData["ModuleNames"] = ModulesNames;
-            ViewData["ActivitiesNames"] = ActivitiesNames;
-
-            ViewData["Id"] = course.Id;
-            ViewData["Name"] = course.Name;
-            ViewData["Description"] = course.Description;
-            ViewData["StartDate"] = course.StartDate;
-            ViewData["EndDate"] = course.EndDate;
-
-
+            var students = course.Students.OrderBy(u => u.FirstName);
+            ViewBag.Students = students;
+            ViewBag.CourseId = id;
+            ViewBag.CourseName = course.Name;
             return View("CourseTeacherView");
         }
 

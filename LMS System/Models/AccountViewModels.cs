@@ -117,4 +117,15 @@ namespace LMS_System.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class EnrollStudentViewModel
+    {
+        public IEnumerable<AppUsers> Students { get; set; }
+
+        public RegisterViewModel StudentDataViewModel { get; set; }
+
+        public int CourseId { get; set; }
+
+        public string CourseName { get; set; }
+    }
 }

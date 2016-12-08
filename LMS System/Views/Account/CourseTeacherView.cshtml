@@ -1,30 +1,9 @@
 ﻿@model LMS_System.Models.RegisterViewModel
 
-<h2>Course: @ViewData["Name"]</h2>
-
-
-<h3> Modules </h3>
-@foreach (var moduleName in (List<string>)ViewData["ModuleNames"])
-{
-
-    <li>
-
-        @moduleName
-    </li>
-}
-
-
-<!--h3>@ViewData["Modulename"]</h3-->
-
-<!--h4>@ViewData["Id"]</h4--->
-
-
-@{
-    var AppUser = ViewBag.Appuser;
-}
+<h2>Course: @ViewBag.CourseName</h2>
 
 <hr/>
-<h2>Students in course</h2>
+<h3>Enrolled students</h3>
 
 <table class="table">
     <tr>
@@ -40,29 +19,27 @@
         <th></th>
     </tr>
 
-    @foreach (var item in AppUser)
+    @foreach (var student in ViewBag.Students)
     {
     <tr>
         <td>
-            @item.FirstName
+            @student.FirstName
         </td>
         <td>
-            @item.LastName
+            @student.LastName
         </td>
         <td>
-            <a href="mailto:@item.Email">@item.Email</a>
+            <a href="mailto:@student.Email">@student.Email</a>
         </td>
-
-
 
         @if (User.IsInRole("teacher"))
         {
         <td>
-            @Html.ActionLink("Edit", "Edit", "Appusers",  new { id = item.Id }, null) |
+            @Html.ActionLink("Edit", "Edit", "Appusers",  new { id = student.Id }, null) |
 
-            @Html.ActionLink("Details", "Details", "Appusers", new { id = item.Id, CourseId = @ViewData["Id"] }, null) |
+            @Html.ActionLink("Details", "Details", "Appusers", new { id = student.Id, CourseId = ViewBag.CourseId }, null) |
 
-            @Html.ActionLink("Delete", "Delete", "Appusers", new { id = item.Id }, null)
+            @Html.ActionLink("Delete", "Delete", "Appusers", new { id = student.Id }, null)
         </td>
         }
 
@@ -71,19 +48,7 @@
 
 </table>
 
-
-
-
-
-
-
-
-
-
-
-
-<h2>Register Student</h2>
-
+<h2>Register new student</h2>
 
 @using (Html.BeginForm("Register", "Account", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
@@ -135,7 +100,7 @@
         <input type="hidden" name="role" value="student" />
 
         @Html.Hidden("role", "student")
-        @Html.Hidden("Id", ViewData["Id"])
+        @Html.Hidden("Id", (int ?)ViewBag.CourseId)
      
 
         <div class="form-group">
@@ -147,7 +112,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to course", "Details", "Courses", new { id = ViewBag.Id }, null)
+    @Html.ActionLink("Back to course", "Details", "Courses", new { id = (int ?)ViewBag.CourseId }, null)
 </div>
 
 @section Scripts {
