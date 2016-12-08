@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LMS_System.Models;
+using System.IO;
 
 namespace LMS_System.Controllers
 {
@@ -36,6 +37,20 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+
+            var dir = new
+
+            DirectoryInfo(Server.MapPath("~/Files"));
+            FileInfo[] filenames = dir.GetFiles("*.*");
+            List<string> items = new List<string>();
+
+            foreach (var file in filenames)
+            {
+                items.Add(file.Name);
+            }
+
+            ViewData["DocumentNames"] = items;
+
             ViewBag.CourseID = courseID;
             return View(module);
         }
@@ -136,5 +151,40 @@ namespace LMS_System.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public FileResult Download(string FileName)
+        {
+            return File("~/Files/" + FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
+        }
+
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            try
+            {
+                if (file.ContentLength > 0)
+                {
+
+
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Files"), fileName);
+                    file.SaveAs(path);
+                }
+                ViewBag.Message = "Upload successful";
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                ViewBag.Message = "Upload failed";
+                return RedirectToAction("Upload");
+            }
+        }
+
+
+
+
+
+
     }
 }
