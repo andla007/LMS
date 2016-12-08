@@ -62,8 +62,11 @@
                     
 
 <td class="tablemargin">
-                            @Html.ActionLink("Edit", "Edit", "Activities", new { id = activity.Id }, null) |
+@if (User.IsInRole("teacher"))
+{
+                            @Html.ActionLink("Edit", "Edit", "Activities", new { id = activity.Id }, null) <span> | </span>
                             @Html.ActionLink("Delete", "Delete", "Activities", new { id = activity.Id, courseID = Model.Id }, null)
+}
                         </td>
                         @if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
                         {
@@ -86,6 +89,9 @@
 </div>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @if (User.IsInRole("teacher"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })        <span> | </span>
+    }
     @Html.ActionLink("Back to List", "Details", "Courses", new { id = ViewBag.CourseID }, null)
 </p>

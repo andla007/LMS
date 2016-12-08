@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LMS_System.Models.Module>
+﻿@model IEnumerable<LMS_System.Controllers.ScheduleItem>
 
 @{
     ViewBag.Title = "Schedule";
@@ -12,40 +12,73 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            Day
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayNameFor(model => model.Modulename)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EndDate)
+            @Html.DisplayNameFor(model => model.Activityname)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+
+
+        if (item.Date.DayOfWeek != DayOfWeek.Saturday && item.Date.DayOfWeek != DayOfWeek.Sunday)
+        {
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date.DayOfWeek)
+                </td>
+
+                @if(item.Modulename != null)
+                {
+                <td>@Html.DisplayFor(modelItem => item.Modulename)</td>
+                }
+                else
+                {
+                <td>[Add module]</td>
+                }
+
+                @if (item.Activityname != null)
+                {
+                <td>@Html.DisplayFor(modelItem => item.Activityname)</td>
+                }
+                else
+                {
+                <td>[Add activity]</td>
+                }
+
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            <tr class="weekendbg">
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date.DayOfWeek)
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+
 }
 
 </table>

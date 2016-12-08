@@ -25,7 +25,7 @@ namespace LMS_System.Models
         {
             get
             {
-                return (this.EndDate - this.StartDate).Days;
+                return (this.EndDate - this.StartDate).Days + 1;
             }
         }
 
