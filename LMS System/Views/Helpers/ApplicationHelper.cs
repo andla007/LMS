@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Principal;
 
 namespace LMS_System.Views.Helpers
 {
@@ -15,7 +16,7 @@ namespace LMS_System.Views.Helpers
         public static class ApplicationHelpers
         {
 
-        public static string BuildBreadcrumbNavigation(this HtmlHelper helper)
+        public static string BuildBreadcrumbNavigation(this HtmlHelper helper, string Coursename, string Modulename, string Activityname)
         {
             //optional condition: I didn't wanted it to show on home and account controller
             //if (helper.ViewContext.RouteData.Values["controller"].ToString() == "Home" ||
@@ -29,7 +30,18 @@ namespace LMS_System.Views.Helpers
             }
 
             //Konverterar html från action link. 'Home' kommer bli den första breadcrum
-            StringBuilder breadcrumb = new StringBuilder("<div class=\"breadcrumb\"><li>").Append(helper.ActionLink("Home", "Index", "Home").ToHtmlString()).Append("</li>");
+            var User = HttpContext.Current.User;
+            StringBuilder breadcrumb = new StringBuilder();
+            if (User.IsInRole("teacher"))
+            {
+                breadcrumb.Append("<div class=\"breadcrumb\"><li>").Append(helper.ActionLink("Home", "Index", "Courses").ToHtmlString()).Append("</li>");
+            }
+            else
+            {
+                breadcrumb.Append("<div class=\"breadcrumb\"><li>").Append(helper.ActionLink("Home", "Details", "Courses").ToHtmlString()).Append("</li>");
+            }
+
+
 
 
             breadcrumb.Append("<li>");
