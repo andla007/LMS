@@ -23,7 +23,7 @@ namespace LMS_System.Models
         public string LastName { get; set; }
         public string FullName { get { return FirstName + " " + LastName; } }
         public System.DateTime TimeOfRegistration { get; set; }
-        
+
         public string RoleName
         {
             get

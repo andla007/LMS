@@ -21,9 +21,18 @@ namespace LMS_System.Models
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+        public int Days
+        {
+            get
+            {
+                return (this.EndDate - this.StartDate).Days + 1;
+            }
+        }
 
       public int ModuleId { get; set; }
       public virtual Module Module { get; set; }
+
+
 
       public virtual ICollection<Document> ModuleDocuments { get; set; }
          
