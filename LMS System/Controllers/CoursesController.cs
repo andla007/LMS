@@ -32,9 +32,17 @@ namespace LMS_System.Controllers
             }
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-            return View(course);
-        }
 
+            return View(course);
+            //if (User.IsInRole("teacher"))
+            //{
+            //    return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id });
+            //}
+            //else
+            //{
+            //    return View(course);
+            //}
+        }
         // GET: Courses/Create
         [Authorize(Roles = "teacher")]
         public ActionResult Create()
@@ -43,11 +51,6 @@ namespace LMS_System.Controllers
         }
 
 
-
-
-
-
-     
 
         // POST: Courses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
