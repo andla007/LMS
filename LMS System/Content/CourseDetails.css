@@ -1,11 +1,3 @@
-﻿table.module td:first-child a {
-    color: black;
-}
-
-table.module td {
-    width: 100px;
-}
-
-tr.button div {
-    padding-top: 0.75em;
+﻿table.module td {
+    padding-right:20px;
 }
