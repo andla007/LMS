@@ -12,7 +12,7 @@ namespace LMS_System.Views.Helpers
     using System.Web.Mvc.Html;
     using LMS_System.Extensions;
     using Microsoft.AspNet.Identity;
-
+    using Models;
     public static class ApplicationHelpers
         {
 
@@ -31,22 +31,91 @@ namespace LMS_System.Views.Helpers
 
             //Konverterar html från action link. 'Home' kommer bli den första breadcrum
             var User = HttpContext.Current.User;
-
-            var user = UserManager.FindById(User.Identity.GetUserId());
-
-            users = db.Users.ToList().Where(u => u. == "student");
+            string Userid = User.Identity.GetUserId();
+            var dbContext = new ApplicationDbContext();
+            var enrolledCourse = (from course in dbContext.Courses
+                                  from student in course.Students
+                                  where student.Id == Userid
+                                  select course).FirstOrDefault();
 
             StringBuilder breadcrumb = new StringBuilder();
+
+            breadcrumb.Append("<div class=\"breadcrumb\">");
+
             if (User.IsInRole("teacher"))
             {
-                breadcrumb.Append("<div class=\"breadcrumb\"><li>").Append(helper.ActionLink("Home", "Index", "Courses").ToHtmlString()).Append("</li>");
+                breadcrumb.Append("<li>").Append(helper.ActionLink("Home", "Index", "Courses").ToHtmlString()).Append("</li>");
             }
             else
             {
-                breadcrumb.Append("<div class=\"breadcrumb\"><li>").Append(helper.ActionLink("Home", "Details", "Courses").ToHtmlString()).Append("</li>");
+                if (enrolledCourse != null)
+                {
+                    breadcrumb.Append("<li>").Append(helper.ActionLink("Home", "Details", "Courses", new { Id = enrolledCourse.Id }, null).ToHtmlString()).Append("</li>");
+                }
             }
 
-            
+            string action = helper.ViewContext.RouteData.Values["action"].ToString().ToLower();
+            string controller = helper.ViewContext.RouteData.Values["controller"].ToString().ToLower();
+
+            string id = "0";
+            if (helper.ViewContext.RouteData.Values.Count > 2)
+            {
+                id = helper.ViewContext.RouteData.Values["id"].ToString();
+            }
+            int Id = id == null ? 0 : int.Parse(id);
+            string addtoaction = "";
+
+            if (controller == "courses" && action == "create")
+            {
+                addtoaction = " course";
+            }
+            else
+            {
+
+
+                if ((controller == "courses" && action != "index") || (controller == "modules" && action == "create"))
+                {
+                    Course c = dbContext.Courses.Where(course => course.Id == Id).FirstOrDefault();
+                    breadcrumb.Append("<li>").Append(helper.ActionLink("Course " + c.Name, "Details", "Courses", new { Id = c.Id }, null).ToHtmlString()).Append("</li>");
+                    if (controller == "modules" && action == "create") { addtoaction = " module"; }
+                    if (controller == "courses" && action == "create") { addtoaction = " course"; }
+
+                }
+                if (controller == "modules" && action != "create" || (controller == "activities" && action == "create"))
+                {
+                    if (controller == "activities" && action == "create")
+                    {
+                        addtoaction = " activity";
+                        Id = HttpContext.Current.Request.QueryString["ModuleId"] == null ? 0 : int.Parse(HttpContext.Current.Request.QueryString["ModuleId"]);
+                    }
+                    Module m = dbContext.Modules.Where(modules => modules.Id == Id).FirstOrDefault();
+                    Course c = dbContext.Courses.Where(course => course.Id == m.CourseId).FirstOrDefault();
+                    breadcrumb.Append("<li>").Append(helper.ActionLink("Course " + c.Name, "Details", "Courses", new { Id = m.CourseId }, null).ToHtmlString()).Append("</li>");
+                    breadcrumb.Append("<li>").Append(helper.ActionLink("Module " + m.Name, "Details", "Modules", new { Id = m.Id }, null).ToHtmlString()).Append("</li>");
+
+                }
+                if (controller == "activities" && action != "create")
+                {
+                    Activity a = dbContext.Activities.Where(activity => activity.Id == Id).FirstOrDefault();
+                    Module m = dbContext.Modules.Where(modules => modules.Id == a.ModuleId).FirstOrDefault();
+                    Course c = dbContext.Courses.Where(course => course.Id == m.CourseId).FirstOrDefault();
+                    breadcrumb.Append("<li>").Append(helper.ActionLink("Course " + c.Name, "Details", "Courses", new { Id = m.CourseId }, null).ToHtmlString()).Append("</li>");
+                    breadcrumb.Append("<li>").Append(helper.ActionLink("Module " + m.Name, "Details", "Modules", new { Id = a.ModuleId }, null).ToHtmlString()).Append("</li>");
+                    breadcrumb.Append("<li>").Append(helper.ActionLink("Activity " + a.Name, "Details", "Modules", new { Id = a.Id }, null).ToHtmlString()).Append("</li>");
+                }
+
+
+
+
+            }
+
+
+
+
+
+
+
+
 
 
             ////breadcrumb.Append("<li>");
@@ -57,12 +126,17 @@ namespace LMS_System.Views.Helpers
             //                                   helper.ViewContext.RouteData.Values["controller"].ToString()));
             ////breadcrumb.Append("</li>");
 
-            if (helper.ViewContext.RouteData.Values["action"].ToString() != "Index")
+            if (action != "index" && action != "details")
             {
+                string linktitle = action;
+
+                // Exceptions
+                linktitle = linktitle.Replace("registerteacher", "Register teacher");
+                linktitle = linktitle.Replace("courseteacherview", "Register student");
+
+
                 breadcrumb.Append("<li>");
-                breadcrumb.Append(helper.ActionLink(helper.ViewContext.RouteData.Values["action"].ToString().Titleize(),
-                                                    helper.ViewContext.RouteData.Values["action"].ToString(),
-                                                    helper.ViewContext.RouteData.Values["controller"].ToString()));
+                breadcrumb.Append(helper.ActionLink(linktitle.Titleize() + addtoaction, action, controller));
                 breadcrumb.Append("</li>");
             }
 

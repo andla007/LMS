@@ -8,16 +8,17 @@
 </head>
 
 <h3>Details for course @Model.Name</h3>
-
+@if (User.IsInRole("teacher"))
+{
 <div>
     @Html.ActionLink("Add module", "Create", "Modules",
-                                                   new { id = Model.Id },
-                                                   new { @class = "btn btn-default" })
+                                                       new { id = Model.Id },
+                                                       new { @class = "btn btn-default" })
     @Html.ActionLink("Add student", "CourseTeacherView", "Account",
-                                                   new { id = Model.Id, orderBy = "firstname" },
-                                                   new { @class = "btn btn-default" })
+                                                       new { id = Model.Id, orderBy = "firstname" },
+                                                       new { @class = "btn btn-default" })
 </div>
-
+}
 
 <div>
     <hr />
