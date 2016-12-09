@@ -83,8 +83,6 @@ namespace LMS_System.Views.Helpers
             }
             else
             {
-
-
                 if ((controller == "courses" && action != "index") || (controller == "modules" && action == "create"))
                 {
                     Course c = dbContext.Courses.Where(course => course.Id == Id).FirstOrDefault();
