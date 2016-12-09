@@ -1,0 +1,60 @@
+﻿@model IEnumerable<LMS_System.Models.Document>
+
+@{
+    ViewBag.Title = "IndexFiles";
+}
+
+<h2>IndexFiles</h2>
+
+<p>
+    @{
+        if (ViewBag.parentId != null)
+        {
+            <div>@Html.ActionLink("Upload file", "CreateUpload", new { parentId = ViewBag.parentId })</div>
+        }
+    }
+   
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @if (ViewBag.parentId != null)
+            {
+                int? parentId = ViewBag.parentId;
+                <div>@Html.ActionLink("Delete", "DeleteFile", new { id = item.Id, parentId = parentId })</div>
+                <div>@Html.ActionLink("Edit", "EditFile", new { id = item.Id, parentId = parentId })</div>
+            }
+        </td>
+    </tr>
+}
+
+</table>
