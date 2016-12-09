@@ -64,6 +64,17 @@ namespace LMS_System.Views.Helpers
                 id = helper.ViewContext.RouteData.Values["id"].ToString();
             }
             int Id = id == null ? 0 : int.Parse(id);
+            if(Id == 0)
+            {
+                Id = HttpContext.Current.Request.QueryString["ModuleId"] == null ? 0 : int.Parse(HttpContext.Current.Request.QueryString["ModuleId"]);
+                if(Id == 0)
+                {
+                    Id = HttpContext.Current.Request.QueryString["ActivityId"] == null ? 0 : int.Parse(HttpContext.Current.Request.QueryString["ActivityId"]);
+                }
+            }
+
+
+
             string addtoaction = "";
 
             if (controller == "courses" && action == "create")
@@ -87,7 +98,7 @@ namespace LMS_System.Views.Helpers
                     if (controller == "activities" && action == "create")
                     {
                         addtoaction = " activity";
-                        Id = HttpContext.Current.Request.QueryString["ModuleId"] == null ? 0 : int.Parse(HttpContext.Current.Request.QueryString["ModuleId"]);
+                        
                     }
                     Module m = dbContext.Modules.Where(modules => modules.Id == Id).FirstOrDefault();
                     Course c = dbContext.Courses.Where(course => course.Id == m.CourseId).FirstOrDefault();
