@@ -62,7 +62,7 @@
         </dt>
 
         <dd>
-            <table class="module">
+            <table class="modules">
                 @if (User.IsInRole("student"))
                 {
                     foreach (var module in Model.Modules)
@@ -104,7 +104,7 @@
                             </td>
                             <td>@module.Days days</td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id }, null) |
+                                @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id, courseID = Model.Id }, null) |
                                 @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id, courseID = Model.Id }, null)
                             </td>
                             @if (Model.StartDate > module.StartDate || Model.EndDate < module.EndDate || module.StartDate > module.EndDate)
@@ -127,5 +127,5 @@
 {
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span>|</span>
 }
-    @Html.ActionLink("Back to Course List", "Index")
+    @Html.ActionLink("Back to course list", "Index")
 </p>
