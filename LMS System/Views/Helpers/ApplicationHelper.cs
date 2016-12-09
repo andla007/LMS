@@ -11,9 +11,9 @@ namespace LMS_System.Views.Helpers
     using System.Web.Mvc;
     using System.Web.Mvc.Html;
     using LMS_System.Extensions;
+    using Microsoft.AspNet.Identity;
 
-
-        public static class ApplicationHelpers
+    public static class ApplicationHelpers
         {
 
         public static string BuildBreadcrumbNavigation(this HtmlHelper helper, string Coursename, string Modulename, string Activityname)
@@ -31,6 +31,11 @@ namespace LMS_System.Views.Helpers
 
             //Konverterar html från action link. 'Home' kommer bli den första breadcrum
             var User = HttpContext.Current.User;
+
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
+            users = db.Users.ToList().Where(u => u. == "student");
+
             StringBuilder breadcrumb = new StringBuilder();
             if (User.IsInRole("teacher"))
             {
@@ -41,16 +46,16 @@ namespace LMS_System.Views.Helpers
                 breadcrumb.Append("<div class=\"breadcrumb\"><li>").Append(helper.ActionLink("Home", "Details", "Courses").ToHtmlString()).Append("</li>");
             }
 
+            
 
 
+            ////breadcrumb.Append("<li>");
 
-            breadcrumb.Append("<li>");
-
-            //Länktext, action och controller. Action blir index som default om inget annat hittas.
-            breadcrumb.Append(helper.ActionLink(helper.ViewContext.RouteData.Values["controller"].ToString().Titleize(),
-                                               "Index",
-                                               helper.ViewContext.RouteData.Values["controller"].ToString()));
-            breadcrumb.Append("</li>");
+            ////Länktext, action och controller. Action blir index som default om inget annat hittas.
+            ////breadcrumb.Append(helper.ActionLink(helper.ViewContext.RouteData.Values["controller"].ToString().Titleize(),
+            //                                   "Index",
+            //                                   helper.ViewContext.RouteData.Values["controller"].ToString()));
+            ////breadcrumb.Append("</li>");
 
             if (helper.ViewContext.RouteData.Values["action"].ToString() != "Index")
             {
