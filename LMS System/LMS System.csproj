@@ -178,9 +178,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612090901289_init.cs" />
-    <Compile Include="Migrations\201612090901289_init.Designer.cs">
-      <DependentUpon>201612090901289_init.cs</DependentUpon>
+    <Compile Include="Migrations\201612090923400_init.cs" />
+    <Compile Include="Migrations\201612090923400_init.Designer.cs">
+      <DependentUpon>201612090923400_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
@@ -281,7 +281,7 @@
     <Content Include="Views\Activities\DeleteFile.cshtml" />
     <Content Include="Visual studio stuff Andreas.hnd" />
     <Content Include="Visual studio stuff_micke.chm" />
-	<Content Include="Views\Courses\Schedule.cshtml" />
+    <Content Include="Views\Courses\Schedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -296,7 +296,11 @@
     <Folder Include="LexiconSecretVault\" />
     <Folder Include="uploads\" />
   </ItemGroup>
-
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201612090923400_init.resx">
+      <DependentUpon>201612090923400_init.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
