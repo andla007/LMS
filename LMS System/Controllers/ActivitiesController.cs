@@ -123,5 +123,14 @@ namespace LMS_System.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+
+
+
+        public FileResult Download(string FileName)
+        {
+            return File("~/App_Data/uploads" + FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
+        }
     }
 }
