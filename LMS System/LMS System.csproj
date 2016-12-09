@@ -178,9 +178,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612091021148_db12.cs" />
-    <Compile Include="Migrations\201612091021148_db12.Designer.cs">
-      <DependentUpon>201612091021148_db12.cs</DependentUpon>
+    <Compile Include="Migrations\201612091342277_init.cs" />
+    <Compile Include="Migrations\201612091342277_init.Designer.cs">
+      <DependentUpon>201612091342277_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
@@ -282,6 +282,11 @@
     <Content Include="Visual studio stuff Andreas.hnd" />
     <Content Include="Visual studio stuff_micke.chm" />
     <Content Include="Views\Courses\Schedule.cshtml" />
+    <Content Include="Views\Activities\EditFile.cshtml" />
+    <Content Include="Views\Modules\CreateUpload.cshtml" />
+    <Content Include="Views\Modules\DeleteFile.cshtml" />
+    <Content Include="Views\Modules\IndexFiles.cshtml" />
+    <Content Include="Views\Modules\EditFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -297,8 +302,8 @@
     <Folder Include="uploads\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612091021148_db12.resx">
-      <DependentUpon>201612091021148_db12.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612091342277_init.resx">
+      <DependentUpon>201612091342277_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -276,10 +276,26 @@ namespace LMS_System.Controllers
         }
 
 
+        public ActionResult EditFile(int? id, int? parentId)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Document document = db.ModuleDocuments.Find(id);
+            if (document == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.parentId = parentId;
+            return View(document);
+        }
+
         [HttpPost]
         [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditFile([Bind(Include = "Id,Description")] Document document)
+        public ActionResult EditFile([Bind(Include = "Id,Description")] Document document, int? parentId)
         {
 
             if (ModelState.IsValid)
@@ -288,7 +304,7 @@ namespace LMS_System.Controllers
                 dbDocument.Description = document.Description;
                 db.Entry(dbDocument).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("IndexFiles", "Modules", new { parentId = dbDocument.Activity.Id });
+                return RedirectToAction("IndexFiles", "Modules", new { parentId = dbDocument.Module.Id });
             }
             return View();
         }
