@@ -184,7 +184,19 @@ namespace LMS_System.Controllers
         public ActionResult CourseTeacherView(int? id, string orderby)
         {
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-            var students = course.Students.OrderBy(u => u.FirstName);
+            var students = course.Students;
+            switch (orderby.ToLower())
+            {
+                case "firstname":
+                    students = students.OrderBy(u => u.FirstName).ToList();
+                    break;
+                case "lastname":
+                    students = students.OrderBy(u => u.LastName).ToList();
+                    break;
+                case "email":
+                    students = students.OrderBy(u => u.Email).ToList();
+                    break;
+            }
             ViewBag.Students = students;
             ViewBag.CourseId = id;
             ViewBag.CourseName = course.Name;
