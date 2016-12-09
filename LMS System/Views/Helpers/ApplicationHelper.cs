@@ -30,6 +30,7 @@ namespace LMS_System.Views.Helpers
             }
 
             //Konverterar html från action link. 'Home' kommer bli den första breadcrum
+            //HttpContext.Current.Request.UrlReferrer
             var User = HttpContext.Current.User;
             string Userid = User.Identity.GetUserId();
             var dbContext = new ApplicationDbContext();

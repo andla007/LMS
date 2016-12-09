@@ -6,6 +6,8 @@
 
 <h3>Details for module @Model.Name</h3>
 
+@Html.ActionLink("Show files", "IndexFiles", new { parentId = Model.Id })
+
 @if (User.IsInRole("teacher"))
 {
        @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, new { @class = "btn btn-default" })
