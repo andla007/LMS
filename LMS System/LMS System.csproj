@@ -178,10 +178,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612091342277_init.cs" />
-    <Compile Include="Migrations\201612091342277_init.Designer.cs">
-      <DependentUpon>201612091342277_init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -283,10 +279,14 @@
     <Content Include="Visual studio stuff_micke.chm" />
     <Content Include="Views\Courses\Schedule.cshtml" />
     <Content Include="Views\Activities\EditFile.cshtml" />
-    <Content Include="Views\Modules\CreateUpload.cshtml" />
-    <Content Include="Views\Modules\DeleteFile.cshtml" />
-    <Content Include="Views\Modules\IndexFiles.cshtml" />
     <Content Include="Views\Modules\EditFile.cshtml" />
+    <Content Include="Views\Modules\IndexFiles.cshtml" />
+    <Content Include="Views\Modules\DeleteFile.cshtml" />
+    <Content Include="Views\Modules\CreateUpload.cshtml" />
+    <Content Include="Views\Courses\CreateUpload.cshtml" />
+    <Content Include="Views\Courses\DeleteFile.cshtml" />
+    <Content Include="Views\Courses\EditFile.cshtml" />
+    <Content Include="Views\Courses\IndexFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -300,11 +300,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="LexiconSecretVault\" />
     <Folder Include="uploads\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612091342277_init.resx">
-      <DependentUpon>201612091342277_init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
