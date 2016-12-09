@@ -279,10 +279,14 @@
     <Content Include="Visual studio stuff_micke.chm" />
     <Content Include="Views\Courses\Schedule.cshtml" />
     <Content Include="Views\Activities\EditFile.cshtml" />
-    <Content Include="Views\Modules\CreateUpload.cshtml" />
-    <Content Include="Views\Modules\DeleteFile.cshtml" />
-    <Content Include="Views\Modules\IndexFiles.cshtml" />
     <Content Include="Views\Modules\EditFile.cshtml" />
+    <Content Include="Views\Modules\IndexFiles.cshtml" />
+    <Content Include="Views\Modules\DeleteFile.cshtml" />
+    <Content Include="Views\Modules\CreateUpload.cshtml" />
+    <Content Include="Views\Courses\CreateUpload.cshtml" />
+    <Content Include="Views\Courses\DeleteFile.cshtml" />
+    <Content Include="Views\Courses\EditFile.cshtml" />
+    <Content Include="Views\Courses\IndexFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

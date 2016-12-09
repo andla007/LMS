@@ -3,11 +3,15 @@
 @{
     ViewBag.Title = "Course Details";
 }
+
 <head>
     <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
 </head>
 
 <h3>Details for course @Model.Name</h3>
+
+@Html.ActionLink("Show files", "IndexFiles", new { parentId = Model.Id })
+
 @if (User.IsInRole("teacher"))
 {
 <div>
