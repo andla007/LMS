@@ -170,10 +170,9 @@ namespace LMS_System.Controllers
             }
             ViewBag.parentId = parentId;
 
+            var documentfiles = db.ModuleDocuments.Where(d => d.Module.Id == parentId).ToList();
 
             //db.Roles.FirstOrDefault(n => n.Id == db.Users.FirstOrDefault(m => m.Id == userfiles[))
-
-            var documentfiles = db.ModuleDocuments.ToList();
 
             var teachers = GetUsersInRole("teacher");
             var doclist = new List<Document>();
@@ -212,7 +211,7 @@ namespace LMS_System.Controllers
             return View(db.ModuleDocuments.FirstOrDefault());
         }
         [HttpPost]
-        public ActionResult ActivityUpload(HttpPostedFileBase file, int? parentId, string description)
+        public ActionResult FileUpload(HttpPostedFileBase file, int? parentId, string description)
         {
             if (parentId == null)
             {
@@ -276,6 +275,23 @@ namespace LMS_System.Controllers
             return RedirectToAction("IndexFiles", new { parentId = parentId });
         }
 
+
+        [HttpPost]
+        [Authorize(Roles = "teacher")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditFile([Bind(Include = "Id,Description")] Document document)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var dbDocument = db.ModuleDocuments.Find(document.Id);
+                dbDocument.Description = document.Description;
+                db.Entry(dbDocument).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("IndexFiles", "Modules", new { parentId = dbDocument.Activity.Id });
+            }
+            return View();
+        }
 
 
 

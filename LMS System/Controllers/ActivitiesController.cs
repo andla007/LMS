@@ -52,14 +52,12 @@ namespace LMS_System.Controllers
             }
             ViewBag.parentId = parentId;
 
+            var documentfiles = db.ModuleDocuments.Where(d => d.Activity.Id == parentId).ToList();
 
             //db.Roles.FirstOrDefault(n => n.Id == db.Users.FirstOrDefault(m => m.Id == userfiles[))
 
             if (User.IsInRole("student"))
             {
-
-                var documentfiles = db.ModuleDocuments.ToList();
-
                 var teachers = GetUsersInRole("teacher");
                 var doclist = new List<Document>();
                 foreach (var item in documentfiles)
@@ -85,7 +83,7 @@ namespace LMS_System.Controllers
             }
             else if(User.IsInRole("teacher"))
             {
-                return View(db.ModuleDocuments.ToList());
+                return View(documentfiles);
             }
 
 
@@ -150,7 +148,7 @@ namespace LMS_System.Controllers
 
         //// This action handles the form POST and the upload
         [HttpPost]
-        public ActionResult ActivityUpload(HttpPostedFileBase file, int? parentId, string description)
+        public ActionResult FileUpload(HttpPostedFileBase file, int? parentId, string description)
         {
             if (parentId == null)
             {
