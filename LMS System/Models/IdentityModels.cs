@@ -24,7 +24,8 @@ namespace LMS_System.Models
         public string LastName { get; set; }
         public string FullName { get { return FirstName + " " + LastName; } }
         public System.DateTime TimeOfRegistration { get; set; }
-
+        public virtual Course Courses { get; set; }
+        public virtual ICollection<Document> docs { get; set; }
         public string RoleName
         {
             get
@@ -62,5 +63,8 @@ namespace LMS_System.Models
 
         public DbSet<Activity> Activities { get; set; }
 
+        public System.Data.Entity.DbSet<LMS_System.Models.Document> ModuleDocuments { get; set; }
+
+        //public System.Data.Entity.DbSet<LMS_System.Models.AppUsers> AppUsers { get; set; }
     }
 }

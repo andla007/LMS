@@ -178,9 +178,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612090901289_init.cs" />
-    <Compile Include="Migrations\201612090901289_init.Designer.cs">
-      <DependentUpon>201612090901289_init.cs</DependentUpon>
+    <Compile Include="Migrations\201612090923400_init.cs" />
+    <Compile Include="Migrations\201612090923400_init.Designer.cs">
+      <DependentUpon>201612090923400_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
@@ -196,10 +196,6 @@
     <Compile Include="Views\Helpers\ApplicationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-LMS System-20161125035635.mdf" />
-    <Content Include="App_Data\aspnet-LMS System-20161125035635_log.ldf">
-      <DependentUpon>aspnet-LMS System-20161125035635.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CourseDetails.css" />
@@ -280,6 +276,11 @@
     <Content Include="Views\Activities\Index.cshtml" />
     <Content Include="Views\Account\CourseTeacherView.cshtml" />
     <Content Include="Views\Activities\Details.cshtml" />
+    <Content Include="Views\Activities\CreateUpload.cshtml" />
+    <Content Include="Views\Activities\IndexFiles.cshtml" />
+    <Content Include="Views\Activities\DeleteFile.cshtml" />
+    <Content Include="Visual studio stuff Andreas.hnd" />
+    <Content Include="Visual studio stuff_micke.chm" />
     <Content Include="Views\Courses\Schedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -291,8 +292,13 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612090901289_init.resx">
-      <DependentUpon>201612090901289_init.cs</DependentUpon>
+    <Folder Include="App_Data\" />
+    <Folder Include="LexiconSecretVault\" />
+    <Folder Include="uploads\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201612090923400_init.resx">
+      <DependentUpon>201612090923400_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
