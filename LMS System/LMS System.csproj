@@ -167,13 +167,13 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllersx\AccountController.cs" />
-    <Compile Include="Controllersx\ActivitiesController.cs" />
-    <Compile Include="Controllersx\AppUsersController.cs" />
-    <Compile Include="Controllersx\CoursesController.cs" />
-    <Compile Include="Controllersx\HomeController.cs" />
-    <Compile Include="Controllersx\ManageController.cs" />
-    <Compile Include="Controllersx\ModulesController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\AppUsersController.cs" />
+    <Compile Include="Controllers\CoursesController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
