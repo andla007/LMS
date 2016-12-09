@@ -293,7 +293,7 @@ namespace LMS_System.Controllers
                             }
 
 
-                            return RedirectToAction("Details", "Courses", new { id = course.Id });
+                            return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id, orderBy = "firstname" });
                         }
                         }
                     //AddErrors(result);

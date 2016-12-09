@@ -50,7 +50,7 @@
 
 @if (User.IsInRole("teacher"))
 {
-    <h2>Register new student</h2>
+    <h3>Register new student</h3>
     using (Html.BeginForm("Register", "Account", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()

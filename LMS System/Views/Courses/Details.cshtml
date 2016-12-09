@@ -125,7 +125,7 @@
 <p>
 @if (User.IsInRole("teacher"))
 {
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span>|</span>
+    @Html.ActionLink("Edit", "Edit", "Courses", new { Id = Model.Id }, null) <span>|</span>
 }
     @Html.ActionLink("Back to course list", "Index")
 </p>
