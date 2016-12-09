@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LMS_System.Models
 {
@@ -33,11 +34,12 @@ namespace LMS_System.Models
                 var context = new ApplicationDbContext();
                 var userStore = new UserStore<AppUsers>(context);
                 var userManager = new UserManager<AppUsers>(userStore);
-                if(userManager.IsInRole(this.Id, "teacher")) { roleName = "teacher"; }
-                if(userManager.IsInRole(this.Id, "student")) { roleName = "student"; }
+                if (userManager.IsInRole(this.Id, "teacher")) { roleName = "teacher"; }
+                if (userManager.IsInRole(this.Id, "student")) { roleName = "student"; }
                 return roleName;
             }
         }
+
 
 
 
