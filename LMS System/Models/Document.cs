@@ -17,8 +17,20 @@ namespace LMS_System.Models
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
         [DataType(DataType.Date)]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
+
+
+        public virtual Course Course { get; set; }
+
+
+        public virtual Module Module { get; set; }
+
+
+        public virtual Activity Activity { get; set; }
+
+
+        public virtual AppUsers AppUser { get; set; }
         //public virtual ICollection<Activity> Activities { get; set; }
         //public virtual ICollection<Document> ModuleDocuments { get; set; } 
     }

@@ -12,6 +12,8 @@ namespace LMS_System.Models
       public int Id { get; set; }
       public string Name { get; set; }
 
+        public bool Assignment { get; set; }
+
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
@@ -20,7 +22,6 @@ namespace LMS_System.Models
 
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
-
 
       public int ModuleId { get; set; }
       public virtual Module Module { get; set; }

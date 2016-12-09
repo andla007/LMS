@@ -29,7 +29,7 @@ namespace LMS_System.Models
             context.SaveChanges();
         }
 
-
+        
 
         public virtual ICollection<AppUsers> Students { get; set; }
         public virtual ICollection<AppUsers> Teachers { get; set; } 
