@@ -40,7 +40,7 @@ namespace LMS_System.Controllers
 
             var dir = new
 
-            DirectoryInfo(Server.MapPath("~/Files"));
+            DirectoryInfo(Server.MapPath("~/ActivitiesDocuments"));
             FileInfo[] filenames = dir.GetFiles("*.*");
             List<string> items = new List<string>();
 
@@ -52,6 +52,19 @@ namespace LMS_System.Controllers
             ViewData["DocumentNames"] = items;
 
             ViewBag.CourseID = courseID;
+
+            var dir2 = new
+
+            DirectoryInfo(Server.MapPath("~/ModuleDocuments"));
+            FileInfo[] filenames2 = dir.GetFiles("*.*");
+            List<string> items2 = new List<string>();
+            foreach (var file in filenames2)
+            {
+                items2.Add(file.Name);
+            }
+
+            ViewData["DocumentNames2"] = items2;
+
             return View(module);
         }
 
@@ -154,7 +167,12 @@ namespace LMS_System.Controllers
 
         public FileResult Download(string FileName)
         {
-            return File("~/Files/" + FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
+            return File("~/ActivitiesDocuments/" + FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
+        }
+
+        public FileResult Download2(string FileName)
+        {
+            return File("~/ModuleDocuments/" + FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
 
 
@@ -165,11 +183,11 @@ namespace LMS_System.Controllers
             {
                 if (file.ContentLength > 0)
                 {
-
-
+                    
                     var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Files"), fileName);
+                    var path = Path.Combine(Server.MapPath("~/ActivitiesDocuments"), fileName);
                     file.SaveAs(path);
+                 
                 }
                 ViewBag.Message = "Upload successful";
                 return RedirectToAction("Index");
