@@ -24,14 +24,12 @@
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("teacher"))
                     {
-                    <li>@Html.ActionLink("Home", "Index", "Courses")</li>
+                        <li>@Html.ActionLink("Home", "Index", "Courses")</li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Home", "Details/1", "Courses")</li>
+                        <li>@Html.ActionLink("Home", "Details", "Courses")</li>
                     }
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("User Manager", "Index", "Appusers")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
