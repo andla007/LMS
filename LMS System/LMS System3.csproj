@@ -278,6 +278,8 @@
     <Content Include="Visual studio stuff Andreas.hnd" />
     <Content Include="Visual studio stuff_micke.chm" />
     <Content Include="Views\Courses\Schedule.cshtml" />
+    <Content Include="Views\Modules\CreateUpload.cshtml" />
+    <Content Include="Views\Modules\DeleteFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

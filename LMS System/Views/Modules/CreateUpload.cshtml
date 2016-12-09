@@ -1,0 +1,50 @@
+﻿@model LMS_System.Models.Document
+
+@{
+    ViewBag.Title = "CreateUpload";
+}
+
+<h2>Create Upload</h2>
+
+@if(ViewBag.Error!=null)
+{
+    <h2 style="color:red">@ViewBag.Error</h2>
+}
+
+@using (Html.BeginForm("ActivityUpload", "Activities", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+
+    if (ViewBag.Parent != null)
+    {
+        List<LMS_System.Models.Activity> act = ViewBag.Parent;
+
+        int? parentId = act[0].Id;
+        if (parentId == null)
+        {
+            parentId = int.Parse(Request.Params["parentId"]);
+        }
+
+        <div id="hidden">
+            @Html.Hidden("parentId", parentId);
+        </div>
+    <div class="form-group">
+        @if(act[0].Assignment)
+        {
+            <p>The uploaded document will be an assignment and deadline is @act[0].EndDate</p>
+        }
+        <p>Upload a file for activity: <label>@act[0].Name </label> </p>
+        
+    </div>
+        <input type="file" name="file"/>
+
+        <br />
+        <p>
+            <label>Description</label>
+            <textarea name="Description"></textarea>
+        </p>
+     
+    <input type="submit" value="OK" />
+    }
+}
+
