@@ -23,6 +23,8 @@ namespace LMS_System.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            var moduleID = db.Activities.FirstOrDefault().ModuleId;
+            ViewBag.moduleID = moduleID;
             return View(db.Activities.ToList());
         }
 
@@ -110,6 +112,41 @@ namespace LMS_System.Controllers
             ViewBag.Parent = db.Activities.Where(a => a.Id == parentId).ToList();
             return View(db.ModuleDocuments.FirstOrDefault());
         }
+
+        public ActionResult EditFile(int? id, int? parentId)
+        {
+            
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Document document = db.ModuleDocuments.Find(id);
+            if (document == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.parentId = parentId;
+            return View(document);
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = "teacher")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditFile([Bind(Include = "Id,Description")] Document document)
+        {
+   
+            if (ModelState.IsValid)
+            {
+                var dbDocument = db.ModuleDocuments.Find(document.Id);
+                dbDocument.Description = document.Description;
+                 db.Entry(dbDocument).State = EntityState.Modified;
+                 db.SaveChanges();
+                 return RedirectToAction("IndexFiles", "Activities", new { parentId = dbDocument.Activity.Id});
+            }
+            return View();
+        }
+
 
         //// This action handles the form POST and the upload
         [HttpPost]

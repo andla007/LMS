@@ -51,6 +51,7 @@
             {
                 int? parentId = ViewBag.parentId;
                 <div>@Html.ActionLink("Delete", "DeleteFile", new { id = item.Id, parentId = parentId })</div>
+                <div>@Html.ActionLink("Edit", "EditFile", new { id = item.Id, parentId = parentId })</div>
             }
         </td>
     </tr>
