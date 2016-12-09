@@ -20,6 +20,14 @@
                                                        new { @class = "btn btn-default" })
 </div>
 }
+else
+{
+    <div>
+        @Html.ActionLink("Show students", "CourseTeacherView", "Account",
+                                                 new { id = Model.Id, orderBy = "firstname" },
+                                                 new { @class = "btn btn-default" })
+    </div>
+}
 
 <div>
     <hr />
@@ -79,15 +87,6 @@
                             <td>@module.Days days</td>
                         </tr>
                     }
-                    <tr>
-                        <td>
-                            <div>
-                                @Html.ActionLink("Show students", "CourseTeacherView", "Account",
-                                                 new { id = Model.Id, orderBy = "firstname" },
-                                                 new { @class = "btn btn-default" })
-                            </div>
-                        </td>
-                    </tr>
                 }
                 else
                 {
