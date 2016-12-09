@@ -20,12 +20,14 @@ namespace LMS_System.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Activities
+        [Authorize]
         public ActionResult Index()
         {
             return View(db.Activities.ToList());
         }
 
         // GET: Activities/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -159,9 +161,15 @@ namespace LMS_System.Controllers
             return RedirectToAction("IndexFiles", "Activities", new { parentId = parentId });
         }
         // GET: Activities/Create
-        public ActionResult Create()
+        [Authorize(Roles = "teacher")]
+        public ActionResult Create(int ModuleId)
         {
-            return View();
+            var mod = db.Modules.Where(m => m.Id == ModuleId).FirstOrDefault();
+
+            Activity activity = new Activity();
+            activity.Module = mod;
+            ViewBag.ModuleId = ModuleId;
+            return View(activity);
         }
 
         // POST: Activities/Create
@@ -169,19 +177,22 @@ namespace LMS_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "teacher")]
         public ActionResult Create([Bind(Include = "Assignment,ModuleId,Id,Name,Description,StartDate,EndDate")] Activity activity)
         {
             if (ModelState.IsValid)
             {
                 db.Activities.Add(activity);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Details", "Modules", new { id = activity.ModuleId });
             }
 
             return View(activity);
         }
 
         // GET: Activities/Edit/5
+        [Authorize(Roles = "teacher")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -200,6 +211,7 @@ namespace LMS_System.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "teacher")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Assignment,ModuleId,Id,Name,Description,StartDate,EndDate")] Activity activity)
         {
@@ -207,11 +219,11 @@ namespace LMS_System.Controllers
             {
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Modules", new { Id = activity.ModuleId });
             }
             return View(activity);
         }
-
+        [Authorize(Roles = "teacher")]
         // GET: Activities/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -226,9 +238,7 @@ namespace LMS_System.Controllers
             }
             return View(activity);
         }
-
-
-
+        [Authorize(Roles = "teacher")]
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -237,7 +247,7 @@ namespace LMS_System.Controllers
             Activity activity = db.Activities.Find(id);
             db.Activities.Remove(activity);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Modules", new { Id = activity.ModuleId });
         }
 
         public ActionResult DeleteFile(int? id, int? parentId)

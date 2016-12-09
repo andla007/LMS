@@ -32,9 +32,17 @@ namespace LMS_System.Controllers
             }
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-            return View(course);
-        }
 
+            return View(course);
+            //if (User.IsInRole("teacher"))
+            //{
+            //    return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id });
+            //}
+            //else
+            //{
+            //    return View(course);
+            //}
+        }
         // GET: Courses/Create
         [Authorize(Roles = "teacher")]
         public ActionResult Create()
@@ -43,11 +51,6 @@ namespace LMS_System.Controllers
         }
 
 
-
-
-
-
-     
 
         // POST: Courses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -141,5 +144,95 @@ namespace LMS_System.Controllers
         {
             return View();
         }
+
+
+
+        // Schedule view
+        [Authorize(Roles = "teacher,student")]
+        public ActionResult Schedule(int courseid)
+        {
+            var course = db.Courses.Where(c => c.Id == courseid).FirstOrDefault();
+            DateTime coursestartdate = course.StartDate;
+            DateTime courseenddate = course.EndDate;
+
+            var Modules =
+                from modules in db.Modules
+                orderby modules.StartDate
+                where modules.CourseId == courseid
+                select new ScheduleItem { Modulename = modules.Name, Id = modules.Id, ModuleStartDate = modules.StartDate, ModuleEndDate = modules.EndDate, CourseId = modules.CourseId };
+
+            //var Activities =
+            //    from activities in db.Activities
+            //    orderby activities.StartDate
+            //    where activities.ModuleId == 
+
+            var Activities =
+                from modules in db.Modules
+                join activities in db.Activities on modules.Id equals activities.ModuleId
+                orderby modules.StartDate, activities.StartDate
+                where modules.CourseId == courseid
+                select new ScheduleItem { Activityname = activities.Name, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate, ModuleId = activities.ModuleId };
+
+            DateTime date = coursestartdate;
+            List<ScheduleItem> schedule = new List<ScheduleItem>();
+            for (int i = 0; i <= (courseenddate - coursestartdate).Days; i++)
+            {
+                date = coursestartdate.AddDays(i);
+                List<ScheduleItem> msi = Modules.Where(s => s.ModuleStartDate <= date && s.ModuleEndDate >= date).ToList();
+
+                ScheduleItem sItem = new ScheduleItem();
+
+                foreach (var item in msi)
+                {
+                    sItem.Modulename += item.Modulename + ",";
+                    sItem.ModuleStartDate = item.ModuleStartDate;
+                    sItem.ModuleEndDate = item.ModuleEndDate;
+                    sItem.CourseId = item.CourseId;
+
+                    List<ScheduleItem> asi = Activities.Where(s => s.Activitystartdate <= date && s.Activityenddate >= date).ToList();
+                    foreach (var aitem in asi)
+                    {
+                        sItem.Activityname = aitem.Activityname + ",";
+                        sItem.Activitystartdate = aitem.Activitystartdate;
+                        sItem.Activityenddate = aitem.Activityenddate;
+                        sItem.ModuleId = aitem.ModuleId;
+                    }
+
+                }
+
+
+                sItem.Date = date;
+                schedule.Add(sItem);
+
+
+
+                //sItem.Date = date.AddDays(i);
+                //ScheduleItem si = ModulesActivities.Where(s => s.Activitystartdate <= sItem.Date && s.Activityenddate >= sItem.Date).FirstOrDefault();
+                //if (si != null)
+                //{
+                //    sItem.Activityname = si.Activityname;
+                //    sItem.Modulename = si.Modulename;
+                //    sItem.Activitystartdate = si.Activitystartdate;
+                //    sItem.Activityenddate = si.Activityenddate;
+                //}
+                //schedule.Add(sItem);
+            }
+            return View(schedule);
+            //return View(innerJoinQuery.ToList());
+            //return View(db.Modules.ToList().Where(m => m.CourseId == courseid).OrderBy(m => m.StartDate));
+        }
+    }
+    public class ScheduleItem
+    {
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public string Modulename { get; set; }
+        public DateTime ModuleStartDate { get; set; }
+        public DateTime ModuleEndDate { get; set; }
+        public string Activityname { get; set; }
+        public DateTime Activitystartdate { get; set; }
+        public DateTime Activityenddate { get; set; }
+        public int CourseId { get; set; }
+        public int ModuleId { get; set; }
     }
 }

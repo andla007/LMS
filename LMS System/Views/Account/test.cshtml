@@ -1,11 +1,83 @@
 ﻿@model LMS_System.Models.RegisterViewModel
 
 
+<h2>@ViewData["Name"]</h2>
+
+@*@var ModulesNames =  (string[]) ViewData["ModuleNames"] as string[];
+    @ModulesNames[0];
+    @ModulesNames[1];*@
+
+
+
+<h3>@ViewData["Modulename"]</h3>
+
+<h4>@ViewData["Id"]</h4>
+
+
 @{
-    ViewBag.Title = "Register Student";
+    var AppUser = ViewBag.Appuser;
 }
 
-<h3>Register a student for the course @ViewBag.Name</h3>
+<hr />
+<h2>Students in course</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            <a href="?orderby=FirstName">FirstName</a>
+        </th>
+        <th>
+            <a href="?orderby=LastName">LastName</a>
+        </th>
+        <th>
+            <a href="?orderby=Email">Email</a>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in AppUser)
+    {
+        <tr>
+            <td>
+                @item.FirstName
+            </td>
+            <td>
+                @item.LastName
+            </td>
+            <td>
+                <a href="mailto:@item.Email">@item.Email</a>
+            </td>
+
+
+
+            @if (User.IsInRole("teacher"))
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Appusers", new { id = item.Id }, null) |
+
+                    @Html.ActionLink("Details", "Details", "Appusers", new { id = item.Id }, null) |
+
+                    @Html.ActionLink("Delete", "Delete", "Appusers", new { id = item.Id }, null)
+                </td>
+            }
+
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Register Student</h2>
 
 
 @using (Html.BeginForm("Register", "Account", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -56,18 +128,21 @@
         </div>
 
         <input type="hidden" name="role" value="student" />
+
         @Html.Hidden("role", "student")
+        @Html.Hidden("Id", ViewData["Id"])
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Register" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to course", "Details", "Courses", new { id = ViewBag.CourseId })
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {

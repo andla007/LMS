@@ -55,11 +55,11 @@ namespace LMS_System.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<LMS_System.Models.Course> Courses { get; set; }
+        public DbSet<Course> Courses { get; set; }
 
-        public System.Data.Entity.DbSet<LMS_System.Models.Module> Modules { get; set; }
+        public DbSet<Module> Modules { get; set; }
 
-        public System.Data.Entity.DbSet<LMS_System.Models.Activity> Activities { get; set; }
+        public DbSet<Activity> Activities { get; set; }
 
         public System.Data.Entity.DbSet<LMS_System.Models.Document> ModuleDocuments { get; set; }
 

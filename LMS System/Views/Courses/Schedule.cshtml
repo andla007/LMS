@@ -1,0 +1,85 @@
+﻿@model IEnumerable<LMS_System.Controllers.ScheduleItem>
+
+@{
+    ViewBag.Title = "Schedule";
+}
+
+<h2>Schedule</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            Day
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modulename)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Activityname)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+
+
+        if (item.Date.DayOfWeek != DayOfWeek.Saturday && item.Date.DayOfWeek != DayOfWeek.Sunday)
+        {
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date.DayOfWeek)
+                </td>
+
+                @if(item.Modulename != null)
+                {
+                <td>@Html.DisplayFor(modelItem => item.Modulename)</td>
+                }
+                else
+                {
+
+                <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId }, new { @class = "btn btn-default" })</td>
+                }
+
+                @if (item.Activityname != null)
+                {
+                <td>@Html.DisplayFor(modelItem => item.Activityname)</td>
+                }
+                else
+                {
+                <td>[Add activity]</td>
+                }
+
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            <tr class="weekendbg">
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date.DayOfWeek)
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+
+}
+
+</table>

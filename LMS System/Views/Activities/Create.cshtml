@@ -54,7 +54,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @min = Model.Module.StartDate.ToShortDateString(), @max = Model.Module.EndDate.ToShortDateString() } })
+                <script type="text/javascript">
+                    $('#StartDate').change(function () {
+                        $("#EndDate").attr("min", $('#StartDate').val());
+                    });
+                </script>
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -62,7 +67,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @min = Model.Module.StartDate.ToShortDateString(), @max = Model.Module.EndDate.ToShortDateString() } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -76,7 +81,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Details", "Modules", new { Id = ViewBag.ModuleId }, null)
 </div>
 
 @section Scripts {

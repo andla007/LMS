@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
 </head>
 
-<h2>Course Details</h2>
+<h3>Details for course @Model.Name</h3>
+
+<div>
+    @Html.ActionLink("Add module", "Create", "Modules",
+                                                   new { id = Model.Id },
+                                                   new { @class = "btn btn-default" })
+    @Html.ActionLink("Add student", "CourseTeacherView", "Account",
+                                                   new { id = Model.Id, orderBy = "firstname" },
+                                                   new { @class = "btn btn-default" })
+</div>
+
 
 <div>
     <hr />
@@ -50,52 +60,61 @@
         </dt>
 
         <dd>
-            <table class="module">
+            <table>
                 @if (User.IsInRole("student"))
-            {
+                {
                     foreach (var module in Model.Modules)
                     {
                         <tr>
-                            <td>
+                            <td class="tablemargin">
                                 @Html.ActionLink(@module.Name, "Details", "Modules",
                                                  new { id = module.Id, courseID = Model.Id },
                                                  null)
                             </td>
+                            <td class="tablemargin">
+                                @module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()
+                            </td>
+                            <td class="tablemargin">@module.Days days</td>
                         </tr>
-            }
+                    }
+                    <tr>
+                        <td class="tablemargin">
+                            <div>
+                                @Html.ActionLink("Show students", "CourseTeacherView", "Account",
+                                                 new { id = Model.Id, orderBy = "firstname" },
+                                                 new { @class = "btn btn-default" })
+                            </div>
+                        </td>
+                    </tr>
                 }
                 else
                 {
                     foreach (var module in Model.Modules)
-{
+                    {
                         <tr>
-                            <td>
+                            <td class="tablemargin">
                                 @Html.ActionLink(@module.Name, "Details", "Modules", 
                                                  new { id = module.Id, courseID = Model.Id }, 
                                                  null)
                             </td>
-                            <td width="30">
+                            <td class="tablemargin">
+                                @module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()
                             </td>
-                            <td>
+                            <td class="tablemargin">@module.Days days</td>
+                            <td class="tablemargin">
                                 @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id }, null) |
                                 @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id, courseID = Model.Id }, null)
                             </td>
-                            <td>
+                            @if (Model.StartDate > module.StartDate || Model.EndDate < module.EndDate || module.StartDate > module.EndDate)
+                            {
+                                <td class="tablemargin">
+                                    Some dates are out of bounds!
+                                </td>
+                            }
                         </tr>
                     }
-                    <tr class="button">
-                        <td>
-                             <div>
-                                 @Html.ActionLink("Add module", "Create", "Modules", 
-                                                   new { id = Model.Id, name = Model.Name }, 
-                                                   new { @class = "btn btn-default" })
-                                 @Html.ActionLink("Add student", "CourseTeacherView", "Account",
-                                                   new { id = Model.Id, orderBy ="firstname"},
-                                                   new { @class = "btn btn-default" })
-                             </div>
-                        </td>
-                    </tr>
-}
+
+                }
             </table>
         </dd>
     </dl>
@@ -106,5 +125,5 @@
 {
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span>|</span>
 }
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Course List", "Index")
 </p>
