@@ -54,6 +54,32 @@ namespace LMS_System.Controllers
 
             var documentfiles = db.ModuleDocuments.Where(d => d.Activity.Id == parentId).ToList();
 
+            List<string> DocumentSenders = new List<string>();
+            List<string> SendersRoles = new List<string>();
+
+            foreach (var document in documentfiles)
+            {
+                string name = document.Name;
+                char delimiter ='_';
+                string[] words = name.Split(delimiter);
+
+    
+                if (words.Count()>5)
+                {
+                    string w1 = words[4];
+                    string w2 = words[5];
+                    string nm = w1 +"_"+ w2;
+                    document.Name = nm;
+                }
+
+                else
+                {
+                    document.Name = words[4];
+                }
+
+            }
+          
+            
             //db.Roles.FirstOrDefault(n => n.Id == db.Users.FirstOrDefault(m => m.Id == userfiles[))
 
             if (User.IsInRole("student"))
@@ -73,7 +99,7 @@ namespace LMS_System.Controllers
                         var teacher = teachers.Where(t => t.Email == item.AppUser.Email).FirstOrDefault();
                         if (teacher != null)
                         {
-                            doclist.Add(item);
+                            doclist.Add(item);                       
                         }
                     }
 
