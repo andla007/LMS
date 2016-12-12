@@ -6,10 +6,7 @@
 
 <h2>Schedule</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Date)
@@ -41,23 +38,36 @@
 
                 @if(item.Modulename != null)
                 {
-                <td>@Html.DisplayFor(modelItem => item.Modulename)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Modulename)</td>
                 }
                 else
                 {
-
-                <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate= item.Date }, new { @class = "btn btn-default" })</td>
+                    if (User.IsInRole("teacher"))
+                    {
+                    <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule=true }, new { @class = "btn btn-default" })</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
                 }
 
                 @if (item.Activityname != null)
                 {
-                <td>@Html.DisplayFor(modelItem => item.Activityname)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Activityname)</td>
                 }
                 else
                 {
-                    if (item.ModuleId != 0)
+                    if (item.Modulename != null)
                     {
-                        <td>@Html.ActionLink("Add activity", "Create", "Activity", new { Id = item.ModuleId, StartDate = item.Date }, new { @class = "btn btn-default" })</td>
+                        if (User.IsInRole("teacher"))
+                        {
+                            <td>@Html.ActionLink("Add activity", "Create", "Activities", new { ModuleId = item.ModuleId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true, CourseId = item.CourseId }, new { @class = "btn btn-default" })</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
                     }
                     else
                     {
@@ -67,12 +77,12 @@
 
                             }
 
-<td></td>
+            <td></td>
             </tr>
         }
         else
         {
-            <tr class="weekendbg">
+            <tr>
                 <td>
                     @item.Date.ToShortDateString()
                 </td>
@@ -82,13 +92,18 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
             </tr>
-        }
 
-}
+
+            if(item.Date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                <tr>
+                    <td colspan="5"><hr /></td>
+
+                </tr>
+                                }
+                            }
+
+                        }
 
 </table>

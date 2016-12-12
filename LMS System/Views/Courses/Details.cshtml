@@ -22,6 +22,10 @@
     @Html.ActionLink("Add student", "CourseTeacherView", "Account",
                                                        new { id = Model.Id, orderBy = "firstname" },
                                                        new { @class = "btn btn-default" })
+    @Html.ActionLink("Show Schedule", "Schedule", "Courses",
+                                                       new { id = Model.Id },
+                                                       new { @class = "btn btn-default" })
+
 </div>
 }
 else
@@ -30,8 +34,12 @@ else
         @Html.ActionLink("Show students", "CourseTeacherView", "Account",
                                                  new { id = Model.Id, orderBy = "firstname" },
                                                  new { @class = "btn btn-default" })
+        @Html.ActionLink("Show Schedule", "Schedule", "Courses",
+                                                       new { id = Model.Id },
+                                                       new { @class = "btn btn-default" })
     </div>
 }
+
 
 <div>
     <hr />

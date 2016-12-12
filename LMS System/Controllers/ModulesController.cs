@@ -45,7 +45,7 @@ namespace LMS_System.Controllers
 
         // GET: Modules/Create
         [Authorize(Roles = "teacher")]
-        public ActionResult Create(int? id, string name, DateTime Startdate)
+        public ActionResult Create(int? id, string name, DateTime? Startdate)
         {
 
 
@@ -53,8 +53,8 @@ namespace LMS_System.Controllers
 
             Module module = new Module();
             module.Course = course;
-            if (Startdate != null) { module.StartDate = Startdate; }
-            module.Name = "New";
+            //if (Startdate != null) { ViewBag.StartDate = "2017-01-03"; }
+            // Startdate.ToString("yyyy-MM-dd");
             ViewBag.CourseId = id;
             ViewBag.CourseName = name;
             return View(module);
@@ -72,7 +72,16 @@ namespace LMS_System.Controllers
                 module.CourseId = id;
                 db.Modules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Courses", new { Id = id });
+
+                if (Request.QueryString["ReturnToSchedule"] == "True")
+                {
+                    return RedirectToAction("Schedule", "Courses", new { Id = id });
+                }
+                else
+                {
+                    return RedirectToAction("Details", "Courses", new { Id = id });
+                }
+                    
             }
             return View(module);
         }
@@ -252,6 +261,12 @@ namespace LMS_System.Controllers
             ViewBag.parentId = parentId;
 
             return RedirectToAction("IndexFiles", "Modules", new { parentId = parentId });
+        }
+
+        public FileResult Download(string FileName)
+        {
+           
+            return File(FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
 
         public ActionResult DeleteFile(int? id, int? parentId)

@@ -183,7 +183,7 @@ namespace LMS_System.Controllers
                 from modules in db.Modules
                 orderby modules.StartDate
                 where modules.CourseId == id
-                select new ScheduleItem { Modulename = modules.Name, Id = modules.Id, ModuleStartDate = modules.StartDate, ModuleEndDate = modules.EndDate, CourseId = modules.CourseId };
+                select new ScheduleItem { Modulename = modules.Name, Id = modules.Id, ModuleId=modules.Id, ModuleStartDate = modules.StartDate, ModuleEndDate = modules.EndDate, CourseId = modules.CourseId };
 
             //var Activities =
             //    from activities in db.Activities
@@ -195,7 +195,7 @@ namespace LMS_System.Controllers
                 join activities in db.Activities on modules.Id equals activities.ModuleId
                 orderby modules.StartDate, activities.StartDate
                 where modules.CourseId == id
-                select new ScheduleItem { Activityname = activities.Name, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate, ModuleId = activities.ModuleId, ModuleStartDate = modules.StartDate };
+                select new ScheduleItem { Activityname = activities.Name, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate, ModuleId = modules.Id, ModuleStartDate = modules.StartDate };
 
             DateTime date = coursestartdate;
             List<ScheduleItem> schedule = new List<ScheduleItem>();
@@ -221,11 +221,15 @@ namespace LMS_System.Controllers
                         sItem.Activityname = aitem.Activityname + ",";
                         sItem.Activitystartdate = aitem.Activitystartdate;
                         sItem.Activityenddate = aitem.Activityenddate;
+                        sItem.ModuleId = aitem.ModuleId;
                         
                     }
 
                 }
-
+                if(sItem.Modulename != null)
+                sItem.Modulename = sItem.Modulename.TrimEnd(' ', ',');
+                if(sItem.Activityname != null)
+                sItem.Activityname = sItem.Activityname.TrimEnd(' ', ',');
                 sItem.CourseId = id;
                 sItem.Date = date;
                 schedule.Add(sItem);
@@ -358,6 +362,12 @@ namespace LMS_System.Controllers
             ViewBag.parentId = parentId;
 
             return RedirectToAction("IndexFiles", "Courses", new { parentId = parentId });
+        }
+
+        public FileResult Download(string FileName)
+        {
+          
+            return File(FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
 
         public ActionResult DeleteFile(int? id, int? parentId)
