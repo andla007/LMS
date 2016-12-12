@@ -205,8 +205,12 @@ namespace LMS_System.Controllers
         }
         // GET: Activities/Create
         [Authorize(Roles = "teacher")]
-        public ActionResult Create(int ModuleId)
+        public ActionResult Create(int? Id, int? ModuleId, DateTime? StartDate)
         {
+            if(ModuleId == null)
+            {
+                ModuleId = Id;
+            }
             var mod = db.Modules.Where(m => m.Id == ModuleId).FirstOrDefault();
 
             Activity activity = new Activity();
@@ -228,7 +232,15 @@ namespace LMS_System.Controllers
                 db.Activities.Add(activity);
                 db.SaveChanges();
 
-                return RedirectToAction("Details", "Modules", new { id = activity.ModuleId });
+
+                if (Request.QueryString["ReturnToSchedule"] == "True")
+                {
+                    return RedirectToAction("Schedule", "Courses", new { Id = (Request.QueryString["CourseId"]) });
+                }
+                else
+                {
+                    return RedirectToAction("Details", "Modules", new { id = activity.ModuleId });
+                }
             }
 
             return View(activity);
@@ -262,7 +274,11 @@ namespace LMS_System.Controllers
             {
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
+
+
                 return RedirectToAction("Details", "Modules", new { Id = activity.ModuleId });
+
+                 
             }
             return View(activity);
         }
