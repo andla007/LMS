@@ -256,7 +256,7 @@ namespace LMS_System.Controllers
 
         public FileResult Download(string FileName)
         {
-            //"~/App_Data/uploads" +
+           
             return File(FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
 
