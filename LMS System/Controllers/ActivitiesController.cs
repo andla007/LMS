@@ -223,8 +223,12 @@ namespace LMS_System.Controllers
         }
         // GET: Activities/Create
         [Authorize(Roles = "teacher")]
-        public ActionResult Create(int ModuleId)
+        public ActionResult Create(int? Id, int? ModuleId, DateTime? StartDate)
         {
+            if(ModuleId == null)
+            {
+                ModuleId = Id;
+            }
             var mod = db.Modules.Where(m => m.Id == ModuleId).FirstOrDefault();
 
             Activity activity = new Activity();
