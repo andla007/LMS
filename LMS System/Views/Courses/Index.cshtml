@@ -20,7 +20,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
+        <th class="descriptioncolumn">
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
@@ -29,7 +29,7 @@
         <th>
             @Html.DisplayNameFor(model => model.EndDate)
         </th>
-        <th width="15%">Adminitration</th>
+        <th>Administration</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -54,9 +54,9 @@
                 {
 
                     @*@Html.Action("CourseTeacherView","Accounts" )*@
-                    <li class="tinyli">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</li>
-                    <li class="tinyli">@Html.ActionLink("Details", "Details", "Courses", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</li>
-                    <li class="tinyli">@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</li>
+                    <div class="col-md-3"> @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) </div>
+                    <div class="col-md-3">@Html.ActionLink("Details", "Details", "Courses", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) </div>
+                    <div class="col-md-3"> @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</div>
 
                 }
                 else
