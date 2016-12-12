@@ -54,32 +54,6 @@ namespace LMS_System.Controllers
 
             var documentfiles = db.ModuleDocuments.Where(d => d.Activity.Id == parentId).ToList();
 
-            List<string> DocumentSenders = new List<string>();
-            List<string> SendersRoles = new List<string>();
-
-            foreach (var document in documentfiles)
-            {
-                string name = document.Name;
-                char delimiter ='_';
-                string[] words = name.Split(delimiter);
-
-    
-                if (words.Count()>5)
-                {
-                    string w1 = words[4];
-                    string w2 = words[5];
-                    string nm = w1 +"_"+ w2;
-                    document.Name = nm;
-                }
-
-                else
-                {
-                    document.Name = words[4];
-                }
-
-            }
-          
-            
             //db.Roles.FirstOrDefault(n => n.Id == db.Users.FirstOrDefault(m => m.Id == userfiles[))
 
             if (User.IsInRole("student"))
@@ -220,6 +194,12 @@ namespace LMS_System.Controllers
             ViewBag.parentId = parentId;
 
             return RedirectToAction("IndexFiles", "Activities", new { parentId = parentId });
+        }
+
+        public FileResult Download(string FileName)
+        {
+            //"~/App_Data/uploads" +
+            return File(FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
         // GET: Activities/Create
         [Authorize(Roles = "teacher")]

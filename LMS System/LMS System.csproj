@@ -281,6 +281,9 @@
     <Content Include="Views\Modules\EditFile.cshtml" />
     <Content Include="Views\Modules\IndexFiles.cshtml" />
     <Content Include="Views\Modules\CreateUpload.cshtml" />
+    <Content Include="Views\Activities\CreateUpload.cshtml" />
+    <Content Include="Views\Activities\EditFile.cshtml" />
+    <Content Include="Views\Activities\IndexFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
