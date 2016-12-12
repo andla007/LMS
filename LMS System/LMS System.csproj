@@ -289,6 +289,7 @@
     <Content Include="Views\Courses\DeleteFile.cshtml" />
     <Content Include="Views\Courses\EditFile.cshtml" />
     <Content Include="Views\Courses\IndexFiles.cshtml" />
+    <Content Include="Visual studio stuff Andreas.hnd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
