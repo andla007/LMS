@@ -1,7 +1,11 @@
-﻿table.modules th a {
+﻿table.lms th a {
     color: white;
 }
 
-table.table-striped tr:nth-child(odd) {
-    background-color: lemonchiffon;
+table.lms th {
+    background-color: cornflowerblue;
+}
+
+table.lms tr:nth-child(even) {
+    background-color: aliceblue;
 }

@@ -36,6 +36,10 @@ tr.found{
     border-bottom: 10px;
 }
 
+.weekendtype{
+    color: red;
+}
+
 .tinyli{
     margin:0 0 0 0 !important;
     padding:0 0 0 0 !important;

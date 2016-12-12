@@ -44,7 +44,7 @@
                 {
                     if (User.IsInRole("teacher"))
                     {
-                    <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule=true }, new { @class = "btn btn-default" })</td>
+                    <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule=true }, new { @class = "btn btn-default btn-xs" })</td>
                     }
                     else
                     {
@@ -62,7 +62,7 @@
                     {
                         if (User.IsInRole("teacher"))
                         {
-                            <td>@Html.ActionLink("Add activity", "Create", "Activities", new { ModuleId = item.ModuleId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true, CourseId = item.CourseId }, new { @class = "btn btn-default" })</td>
+                            <td>@Html.ActionLink("Add activity", "Create", "Activities", new { ModuleId = item.ModuleId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true, CourseId = item.CourseId }, new { @class = "btn btn-default btn-xs" })</td>
                         }
                         else
                         {
@@ -83,12 +83,24 @@
         else
         {
             <tr>
-                <td>
+                @if(item.Date.DayOfWeek == DayOfWeek.Sunday)
+                {
+                <td class="weekendtype">
                     @item.Date.ToShortDateString()
                 </td>
-                <td>
+                <td class="weekendtype">
                     @Html.DisplayFor(modelItem => item.Date.DayOfWeek)
                 </td>
+                }
+                else
+                {
+                    <td>
+                        @item.Date.ToShortDateString()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date.DayOfWeek)
+                    </td>
+                }
                 <td></td>
                 <td></td>
                 <td></td>
@@ -98,7 +110,7 @@
             if(item.Date.DayOfWeek == DayOfWeek.Sunday)
             {
                 <tr>
-                    <td colspan="5"><hr /></td>
+                    <td colspan="5"><b>Week: @ApplicationHelpers.WeekNumber(item.Date.AddDays(1))</b></td>
 
                 </tr>
                                 }
