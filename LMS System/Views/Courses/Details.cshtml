@@ -5,6 +5,7 @@
 }
 
 <head>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
     <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
 </head>
 
@@ -81,7 +82,24 @@ else
         </dt>
 
         <dd>
-            <table class="modules">
+            <br/>
+            <table class="table table-striped table-bordered modules">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>
+                            <a href="?orderby=name" data-toggle="tooltip" title="Sort by name">Name</a>
+                        </th>
+                        <th>
+                            <a href="?orderby=startdate" data-toggle="tooltip" title="Sort by start date">Start Date</a>
+                        </th>
+                        <th>
+                            <a href="?orderby=enddate" data-toggle="tooltip" title="Sort by end date">End Date</a>
+                        </th>
+                        <th>
+                            <a href="?orderby=duration" data-toggle="tooltip" title="Sort by duration">Duration</a>
+                        </th>
+                    </tr>
+                </thead>
                 @if (User.IsInRole("student"))
                 {
                     foreach (var module in Model.Modules)
@@ -93,7 +111,10 @@ else
                                                  new { data_toggle = "tooltip", title = module.Description })
                             </td>
                             <td>
-                                @module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()
+                                @module.StartDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @module.EndDate.ToShortDateString()
                             </td>
                             <td>@module.Days days</td>
                         </tr>
@@ -110,9 +131,14 @@ else
                                                  new { data_toggle = "tooltip", title = module.Description})
                             </td>
                             <td>
-                                @module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()
+                                @module.StartDate.ToShortDateString()
                             </td>
-                            <td>@module.Days days</td>
+                            <td>
+                                @module.EndDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @module.Days days
+                            </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id, courseID = Model.Id }, null) |
                                 @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id, courseID = Model.Id }, null)
