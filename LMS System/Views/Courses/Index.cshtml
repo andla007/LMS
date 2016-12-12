@@ -4,6 +4,7 @@
     ViewBag.Title = "Courses";
 }
 
+
 <h2>Courses Overview</h2>
 
 @if (User.IsInRole("teacher"))
@@ -28,7 +29,7 @@
         <th>
             @Html.DisplayNameFor(model => model.EndDate)
         </th>
-        <th>Adminitration</th>
+        <th width="15%">Adminitration</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -36,7 +37,7 @@
         <td>
             @Html.ActionLink(item.Name, "Details", "Courses", new { id = item.Id }, null)
         </td>
-        <td>
+        <td style="">
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
@@ -48,23 +49,23 @@
 
 
         <td>
-            <div class="row">
+            <ul class="list-inline">
                 @if (User.IsInRole("teacher"))
                 {
 
                     @*@Html.Action("CourseTeacherView","Accounts" )*@
-                    <div class="col-md-3"> @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) </div>
-                    <div class="col-md-3">@Html.ActionLink("Details", "Details", "Courses", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) </div>
-                    <div class="col-md-3"> @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</div>
+                    <li class="tinyli">@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</li>
+                    <li class="tinyli">@Html.ActionLink("Details", "Details", "Courses", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</li>
+                    <li class="tinyli">@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</li>
 
                 }
                 else
                 {
-                    <div class="col-md-3">
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })
-                    </div>
+
+                    <li class="tinyli">@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</li>
+
                 }
-            </div>
+                </ul>
 
 </td>
     </tr>

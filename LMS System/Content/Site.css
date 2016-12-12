@@ -35,3 +35,8 @@ tr.found{
     background-color: darksalmon;
     border-bottom: 10px;
 }
+
+.tinyli{
+    margin:0 0 0 0 !important;
+    padding:0 0 0 0 !important;
+}
