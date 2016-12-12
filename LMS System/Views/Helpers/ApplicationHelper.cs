@@ -69,7 +69,11 @@ namespace LMS_System.Views.Helpers
                 Id = HttpContext.Current.Request.QueryString["ModuleId"] == null ? 0 : int.Parse(HttpContext.Current.Request.QueryString["ModuleId"]);
                 if(Id == 0)
                 {
-                    Id = HttpContext.Current.Request.QueryString["ActivityId"] == null ? 0 : int.Parse(HttpContext.Current.Request.QueryString["ActivityId"]);
+                    Id = HttpContext.Current.Request.QueryString["ParentId"] == null ? 0 : int.Parse(HttpContext.Current.Request.QueryString["ParentId"]);
+                    if (Id == 0)
+                    {
+                        Id = HttpContext.Current.Request.QueryString["ActivityId"] == null ? 0 : int.Parse(HttpContext.Current.Request.QueryString["ActivityId"]);
+                    }
                 }
             }
 

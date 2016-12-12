@@ -25,6 +25,12 @@ textarea {
 
 .tablemargin{ padding-right: 12px;}
 
+
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+tr.found{
+    background-color:#EEEEEE;
+}
 .weekendbg{
-    background-color: lightgrey;
+    background-color: darksalmon;
 }
