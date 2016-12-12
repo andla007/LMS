@@ -24,7 +24,7 @@
             </div>
             <div class="navbar-collapse collapse">
                
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav">
                         @if (User.IsInRole("teacher"))
                         {
                             <li> @Html.ActionLink("Home", "Index", "Courses")</li>
@@ -38,6 +38,32 @@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
+    </div>
+
+    <div class="container">
+
+        <div class="row mar">
+            <div class="col-md-4">
+                <ul class="nav nav-pills nav-stacked" >
+                    @if (User.IsInRole("teacher"))
+                    {
+                        <li class="active"> @Html.ActionLink("Home", "Index", "Courses")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Home", "Details", "Courses")</li>
+                    }
+                    <li>@Html.ActionLink("User Manager", "Index", "Appusers")</li>
+                </ul>
+                <div class="col-md-8">
+
+                </div>
+            </div>
+</div>
+
+
+
+
     </div>
     <div class="container body-content">
         <!-- #region Breadcrumb -->
