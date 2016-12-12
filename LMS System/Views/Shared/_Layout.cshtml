@@ -23,17 +23,18 @@
                 <a href="/Courses"><img src="~/Images/logo-lexicon2x.gif" width="110" height="38"/></a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if (User.IsInRole("teacher"))
-                    {
-                        <li>@Html.ActionLink("Home", "Index", "Courses")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Home", "Details", "Courses")</li>
-                    }
-                    <li>@Html.ActionLink("User Manager", "Index", "Appusers")</li>
-                </ul>
+               
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (User.IsInRole("teacher"))
+                        {
+                            <li> @Html.ActionLink("Home", "Index", "Courses")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Home", "Details", "Courses")</li>
+                        }
+                        <li>@Html.ActionLink("User Manager", "Index", "Appusers")</li>
+                    </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
