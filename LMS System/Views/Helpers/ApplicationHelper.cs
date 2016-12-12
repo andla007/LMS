@@ -159,6 +159,13 @@ namespace LMS_System.Views.Helpers
 
             return breadcrumb.Append("</div>").ToString();
         }
+
+
+        public static int WeekNumber(DateTime date)
+        {
+            return System.Globalization.CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, System.Globalization.CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
     }
  
 }

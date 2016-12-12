@@ -35,3 +35,7 @@ tr.found{
     background-color: darksalmon;
     border-bottom: 10px;
 }
+
+.weekendtype{
+    color: red;
+}
