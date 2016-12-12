@@ -45,7 +45,7 @@ namespace LMS_System.Controllers
 
         // GET: Modules/Create
         [Authorize(Roles = "teacher")]
-        public ActionResult Create(int? id, string name, DateTime Startdate)
+        public ActionResult Create(int? id, string name, DateTime? Startdate)
         {
 
 
@@ -53,8 +53,8 @@ namespace LMS_System.Controllers
 
             Module module = new Module();
             module.Course = course;
-            if (Startdate != null) { module.StartDate = Startdate; }
-            module.Name = "New";
+            //if (Startdate != null) { ViewBag.StartDate = "2017-01-03"; }
+            // Startdate.ToString("yyyy-MM-dd");
             ViewBag.CourseId = id;
             ViewBag.CourseName = name;
             return View(module);

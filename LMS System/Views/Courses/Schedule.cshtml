@@ -6,10 +6,7 @@
 
 <h2>Schedule</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Date)
@@ -46,7 +43,7 @@
                 else
                 {
 
-                <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate= item.Date }, new { @class = "btn btn-default" })</td>
+                <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate= item.Date.ToShortDateString() }, new { @class = "btn btn-default" })</td>
                 }
 
                 @if (item.Activityname != null)
@@ -82,10 +79,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+
             </tr>
         }
 
