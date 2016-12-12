@@ -79,7 +79,7 @@ namespace LMS_System.Controllers
 
         // GET: Modules/Edit/5
         [Authorize(Roles = "teacher")]
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int? courseId)
         {
             if (id == null)
             {
@@ -90,6 +90,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseId = courseId;
             return View(module);
         }
 

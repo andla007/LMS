@@ -26,6 +26,14 @@
                                                        new { @class = "btn btn-default" })
 </div>
 }
+else
+{
+    <div>
+        @Html.ActionLink("Show students", "CourseTeacherView", "Account",
+                                                 new { id = Model.Id, orderBy = "firstname" },
+                                                 new { @class = "btn btn-default" })
+    </div>
+}
 
 <div>
     <hr />
@@ -68,54 +76,45 @@
         </dt>
 
         <dd>
-            <table>
+            <table class="modules">
                 @if (User.IsInRole("student"))
                 {
                     foreach (var module in Model.Modules)
                     {
                         <tr>
-                            <td class="tablemargin">
+                            <td>
                                 @Html.ActionLink(@module.Name, "Details", "Modules",
                                                  new { id = module.Id, courseID = Model.Id },
-                                                 null)
+                                                 new { data_toggle = "tooltip", title = module.Description })
                             </td>
-                            <td class="tablemargin">
+                            <td>
                                 @module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()
                             </td>
-                            <td class="tablemargin">@module.Days days</td>
+                            <td>@module.Days days</td>
                         </tr>
                     }
-                    <tr>
-                        <td class="tablemargin">
-                            <div>
-                                @Html.ActionLink("Show students", "CourseTeacherView", "Account",
-                                                 new { id = Model.Id, orderBy = "firstname" },
-                                                 new { @class = "btn btn-default" })
-                            </div>
-                        </td>
-                    </tr>
                 }
                 else
                 {
                     foreach (var module in Model.Modules)
                     {
                         <tr>
-                            <td class="tablemargin">
-                                @Html.ActionLink(@module.Name, "Details", "Modules", 
-                                                 new { id = module.Id, courseID = Model.Id }, 
-                                                 null)
+                            <td>
+                                @Html.ActionLink(@module.Name, "Details", "Modules",
+                                                 new { id = module.Id, courseID = Model.Id },
+                                                 new { data_toggle = "tooltip", title = module.Description})
                             </td>
-                            <td class="tablemargin">
+                            <td>
                                 @module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()
                             </td>
-                            <td class="tablemargin">@module.Days days</td>
-                            <td class="tablemargin">
-                                @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id }, null) |
+                            <td>@module.Days days</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id, courseID = Model.Id }, null) |
                                 @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id, courseID = Model.Id }, null)
                             </td>
                             @if (Model.StartDate > module.StartDate || Model.EndDate < module.EndDate || module.StartDate > module.EndDate)
                             {
-                                <td class="tablemargin">
+                                <td>
                                     Some dates are out of bounds!
                                 </td>
                             }
@@ -131,8 +130,7 @@
 <p>
 @if (User.IsInRole("teacher"))
 {
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span>|</span>
-    @Html.ActionLink("Back to Course List", "Index")
+    @Html.ActionLink("Edit", "Edit", "Courses", new { Id = Model.Id }, null) <span>|</span>
 }
-    
+    @Html.ActionLink("Back to course list", "Index")
 </p>

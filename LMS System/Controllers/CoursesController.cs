@@ -100,9 +100,8 @@ namespace LMS_System.Controllers
             {
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(course);
+            return RedirectToAction("Details", course);
         }
 
         // GET: Courses/Delete/5

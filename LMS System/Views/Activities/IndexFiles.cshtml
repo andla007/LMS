@@ -20,6 +20,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+
+        <th>
+            Sender
+        </th>
+        <th>
+            Role
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
@@ -32,11 +39,25 @@
         <th></th>
     </tr>
 
+ 
 @foreach (var item in Model) {
+    
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.ActionLink(@item.Name, "Download", new { FileName = @item.Name })
+           
         </td>
+
+
+        <td>
+            @Html.DisplayFor(modelItem => item.AppUser.FullName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.AppUser.RoleName)
+        </td>
+
+
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
