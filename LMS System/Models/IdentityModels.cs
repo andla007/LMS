@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LMS_System.Models
 {
@@ -23,7 +24,8 @@ namespace LMS_System.Models
         public string LastName { get; set; }
         public string FullName { get { return FirstName + " " + LastName; } }
         public System.DateTime TimeOfRegistration { get; set; }
-
+        public virtual Course Courses { get; set; }
+        public virtual ICollection<Document> docs { get; set; }
         public string RoleName
         {
             get
@@ -32,11 +34,12 @@ namespace LMS_System.Models
                 var context = new ApplicationDbContext();
                 var userStore = new UserStore<AppUsers>(context);
                 var userManager = new UserManager<AppUsers>(userStore);
-                if(userManager.IsInRole(this.Id, "teacher")) { roleName = "teacher"; }
-                if(userManager.IsInRole(this.Id, "student")) { roleName = "student"; }
+                if (userManager.IsInRole(this.Id, "teacher")) { roleName = "teacher"; }
+                if (userManager.IsInRole(this.Id, "student")) { roleName = "student"; }
                 return roleName;
             }
         }
+
 
 
 
@@ -60,5 +63,8 @@ namespace LMS_System.Models
 
         public DbSet<Activity> Activities { get; set; }
 
+        public System.Data.Entity.DbSet<LMS_System.Models.Document> ModuleDocuments { get; set; }
+
+        //public System.Data.Entity.DbSet<LMS_System.Models.AppUsers> AppUsers { get; set; }
     }
 }

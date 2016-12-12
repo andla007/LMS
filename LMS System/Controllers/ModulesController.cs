@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LMS_System.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.IO;
 
 namespace LMS_System.Controllers
 {
@@ -42,12 +45,16 @@ namespace LMS_System.Controllers
 
         // GET: Modules/Create
         [Authorize(Roles = "teacher")]
-        public ActionResult Create(int? id, string name)
+        public ActionResult Create(int? id, string name, DateTime Startdate)
         {
+
+
             var course = db.Courses.Where(m => m.Id == id).FirstOrDefault();
 
             Module module = new Module();
             module.Course = course;
+            if (Startdate != null) { module.StartDate = Startdate; }
+            module.Name = "New";
             ViewBag.CourseId = id;
             ViewBag.CourseName = name;
             return View(module);
@@ -99,7 +106,7 @@ namespace LMS_System.Controllers
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", "Courses", new { Id =  module.CourseId});
+                return RedirectToAction("Details", "Courses", new { Id = module.CourseId });
             }
             return View(module);
         }
@@ -141,5 +148,179 @@ namespace LMS_System.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public ActionResult IndexFiles(int? parentId)
+        {
+            if (parentId == null)
+            {
+                return RedirectToAction("Details", "Modules");
+            }
+            ViewBag.parentId = parentId;
+
+            var documentfiles = db.ModuleDocuments.Where(d => d.Module.Id == parentId).ToList();
+
+            //db.Roles.FirstOrDefault(n => n.Id == db.Users.FirstOrDefault(m => m.Id == userfiles[))
+
+            var teachers = GetUsersInRole("teacher");
+            var doclist = new List<Document>();
+            foreach (var item in documentfiles)
+            {
+                //var context = new ApplicationDbContext();
+
+                var teacher = teachers.Where(t => t.Email == item.AppUser.Email).FirstOrDefault();
+                if (teacher != null)
+                {
+                    doclist.Add(item);
+                }
+
+            }
+            return View(doclist);
+
+        }
+
+        public List<AppUsers> GetUsersInRole(string roleName)
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            var role = roleManager.FindByName(roleName).Users.First();
+            var usersInRole = db.Users.Where(u => u.Roles.Select(r => r.RoleId).Contains(role.RoleId)).ToList();
+            return usersInRole;
+        }
+
+
+        public ActionResult CreateUpload(int? parentId)
+        {
+            if (parentId == null)
+            {
+                return RedirectToAction("Details", "Modules");
+            }
+            ViewBag.parentId = parentId;
+            ViewBag.Parent = db.Modules.Where(a => a.Id == parentId).ToList();
+            return View(db.ModuleDocuments.FirstOrDefault());
+        }
+        [HttpPost]
+        public ActionResult FileUpload(HttpPostedFileBase file, int? parentId, string description)
+        {
+            if (parentId == null)
+            {
+                return RedirectToAction("Details", "Modules");
+            }
+            //Verifiering
+            if (file != null && file.ContentLength > 0)
+            {
+                // extract only the filename
+               Module module = db.Modules.Find(parentId);
+
+
+                var fileName = System.IO.Path.GetFileName(file.FileName);
+                // store the file inside ~/App_Data/uploads folder
+                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), User.Identity.Name + "_moduler_" + parentId + "_" + fileName);
+                file.SaveAs(path);
+
+                Document doc = new Document();
+                doc.AppUser = db.Users.Where(u => u.Email == User.Identity.Name).FirstOrDefault();
+                doc.Module = module;
+                doc.Name = path;
+                doc.StartDate = DateTime.Now;
+          
+                //Jag vill ha description.
+                doc.Description = description;
+
+                db.ModuleDocuments.Add(doc);
+                db.SaveChanges();
+                //activity.
+                //db.Entry(activity).State = EntityState.Modified;
+                //db.SaveChanges();
+            }
+            ViewBag.parentId = parentId;
+
+            return RedirectToAction("IndexFiles", "Modules", new { parentId = parentId });
+        }
+
+        public ActionResult DeleteFile(int? id, int? parentId)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Document document = db.ModuleDocuments.Find(id);
+            if (document == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.parentId = parentId;
+            return View(document);
+        }
+
+        // POST: Activities/Delete/5
+        [HttpPost, ActionName("DeleteFile")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteFileConfirmed(int id, int? parentId)
+        {
+            Document document = db.ModuleDocuments.Find(id);
+            db.ModuleDocuments.Remove(document);
+            db.SaveChanges();
+            return RedirectToAction("IndexFiles", new { parentId = parentId });
+        }
+
+
+        public ActionResult EditFile(int? id, int? parentId)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Document document = db.ModuleDocuments.Find(id);
+            if (document == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.parentId = parentId;
+            return View(document);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "teacher")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditFile([Bind(Include = "Id,Description")] Document document, int? parentId)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var dbDocument = db.ModuleDocuments.Find(document.Id);
+                dbDocument.Description = document.Description;
+                db.Entry(dbDocument).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("IndexFiles", "Modules", new { parentId = dbDocument.Module.Id });
+            }
+            return View();
+        }
+
+
+
+
+
+
+
+
+
     }
 }
