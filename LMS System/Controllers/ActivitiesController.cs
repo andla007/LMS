@@ -199,8 +199,7 @@ namespace LMS_System.Controllers
         }
 
         public FileResult Download(string FilePath,string Name)
-        {
-            //"~/App_Data/uploads" +
+        { 
             return File(FilePath, System.Net.Mime.MediaTypeNames.Application.Octet,Name);
         }
         // GET: Activities/Create

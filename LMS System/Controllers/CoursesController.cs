@@ -345,9 +345,11 @@ namespace LMS_System.Controllers
                 file.SaveAs(path);
 
                 Document doc = new Document();
+                doc.FilePath = path;
                 doc.AppUser = db.Users.Where(u => u.Email == User.Identity.Name).FirstOrDefault();
                 doc.Course = course;
-                doc.Name = path;
+
+                doc.Name = fileName;
                 doc.StartDate = DateTime.Now;
 
                 //Jag vill ha description.
@@ -364,10 +366,9 @@ namespace LMS_System.Controllers
             return RedirectToAction("IndexFiles", "Courses", new { parentId = parentId });
         }
 
-        public FileResult Download(string FileName)
+        public FileResult Download(string FilePath, string Name)
         {
-          
-            return File(FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
+            return File(FilePath, System.Net.Mime.MediaTypeNames.Application.Octet, Name);
         }
 
         public ActionResult DeleteFile(int? id, int? parentId)
