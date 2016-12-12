@@ -3,21 +3,23 @@
 <h3>Course: @ViewBag.CourseName</h3>
 
 <hr/>
-<h3>Enrolled students</h3>
 
-<table class="table">
-    <tr>
-        <th>
-            <a href="?orderby=FirstName">FirstName</a>
-        </th>
-        <th>
-            <a href="?orderby=LastName">LastName</a>
-        </th>
-        <th>
-            <a href="?orderby=Email">Email</a>
-        </th>
-        <th></th>
-    </tr>
+<table class="table table-bordered lms">
+    <caption><h3>Enrolled students</h3></caption>
+    <thead>
+        <tr>
+            <th>
+                <a href="?orderby=FirstName">FirstName</a>
+            </th>
+            <th>
+                <a href="?orderby=LastName">LastName</a>
+            </th>
+            <th>
+                <a href="?orderby=Email">Email</a>
+            </th>
+            <th></th>
+       </tr>
+    </thead>
 
     @foreach (var student in ViewBag.Students)
     {
