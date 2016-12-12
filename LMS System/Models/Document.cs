@@ -11,7 +11,7 @@ namespace LMS_System.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-
+        public string FilePath { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         [DataType(DataType.Date)]
