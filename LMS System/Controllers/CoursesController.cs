@@ -18,7 +18,7 @@ namespace LMS_System.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Courses
-        [Authorize(Roles="teacher,student")]
+        [Authorize(Roles = "teacher,student")]
         public ActionResult Index()
         {
             return View(db.Courses.ToList());
@@ -63,7 +63,7 @@ namespace LMS_System.Controllers
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
             if (ModelState.IsValid)
-            { 
+            {
                 db.Courses.Add(course);
                 db.SaveChanges();
 
@@ -152,16 +152,16 @@ namespace LMS_System.Controllers
 
         // Schedule view
         [Authorize(Roles = "teacher,student")]
-        public ActionResult Schedule(int courseid)
+        public ActionResult Schedule(int id)
         {
-            var course = db.Courses.Where(c => c.Id == courseid).FirstOrDefault();
+            var course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
             DateTime coursestartdate = course.StartDate;
             DateTime courseenddate = course.EndDate;
 
             var Modules =
                 from modules in db.Modules
                 orderby modules.StartDate
-                where modules.CourseId == courseid
+                where modules.CourseId == id
                 select new ScheduleItem { Modulename = modules.Name, Id = modules.Id, ModuleStartDate = modules.StartDate, ModuleEndDate = modules.EndDate, CourseId = modules.CourseId };
 
             //var Activities =
@@ -173,8 +173,8 @@ namespace LMS_System.Controllers
                 from modules in db.Modules
                 join activities in db.Activities on modules.Id equals activities.ModuleId
                 orderby modules.StartDate, activities.StartDate
-                where modules.CourseId == courseid
-                select new ScheduleItem { Activityname = activities.Name, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate, ModuleId = activities.ModuleId };
+                where modules.CourseId == id
+                select new ScheduleItem { Activityname = activities.Name, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate, ModuleId = activities.ModuleId, ModuleStartDate = modules.StartDate };
 
             DateTime date = coursestartdate;
             List<ScheduleItem> schedule = new List<ScheduleItem>();
@@ -185,12 +185,14 @@ namespace LMS_System.Controllers
 
                 ScheduleItem sItem = new ScheduleItem();
 
+
                 foreach (var item in msi)
                 {
                     sItem.Modulename += item.Modulename + ",";
                     sItem.ModuleStartDate = item.ModuleStartDate;
                     sItem.ModuleEndDate = item.ModuleEndDate;
                     sItem.CourseId = item.CourseId;
+                    sItem.ModuleId = item.ModuleId;
 
                     List<ScheduleItem> asi = Activities.Where(s => s.Activitystartdate <= date && s.Activityenddate >= date).ToList();
                     foreach (var aitem in asi)
@@ -198,12 +200,12 @@ namespace LMS_System.Controllers
                         sItem.Activityname = aitem.Activityname + ",";
                         sItem.Activitystartdate = aitem.Activitystartdate;
                         sItem.Activityenddate = aitem.Activityenddate;
-                        sItem.ModuleId = aitem.ModuleId;
+                        
                     }
 
                 }
 
-
+                sItem.CourseId = id;
                 sItem.Date = date;
                 schedule.Add(sItem);
 
@@ -222,8 +224,8 @@ namespace LMS_System.Controllers
             }
             return View(schedule);
         }
-            //return View(innerJoinQuery.ToList());
-            //return View(db.Modules.ToList().Where(m => m.CourseId == courseid).OrderBy(m => m.StartDate));
+        //return View(innerJoinQuery.ToList());
+        //return View(db.Modules.ToList().Where(m => m.CourseId == courseid).OrderBy(m => m.StartDate));
 
 
 
@@ -319,7 +321,7 @@ namespace LMS_System.Controllers
 
                 Document doc = new Document();
                 doc.AppUser = db.Users.Where(u => u.Email == User.Identity.Name).FirstOrDefault();
-                doc.Course= course;
+                doc.Course = course;
                 doc.Name = path;
                 doc.StartDate = DateTime.Now;
 
@@ -399,7 +401,7 @@ namespace LMS_System.Controllers
 
 
     }
-    }
+
     public class ScheduleItem
     {
         public int Id { get; set; }
@@ -413,4 +415,5 @@ namespace LMS_System.Controllers
         public int CourseId { get; set; }
         public int ModuleId { get; set; }
     }
+}
 

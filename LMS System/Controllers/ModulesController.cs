@@ -45,12 +45,16 @@ namespace LMS_System.Controllers
 
         // GET: Modules/Create
         [Authorize(Roles = "teacher")]
-        public ActionResult Create(int? id, string name)
+        public ActionResult Create(int? id, string name, DateTime Startdate)
         {
+
+
             var course = db.Courses.Where(m => m.Id == id).FirstOrDefault();
 
             Module module = new Module();
             module.Course = course;
+            if (Startdate != null) { module.StartDate = Startdate; }
+            module.Name = "New";
             ViewBag.CourseId = id;
             ViewBag.CourseName = name;
             return View(module);

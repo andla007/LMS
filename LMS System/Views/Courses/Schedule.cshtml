@@ -46,7 +46,7 @@
                 else
                 {
 
-                <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId }, new { @class = "btn btn-default" })</td>
+                <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate= item.Date }, new { @class = "btn btn-default" })</td>
                 }
 
                 @if (item.Activityname != null)
@@ -55,10 +55,19 @@
                 }
                 else
                 {
-                <td>[Add activity]</td>
-                }
+                    if (item.ModuleId != 0)
+                    {
+                        <td>@Html.ActionLink("Add activity", "Create", "Activity", new { Id = item.ModuleId, StartDate = item.Date }, new { @class = "btn btn-default" })</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
 
-                <td></td>
+
+                            }
+
+<td></td>
             </tr>
         }
         else

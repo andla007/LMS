@@ -82,7 +82,7 @@ namespace LMS_System.Migrations
                 Name = "Seducing and merry Visual Studio",
                 Description = "The Seducing and Merry Visual Studio Course. Leave your girlfriend and focus on Loads of programming. No worrying about social life",
                 StartDate = DateTime.Now.AddMinutes(2),
-                EndDate = DateTime.Now.AddMinutes(8),
+                EndDate = DateTime.Now.AddDays(21),
             }
             );
             context.SaveChanges();
@@ -95,7 +95,7 @@ namespace LMS_System.Migrations
                                         Name = "Tell your girlfriend",
                                         Description = "How to tell that you love Visual Studio more than her",
                                         StartDate = DateTime.Now.AddMinutes(4),
-                                        EndDate = DateTime.Now.AddMinutes(6),
+                                        EndDate = DateTime.Now.AddDays(7),
                                         CourseId = 1
 
                                     }
@@ -111,7 +111,7 @@ namespace LMS_System.Migrations
                     Description="En snubbe med stora manliga bröst föreläser hur man undviker onödiga knappnedtryckning när man sitter nära skärmen",
                     ModuleId = 1,
                     StartDate = DateTime.Now.AddMinutes(4),
-                    EndDate = DateTime.Now.AddMinutes(6)
+                    EndDate = DateTime.Now.AddDays(2)
                 }
             };
             context.Activities.AddOrUpdate(p => p.Name, activites[0]);
