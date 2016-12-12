@@ -27,7 +27,7 @@ namespace LMS_System.Controllers
 
         // GET: Courses/Details/5
         [Authorize(Roles = "teacher,student")]
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string orderBy)
         {
             if (id == null)
             {
@@ -35,25 +35,47 @@ namespace LMS_System.Controllers
             }
 
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-
+            if (course == null)
+                return Index();
+            else if (orderBy != null)
+            {
+                var modules = course.Modules;
+                switch (orderBy.ToLower())
+                {
+                    case "name":
+                        modules = course.Modules.OrderBy(m => m.Name).ToList();
+                        break;
+                    case "startdate":
+                        modules = course.Modules.OrderBy(m => m.StartDate).ToList();
+                        break;
+                    case "enddate":
+                        modules = course.Modules.OrderBy(m => m.EndDate).ToList();
+                        break;
+                    case "duration":
+                        modules = modules
+                                    .Select(m => new
+                                    {
+                                        Duration = m.EndDate - m.StartDate,
+                                        Module2 = m
+                                    })
+                                    .OrderBy(d => d.Duration)
+                                    .Select(d => d.Module2)
+                                    .ToList();
+                        break;
+                    default:
+                        break;
+                }
+                course.Modules = modules;
+            }
             return View(course);
-            //if (User.IsInRole("teacher"))
-            //{
-            //    return RedirectToAction("CourseTeacherView", "Account", new { id = course.Id });
-            //}
-            //else
-            //{
-            //    return View(course);
-            //}
         }
+
         // GET: Courses/Create
         [Authorize(Roles = "teacher")]
         public ActionResult Create()
         {
             return View();
         }
-
-
 
         // POST: Courses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

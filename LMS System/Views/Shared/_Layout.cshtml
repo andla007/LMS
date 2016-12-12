@@ -24,7 +24,7 @@
             </div>
             <div class="navbar-collapse collapse">
                
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav">
                         @if (User.IsInRole("teacher"))
                         {
                             <li> @Html.ActionLink("Home", "Index", "Courses")</li>
@@ -39,6 +39,8 @@
             </div>
         </div>
     </div>
+
+
     <div class="container body-content">
         <!-- #region Breadcrumb -->
         @{ 
