@@ -281,14 +281,14 @@
     <Content Include="Views\Modules\EditFile.cshtml" />
     <Content Include="Views\Modules\IndexFiles.cshtml" />
     <Content Include="Views\Modules\CreateUpload.cshtml" />
+    <Content Include="Views\Activities\IndexFiles.cshtml" />
+    <Content Include="Views\Activities\CreateUpload.cshtml" />
+    <Content Include="Views\Activities\DeleteFile.cshtml" />
+    <Content Include="Views\Activities\EditFile.cshtml" />
     <Content Include="Views\Courses\CreateUpload.cshtml" />
     <Content Include="Views\Courses\DeleteFile.cshtml" />
     <Content Include="Views\Courses\EditFile.cshtml" />
     <Content Include="Views\Courses\IndexFiles.cshtml" />
-    <Content Include="Views\Activities\CreateUpload.cshtml" />
-    <Content Include="Views\Activities\DeleteFile.cshtml" />
-    <Content Include="Views\Activities\EditFile.cshtml" />
-    <Content Include="Views\Activities\IndexFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

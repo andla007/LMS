@@ -42,10 +42,11 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-
-        <div>
-            @Html.ActionLink(@item.Name, "Download", new { FilePath = @item.FilePath, Name = @item.Name });
-        </div>
+            @{
+                <div>
+                    @Html.ActionLink(@item.Name, "Download", new { FilePath = @item.FilePath, Name = @item.Name });
+                </div>
+            }
     
         </td>
 

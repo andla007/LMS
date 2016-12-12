@@ -238,17 +238,19 @@ namespace LMS_System.Controllers
                Module module = db.Modules.Find(parentId);
 
 
-                var fileName = System.IO.Path.GetFileName(file.FileName);
+                var fileName = Path.GetFileName(file.FileName);
                 // store the file inside ~/App_Data/uploads folder
                 var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), User.Identity.Name + "_moduler_" + parentId + "_" + fileName);
                 file.SaveAs(path);
 
                 Document doc = new Document();
+                doc.FilePath = path;
                 doc.AppUser = db.Users.Where(u => u.Email == User.Identity.Name).FirstOrDefault();
                 doc.Module = module;
-                doc.Name = path;
+
+                doc.Name = fileName;
                 doc.StartDate = DateTime.Now;
-          
+
                 //Jag vill ha description.
                 doc.Description = description;
 
@@ -263,10 +265,9 @@ namespace LMS_System.Controllers
             return RedirectToAction("IndexFiles", "Modules", new { parentId = parentId });
         }
 
-        public FileResult Download(string FileName)
+        public FileResult Download(string FilePath, string Name)
         {
-           
-            return File(FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
+            return File(FilePath, System.Net.Mime.MediaTypeNames.Application.Octet, Name);
         }
 
         public ActionResult DeleteFile(int? id, int? parentId)
