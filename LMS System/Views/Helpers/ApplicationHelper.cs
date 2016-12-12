@@ -73,6 +73,11 @@ namespace LMS_System.Views.Helpers
                 }
             }
 
+            //Temporary code by Andreas so that I can work normally ;)
+            if(id=="0")
+            {
+                return "";
+            }
 
 
             string addtoaction = "";
