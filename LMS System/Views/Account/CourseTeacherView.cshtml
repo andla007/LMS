@@ -1,5 +1,9 @@
 ﻿@model LMS_System.Models.RegisterViewModel
 
+<head>
+    <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
+</head>
+
 <h3>Course: @ViewBag.CourseName</h3>
 
 <hr/>
@@ -9,15 +13,20 @@
     <thead>
         <tr>
             <th>
-                <a href="?orderby=FirstName">FirstName</a>
+                <a href="?orderby=FirstName" data-toggle="tooltip" title="Sort by first name">FirstName</a>
             </th>
             <th>
-                <a href="?orderby=LastName">LastName</a>
+                <a href="?orderby=LastName" data-toggle="tooltip" title="Sort by last name">LastName</a>
             </th>
             <th>
-                <a href="?orderby=Email">Email</a>
+                <a href="?orderby=Email" data-toggle="tooltip" title="Sort by email">Email</a>
             </th>
-            <th></th>
+            @if (User.IsInRole("teacher"))
+            {
+                <th>
+                    <a href="#">Administration</a>
+                </th>
+            }
        </tr>
     </thead>
 
