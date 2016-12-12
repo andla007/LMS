@@ -20,6 +20,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+
+        <th>
+            Sender
+        </th>
+        <th>
+            Role
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
@@ -34,8 +41,51 @@
 
 @foreach (var item in Model) {
     <tr>
+     @{
+         string Filename;
+         string name = item.Name;
+
+         //int pos = name.IndexOf()
+
+         char delimiter = '_';
+         string[] words = name.Split(delimiter);
+
+
+         if (words.Count() > 5)
+         {
+             //int total = words.Count();
+             //string w;
+             //for (int i = words.Count()-1; i < words.Count(); i++)
+             //{
+             //    Filename = Filename+words[i];
+             //}
+             string w1 = words[4];
+             string w2 = words[5];
+             Filename = w1 + "_" + w2;
+
+         }
+
+         else
+         {
+             Filename = words[4];
+
+         }
+
+
+        <div>
+            @Html.ActionLink(Filename, "Download", new { FileName = @item.Name });
+        </div>
+    }
+
+    </td>
+
+
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.AppUser.FullName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.AppUser.RoleName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)

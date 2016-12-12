@@ -339,6 +339,12 @@ namespace LMS_System.Controllers
             return RedirectToAction("IndexFiles", "Courses", new { parentId = parentId });
         }
 
+        public FileResult Download(string FileName)
+        {
+            //"~/App_Data/uploads" +
+            return File(FileName, System.Net.Mime.MediaTypeNames.Application.Octet);
+        }
+
         public ActionResult DeleteFile(int? id, int? parentId)
         {
             if (id == null)
