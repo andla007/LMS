@@ -183,23 +183,29 @@ namespace LMS_System.Controllers
         [Authorize(Roles = "teacher,student")]
         public ActionResult CourseTeacherView(int? id, string orderby)
         {
-            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-            var students = course.Students;
-            switch (orderby.ToLower())
+            if (id != null)
             {
-                case "firstname":
-                    students = students.OrderBy(u => u.FirstName).ToList();
-                    break;
-                case "lastname":
-                    students = students.OrderBy(u => u.LastName).ToList();
-                    break;
-                case "email":
-                    students = students.OrderBy(u => u.Email).ToList();
-                    break;
+                Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+                if (course != null)
+                {
+                    var students = course.Students;
+                    switch (orderby.ToLower())
+                    {
+                        case "firstname":
+                            students = students.OrderBy(u => u.FirstName).ToList();
+                            break;
+                        case "lastname":
+                            students = students.OrderBy(u => u.LastName).ToList();
+                            break;
+                        case "email":
+                            students = students.OrderBy(u => u.Email).ToList();
+                            break;
+                    }
+                    ViewBag.Students = students;
+                    ViewBag.CourseId = id;
+                    ViewBag.CourseName = course.Name;
+                }
             }
-            ViewBag.Students = students;
-            ViewBag.CourseId = id;
-            ViewBag.CourseName = course.Name;
             return View("CourseTeacherView");
         }
 

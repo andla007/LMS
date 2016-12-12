@@ -79,7 +79,7 @@ else
                             <td>
                                 @Html.ActionLink(@module.Name, "Details", "Modules",
                                                  new { id = module.Id, courseID = Model.Id },
-                                                 null)
+                                                 new { data_toggle = "tooltip", title = module.Description })
                             </td>
                             <td>
                                 @module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()
@@ -94,9 +94,9 @@ else
                     {
                         <tr>
                             <td>
-                                @Html.ActionLink(@module.Name, "Details", "Modules", 
-                                                 new { id = module.Id, courseID = Model.Id }, 
-                                                 null)
+                                @Html.ActionLink(@module.Name, "Details", "Modules",
+                                                 new { id = module.Id, courseID = Model.Id },
+                                                 new { data_toggle = "tooltip", title = module.Description})
                             </td>
                             <td>
                                 @module.StartDate.ToShortDateString() - @module.EndDate.ToShortDateString()
