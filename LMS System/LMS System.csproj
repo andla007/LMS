@@ -192,6 +192,10 @@
     <Compile Include="Views\Helpers\ApplicationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-LMS System-20161125035635.mdf" />
+    <Content Include="App_Data\aspnet-LMS System-20161125035635_log.ldf">
+      <DependentUpon>aspnet-LMS System-20161125035635.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CourseDetails.css" />
@@ -272,21 +276,11 @@
     <Content Include="Views\Activities\Index.cshtml" />
     <Content Include="Views\Account\CourseTeacherView.cshtml" />
     <Content Include="Views\Activities\Details.cshtml" />
-    <Content Include="Views\Activities\CreateUpload.cshtml" />
-    <Content Include="Views\Activities\IndexFiles.cshtml" />
-    <Content Include="Views\Activities\DeleteFile.cshtml" />
-    <Content Include="Visual studio stuff Andreas.hnd" />
-    <Content Include="Visual studio stuff_micke.chm" />
     <Content Include="Views\Courses\Schedule.cshtml" />
-    <Content Include="Views\Activities\EditFile.cshtml" />
+    <Content Include="Views\Modules\DeleteFile.cshtml" />
     <Content Include="Views\Modules\EditFile.cshtml" />
     <Content Include="Views\Modules\IndexFiles.cshtml" />
-    <Content Include="Views\Modules\DeleteFile.cshtml" />
     <Content Include="Views\Modules\CreateUpload.cshtml" />
-    <Content Include="Views\Courses\CreateUpload.cshtml" />
-    <Content Include="Views\Courses\DeleteFile.cshtml" />
-    <Content Include="Views\Courses\EditFile.cshtml" />
-    <Content Include="Views\Courses\IndexFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -295,11 +289,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="LexiconSecretVault\" />
-    <Folder Include="uploads\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
