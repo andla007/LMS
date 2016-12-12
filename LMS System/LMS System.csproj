@@ -178,6 +178,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612121307212_initial.cs" />
+    <Compile Include="Migrations\201612121307212_initial.Designer.cs">
+      <DependentUpon>201612121307212_initial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -281,14 +285,14 @@
     <Content Include="Views\Modules\EditFile.cshtml" />
     <Content Include="Views\Modules\IndexFiles.cshtml" />
     <Content Include="Views\Modules\CreateUpload.cshtml" />
-    <Content Include="Views\Activities\IndexFiles.cshtml" />
-    <Content Include="Views\Activities\CreateUpload.cshtml" />
-    <Content Include="Views\Activities\DeleteFile.cshtml" />
-    <Content Include="Views\Activities\EditFile.cshtml" />
     <Content Include="Views\Courses\CreateUpload.cshtml" />
     <Content Include="Views\Courses\DeleteFile.cshtml" />
     <Content Include="Views\Courses\EditFile.cshtml" />
     <Content Include="Views\Courses\IndexFiles.cshtml" />
+    <Content Include="Views\Activities\CreateUpload.cshtml" />
+    <Content Include="Views\Activities\DeleteFile.cshtml" />
+    <Content Include="Views\Activities\EditFile.cshtml" />
+    <Content Include="Views\Activities\IndexFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -299,7 +303,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Uploads\" />
+    <EmbeddedResource Include="Migrations\201612121307212_initial.resx">
+      <DependentUpon>201612121307212_initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

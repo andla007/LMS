@@ -12,7 +12,7 @@
         {
             var mid = Model.FirstOrDefault(m => true).ModuleId;
             <div>
-                @Html.ActionLink("Create New", "Create", new { ModuleId = mid })
+                @Html.ActionLink("Add new activity", "Create", new { ModuleId = mid })
             </div>
         }
     }
