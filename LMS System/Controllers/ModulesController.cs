@@ -72,7 +72,16 @@ namespace LMS_System.Controllers
                 module.CourseId = id;
                 db.Modules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Courses", new { Id = id });
+
+                if (Request.QueryString["ReturnToSchedule"] == "True")
+                {
+                    return RedirectToAction("Schedule", "Courses", new { Id = id });
+                }
+                else
+                {
+                    return RedirectToAction("Details", "Courses", new { Id = id });
+                }
+                    
             }
             return View(module);
         }

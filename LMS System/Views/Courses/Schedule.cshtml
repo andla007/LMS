@@ -44,7 +44,7 @@
                 {
                     if (User.IsInRole("teacher"))
                     {
-                    <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate = item.Date.ToShortDateString() }, new { @class = "btn btn-default" })</td>
+                    <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule=true }, new { @class = "btn btn-default" })</td>
                     }
                     else
                     {
@@ -62,7 +62,7 @@
                     {
                         if (User.IsInRole("teacher"))
                         {
-                            <td>@Html.ActionLink("Add activity", "Create", "Activities", new { ModuleId = item.ModuleId, StartDate = item.Date.ToShortDateString() }, new { @class = "btn btn-default" })</td>
+                            <td>@Html.ActionLink("Add activity", "Create", "Activities", new { ModuleId = item.ModuleId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true, CourseId = item.CourseId }, new { @class = "btn btn-default" })</td>
                         }
                         else
                         {

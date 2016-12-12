@@ -204,7 +204,10 @@ namespace LMS_System.Controllers
                     }
 
                 }
-
+                if(sItem.Modulename != null)
+                sItem.Modulename = sItem.Modulename.TrimEnd(' ', ',');
+                if(sItem.Activityname != null)
+                sItem.Activityname = sItem.Activityname.TrimEnd(' ', ',');
                 sItem.CourseId = id;
                 sItem.Date = date;
                 schedule.Add(sItem);
