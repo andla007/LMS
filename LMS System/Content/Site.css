@@ -50,3 +50,23 @@ tr.found{
     margin:0 0 0 0 !important;
     padding:0 0 0 0 !important;
 }
+
+.control
+{
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+.show
+{
+
+     padding-top: 90px;
+     padding-bottom: 90px;
+   
+}
+
+h3 {
+
+    color:azure;
+}
+
