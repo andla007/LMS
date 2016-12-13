@@ -12,15 +12,7 @@
 @if (User.IsInRole("teacher"))
 {
 <div class="control">
-    @Html.ActionLink("Add module", "Create", "Modules",
-    new { id = Model.Id },
-    new { @class = "btn btn-default" })
-    @Html.ActionLink("Add student", "CourseTeacherView", "Account",
-    new { id = Model.Id, orderBy = "firstname" },
-    new { @class = "btn btn-default" })
-    @Html.ActionLink("Show Schedule", "Schedule", "Courses",
-    new { id = Model.Id },
-    new { @class = "btn btn-default" })
+
     @Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
 
     
@@ -36,7 +28,7 @@
 else
 {
     <div class="control">
-        <a href="@Url.Action("CourseTeacherView", "Account", new { id = Model.Id, orderBy = "firstname" })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add student</a>
+        <a href="@Url.Action("CourseTeacherView", "Account", new { id = Model.Id, orderBy = "firstname" })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Show student</a>
         <a href="@Url.Action("Schedule", "Courses", new { id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span> Show Schedule</a>
         <a href="@Url.Action("IndexFiles", "Courses", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span> Upload or view files</a>
     </div>
