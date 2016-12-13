@@ -15,6 +15,8 @@
 </p>
 }
 
+
+
 <table class="table table-striped table-bordered">
     <tr>
         <th>
@@ -72,3 +74,51 @@
 }
 
 </table>
+@{
+    if (User.IsInRole("student"))
+    {
+        List<LMS_System.Models.Activity> deadlineact = ViewBag.deadlineact;
+        var dcnt = deadlineact.Count();
+        if (dcnt > 0)
+        {
+
+
+
+        <div id="myModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <br />
+                    <img class="img-responsive" style="display: block; margin-left: auto; margin-right: auto;" src="~/Images/threat.jpg" />
+                    <h1 style="text-align:center">Du måste ladda upp inlämningsuppgifter</h1>
+                   
+                        <div style="text-align:center">
+                            @foreach (var item in deadlineact)
+                            {
+                            <h2>
+                                @Html.ActionLink(item.Name, "Details", "Activities", new { id = item.Id }, null)
+
+                            </h2>
+                            }
+                        </div>
+                   
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+    $(window).load(function(){
+        $('#myModal').modal('show');
+    });
+        </script>
+                //$('#myModal').on('hidden.bs.modal', function (event) {
+                //    alert("ok");
+                //    $('#myModal').modal('show');
+                //}
+                //$('#myInput').modal('show');
+                //$('#myInput').focus()
+
+
+            };
+        }
+    }

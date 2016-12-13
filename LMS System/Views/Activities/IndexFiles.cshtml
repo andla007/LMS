@@ -75,10 +75,28 @@
             @if (ViewBag.parentId != null)
             {
                 int? parentId = ViewBag.parentId;
+
+                if (User.Identity.IsAuthenticated)
+                {
+
+                    if (User.IsInRole("teacher"))
+                    {
                 <div class="row">
-                    <div class="col-md-3">@Html.ActionLink("Delete", "DeleteFile", new { id = item.Id, parentId = parentId },new { @class= "btn btn-default btn-xs" })</div>
+                    <div class="col-md-3">@Html.ActionLink("Delete", "DeleteFile", new { id = item.Id, parentId = parentId }, new { @class = "btn btn-default btn-xs" })</div>
                     <div class="col-md-3">@Html.ActionLink("Edit", "EditFile", new { id = item.Id, parentId = parentId }, new { @class = "btn btn-default btn-xs" })</div>
                 </div>
+                    }
+                    else if (User.IsInRole("student"))
+                    {
+                        if (item.AppUser.Email == User.Identity.Name)
+                        {
+                            <div class="row">
+                                <div class="col-md-3">@Html.ActionLink("Delete", "DeleteFile", new { id = item.Id, parentId = parentId }, new { @class = "btn btn-default btn-xs" })</div>
+                                <div class="col-md-3">@Html.ActionLink("Edit", "EditFile", new { id = item.Id, parentId = parentId }, new { @class = "btn btn-default btn-xs" })</div>
+                            </div>
+                        }
+                    }
+                }
             }
         </td>
     </tr>
