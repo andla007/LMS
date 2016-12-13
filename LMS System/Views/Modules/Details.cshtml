@@ -4,105 +4,107 @@
     ViewBag.Title = "Details";
 }
 
-<h3>@Model.Name</h3>
+<h3>Details for module @Model.Name</h3>
+<div class="control">
+    <a href="@Url.Action("IndexFiles", "Modules", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Upload or view files</a>
 
 <div class="control">
-    @if (User.IsInRole("teacher"))
-    {
+@if (User.IsInRole("teacher"))
+{
     
             @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, new { @class = "btn btn-default" })
        
-    }
+}
 
-    &nbsp;@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
+&nbsp;@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
    </div>
 
 
-    <div>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
                 @Html.HiddenFor(model => model.Name)
                 @*@Html.DisplayNameFor(model => model.Name)*@
-            </dt>
+        </dt>
 
-            <dd>
+        <dd>
               
-            </dd>
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
 
-            <dt>
+        <dt>
                 Start and end dates
-            </dt>
+        </dt>
             <dd class="dates">
 
                 <div class="startdate">
                     @Html.DisplayNameFor(model => model.StartDate)
-                    @Html.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.StartDate)
                 </div>
                 <div class="enddate">
                     @Html.DisplayNameFor(model => model.EndDate)
                     @Html.DisplayFor(model => model.EndDate)
                 </div>
-            </dd>
+        </dd>
             <dt>
 
-            </dt>
+        </dt>
 
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Activities)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Activities)
+        </dt>
 
-            <dd>
-                <table>
-                    @foreach (var activity in Model.Activities)
-                    {
-
-                        <tr>
-                            <td class="tablemargin">@Html.ActionLink(activity.Name, "Details", "Activities", new { id = activity.Id }, null)</td>
-                            <td class="tablemargin">@activity.StartDate.ToShortDateString() - @activity.EndDate.ToShortDateString()</td>
-                            <td class="tablemargin">@activity.Days days</td>
-
-
-                            <td class="tablemargin">
-                                @if (User.IsInRole("teacher"))
-                                {
-                                    @Html.ActionLink("Edit", "Edit", "Activities", new { id = activity.Id }, null) <span> | </span>
-                                        @Html.ActionLink("Delete", "Delete", "Activities", new { id = activity.Id, courseID = Model.Id }, null)
-                                }
-                            </td>
-                            @if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
-                            {
-                                <td class="tablemargin">
-                                    Some dates are out of boundry!
-                                </td>
-                            }
-
-
-                        </tr>
-
-                    }
-                </table>
-
-            </dd>
-
-
-
-        </dl>
-    </div>
-
-    <p>
-        @if (User.IsInRole("teacher"))
+        <dd>
+            <table>
+                @foreach (var activity in Model.Activities)
             {
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })        <span> | </span>
-        }
-        @Html.ActionLink("Back to Course Details", "Details", "Courses", new { Id = Model.CourseId }, null)
-    </p>
+
+           <tr>
+            <td class="tablemargin">@Html.ActionLink(activity.Name, "Details", "Activities", new { id = activity.Id }, null)</td>
+            <td class="tablemargin">@activity.StartDate.ToShortDateString() - @activity.EndDate.ToShortDateString()</td>
+            <td class="tablemargin">@activity.Days days</td>
+
+                    
+         <td class="tablemargin">
+@if (User.IsInRole("teacher"))
+{
+    @Html.ActionLink("Edit", "Edit", "Activities", new { id = activity.Id }, null) <span> | </span>
+    @Html.ActionLink("Delete", "Delete", "Activities", new { id = activity.Id, courseID = Model.Id }, null)
+}
+    </td>
+    @if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
+       {
+           <td class="tablemargin">
+            Some dates are out of boundry!
+            </td>
+       }
+
+
+</tr>
+
+                }
+            </table>
+
+        </dd>
+
+
+
+    </dl>
+</div>
+
+<p>
+    @if (User.IsInRole("teacher"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })        <span> | </span>
+    }
+    @Html.ActionLink("Back to Course Details", "Details", "Courses", new { Id = Model.CourseId }, null)
+</p>
