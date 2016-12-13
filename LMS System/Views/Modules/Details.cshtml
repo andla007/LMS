@@ -9,27 +9,28 @@
 <div class="control">
     <a href="@Url.Action("IndexFiles", "Modules", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Upload or view files</a>
 
-
-
-
-
+<div class="control">
     @if (User.IsInRole("teacher"))
     {
-        <a href="@Url.Action("Create", "Activities", new { id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-certificate"></span> Create New Activity</a>
 
+            @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, new { @class = "btn btn-default" })
+       
     }
 
-
+&nbsp;@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
 </div>
+
+
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+                @Html.HiddenFor(model => model.Name)
+                @*@Html.DisplayNameFor(model => model.Name)*@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+              
         </dd>
 
         <dt>
@@ -41,27 +42,45 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
+                Start and end dates
         </dt>
+            <dd class="dates">
 
-        <dd>
+                <div class="startdate">
+                    @Html.DisplayNameFor(model => model.StartDate)
             @Html.DisplayFor(model => model.StartDate)
+                </div>
+                <div class="enddate">
+                    @Html.DisplayNameFor(model => model.EndDate)
+                    @Html.DisplayFor(model => model.EndDate)
+                </div>
         </dd>
+            <dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Activities)
         </dt>
 
         <dd>
-            <table>
+            <table class="table table-bordered lms">
+                <thead>
+                    <tr>
+                        <th>Activity name</th>
+                        <th>Date range</th>
+                        <th>Number Of Days</th>
+@if (User.IsInRole("teacher"))
+{
+                        <th>Administration</th>
+}
+else
+{
+    <th>Options</th>
+}
+                    </tr>
+                </thead>
                 @foreach (var activity in Model.Activities)
             {
 
@@ -78,12 +97,12 @@
     @Html.ActionLink("Delete", "Delete", "Activities", new { id = activity.Id, courseID = Model.Id }, null)
 }
     </td>
-    @if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
+                            @*@if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
        {
            <td class="tablemargin">
             Some dates are out of boundry!
             </td>
-       }
+                            }*@
 
 
 </tr>

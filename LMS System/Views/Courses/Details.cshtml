@@ -4,9 +4,7 @@
     ViewBag.Title = "Course Details";
 }
 
-
-
-<h3>Details for course @Model.Name</h3>
+<h3>@Model.Name</h3>
 
 <br />
 <br />
@@ -14,11 +12,21 @@
 @if (User.IsInRole("teacher"))
 {
 <div class="control">
+    @Html.ActionLink("Add module", "Create", "Modules",
+    new { id = Model.Id },
+    new { @class = "btn btn-default" })
+    @Html.ActionLink("Add student", "CourseTeacherView", "Account",
+    new { id = Model.Id, orderBy = "firstname" },
+    new { @class = "btn btn-default" })
+    @Html.ActionLink("Show Schedule", "Schedule", "Courses",
+    new { id = Model.Id },
+    new { @class = "btn btn-default" })
+    @Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
 
     
-    <a href="@Url.Action("Create", "Modules", new { id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span> Add module</a>
-    <a href="@Url.Action("CourseTeacherView", "Account", new { id = Model.Id, orderBy = "firstname" })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add student</a>
-    <a href="@Url.Action("Schedule", "Courses", new { id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span> Show Schedule</a>
+    <a href="@Url.Action(" Create", "Modules" , new { id=Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span> Add module</a>
+    <a href="@Url.Action(" CourseTeacherView", "Account" , new { id=Model.Id, orderBy="firstname" })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add student</a>
+    <a href="@Url.Action(" Schedule", "Courses" , new { id=Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span> Show Schedule</a>
 
 
 
@@ -39,53 +47,46 @@ else
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.HiddenFor(model=>model.Name)
-            @*@Html.DisplayNameFor(model => model.Name)*@
+            @Html.HiddenFor(model => model.Name)
+
         </dt>
 
         <dd>
-            @*@Html.DisplayFor(model => model.Name)*@
+
         </dd>
 
         <dt>
-            @Html.HiddenFor(model => model.Description  )
-            @*@Html.DisplayNameFor(model => model.Description)*@
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            <div class="description">   
             @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            Dates
+        </dt>
+        <dd class="dates">
+
+            <div class="startdate">
+            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.StartDate)
+            </div>
+            <div class="enddate">
+            @Html.DisplayNameFor(model => model.EndDate)
+            @Html.DisplayFor(model => model.EndDate)
             </div>
         </dd>
+<dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-        <dt>
-            Modules
-        </dt>
-
-        <dd>
-            <br/>
+    <br />
             <table class="table table-bordered lms">
                 <thead>
                     <tr>
                         <th>
-                            <a href="?orderby=name" data-toggle="tooltip" title="Sort by name">Name</a>
+                    <a href="?orderby=name" data-toggle="tooltip" title="Sort by name">Module name</a>
                         </th>
                         <th>
                             <a href="?orderby=startdate" data-toggle="tooltip" title="Sort by start date">Start Date</a>
@@ -132,7 +133,7 @@ else
                             <td>
                                 @Html.ActionLink(@module.Name, "Details", "Modules",
                                                  new { id = module.Id, courseID = Model.Id },
-                                                 new { data_toggle = "tooltip", title = module.Description})
+                                                 new { data_toggle = "tooltip", title = module.Description })
                             </td>
                             <td>
                                 @module.StartDate.ToShortDateString()
@@ -147,12 +148,12 @@ else
                                 @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id, courseID = Model.Id }, null) |
                                 @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id, courseID = Model.Id }, null)
                             </td>
-                            @if (Model.StartDate > module.StartDate || Model.EndDate < module.EndDate || module.StartDate > module.EndDate)
+                    @*@if (Model.StartDate > module.StartDate || Model.EndDate < module.EndDate || module.StartDate > module.EndDate)
                             {
                                 <td>
                                     Some dates are out of bounds!
                                 </td>
-                            }
+                    }*@
                         </tr>
                     }
 
@@ -160,8 +161,8 @@ else
             </table>
         </dd>
     </dl>
-    <br/>
-</div>
+<br />
+
 <p>
 @if (User.IsInRole("teacher"))
 {
