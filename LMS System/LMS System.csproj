@@ -178,7 +178,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -293,6 +292,7 @@
     <Content Include="Views\Activities\DeleteFile.cshtml" />
     <Content Include="Views\Activities\EditFile.cshtml" />
     <Content Include="Views\Activities\IndexFiles.cshtml" />
+    <Content Include="Visual studio stuff Andreas.hnd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -302,7 +302,6 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
