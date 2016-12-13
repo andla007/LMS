@@ -26,18 +26,18 @@
         }
 
         <div id="hidden">
-            @Html.Hidden("parentId", parentId);
+            @Html.Hidden("parentId", parentId)
         </div>
-   
-        <input type="file" name="file"/>
 
-        <br />
-        <p>
-            <label>Description</label>
-            <textarea name="Description"></textarea>
-        </p>
-     
-    <input type="submit" value="OK" />
+
+
+                <input type="file" name="file" /><br />
+                <label>Description</label><br />
+                <textarea name="Description" rows="4" cols="100"></textarea>
+                <br /><br />
+                <input type="submit" value="OK" />
+         
+       
     }
 }
 

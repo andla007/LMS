@@ -4,22 +4,23 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h3>@Model.Name</h3>
 
-
-@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id, ActivityId = Model.Id })
-
+<div class="control">
+@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id, ActivityId = Model.Id }, new { @class = "btn btn-default" })
+</div>
 
 <div>
-    <h4>Activity</h4>
+      
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+                @Html.HiddenFor(model => model.Name)
+
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+
         </dd>
 
         <dt>
@@ -27,24 +28,29 @@
         </dt>
 
         <dd>
+                <div class="description">
             @Html.DisplayFor(model => model.Description)
+                </div>
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
+                Dates
         </dt>
+            <dd class="dates">
 
-        <dd>
+                <div class="startdate">
+                    @Html.DisplayNameFor(model => model.StartDate)
             @Html.DisplayFor(model => model.StartDate)
+                </div>
+                <div class="enddate">
+                    @Html.DisplayNameFor(model => model.EndDate)
+                    @Html.DisplayFor(model => model.EndDate)
+                </div>
         </dd>
+            <dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
 
     </dl>
 </div>

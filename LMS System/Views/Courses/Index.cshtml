@@ -6,72 +6,75 @@
 
 
 <h2>Courses Overview</h2>
-
+<br />
+<br />
 @if (User.IsInRole("teacher"))
     {
-<p>
-    @Html.ActionLink("Add new course", "Create", null, new { @class = "btn btn-default" })
-    @Html.ActionLink("Add teacher", "RegisterTeacher", "Account", null, new { @class = "btn btn-default" })
-</p>
+<div class="control">
+    <a href="@Url.Action("Create", "Courses")" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add new course</a>
+    <a href="@Url.Action("RegisterTeacher", "Account")" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add teacher</a>
+
+</div>
 }
 
 
 
-<table class="table table-striped table-bordered">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th class="descriptioncolumn">
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th>Administration</th>
-    </tr>
+<table class="table table-bordered lms">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="descriptioncolumn">
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>Administration</th>
+        </tr>
+    </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", "Courses", new { id = item.Id }, null)
+                </td>
+                <td style="">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(item.Name, "Details", "Courses", new { id = item.Id }, null)
-        </td>
-        <td style="">
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
 
+                <td>
+            
+                        @if (User.IsInRole("teacher"))
+                        {
 
-        <td>
-            <ul class="list-inline">
-                @if (User.IsInRole("teacher"))
-                {
+                            @*@Html.Action("CourseTeacherView","Accounts" )*@
 
-                    @*@Html.Action("CourseTeacherView","Accounts" )*@
-                    <div class="col-md-3"> @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) </div>
-                    <div class="col-md-3">@Html.ActionLink("Details", "Details", "Courses", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) </div>
-                    <div class="col-md-3"> @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</div>
+                           @Html.ActionLink("Edit", "Edit", new { id = item.Id })<span> |</span>
+                           @Html.ActionLink("Details", "Details", "Courses", new { id = item.Id },null) <span> |</span>
+                             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
 
-                }
-                else
-                {
-
-                    <li class="tinyli">@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</li>
-
-                }
-                </ul>
+                        }
+                        else
+                        {
+                                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        }
+                   
 
 </td>
-    </tr>
-}
+            </tr>
+        }
 
 </table>
 @{
