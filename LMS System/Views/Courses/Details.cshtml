@@ -4,17 +4,16 @@
     ViewBag.Title = "Course Details";
 }
 
-<head>
-    <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
-</head>
+
 
 <h3>Details for course @Model.Name</h3>
 
-@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id })
+<br />
+<br />
 
 @if (User.IsInRole("teacher"))
 {
-<div>
+<div class="control">
 
     
     <a href="@Url.Action("Create", "Modules", new { id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span> Add module</a>
@@ -35,6 +34,7 @@ else
         @Html.ActionLink("Show Schedule", "Schedule", "Courses",
                                                        new { id = Model.Id },
                                                        new { @class = "btn btn-default" })
+        @Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
     </div>
 }
 
@@ -43,19 +43,23 @@ else
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.HiddenFor(model=>model.Name)
+            @*@Html.DisplayNameFor(model => model.Name)*@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @*@Html.DisplayFor(model => model.Name)*@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.HiddenFor(model => model.Description  )
+            @*@Html.DisplayNameFor(model => model.Description)*@
         </dt>
 
         <dd>
+            <div class="description">   
             @Html.DisplayFor(model => model.Description)
+            </div>
         </dd>
 
         <dt>

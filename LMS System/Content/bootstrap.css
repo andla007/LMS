@@ -6813,4 +6813,11 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+
+  
+  sidebar wrapper
+    {left:50px}
+
+  .wrapper
+  {left:50px}
 }
