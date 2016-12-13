@@ -9,3 +9,21 @@ table.lms th {
 table.lms tr:nth-child(even) {
     background-color: aliceblue;
 }
+
+h3 {
+
+    padding : initial;
+}
+
+.control  {
+
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.description {
+    font-size: 15px;
+    padding-top : 10px;
+    width: 350px;
+    height: 100px;
+}

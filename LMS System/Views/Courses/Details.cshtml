@@ -54,11 +54,14 @@ else
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.HiddenFor(model => model.Description  )
+            @*@Html.DisplayNameFor(model => model.Description)*@
         </dt>
 
         <dd>
+            <div class="description">   
             @Html.DisplayFor(model => model.Description)
+            </div>
         </dd>
 
         <dt>
