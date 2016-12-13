@@ -53,25 +53,24 @@
 
 
                 <td>
-                    <ul class="list-inline">
+            
                         @if (User.IsInRole("teacher"))
-                {
+                        {
 
                             @*@Html.Action("CourseTeacherView","Accounts" )*@
-                            <div class="col-md-3"> @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) </div>
-                            <div class="col-md-3">@Html.ActionLink("Details", "Details", "Courses", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) </div>
-                            <div class="col-md-3"> @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</div>
+
+                           @Html.ActionLink("Edit", "Edit", new { id = item.Id })<span> |</span>
+                           @Html.ActionLink("Details", "Details", "Courses", new { id = item.Id },null) <span> |</span>
+                             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
 
                         }
                         else
                         {
-
-                            <li class="tinyli">@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs" })</li>
-
+                                @Html.ActionLink("Details", "Details", new { id = item.Id })
                         }
-                    </ul>
+                   
 
-                </td>
+</td>
             </tr>
         }
 
