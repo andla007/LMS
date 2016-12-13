@@ -13,7 +13,7 @@
 
 @if (User.IsInRole("teacher"))
 {
-<div class="control">
+<div >
     @Html.ActionLink("Add module", "Create", "Modules",
                                                        new { id = Model.Id },
                                                        new { @class = "btn btn-default" })
@@ -45,23 +45,19 @@ else
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.HiddenFor(model=>model.Name)
-            @*@Html.DisplayNameFor(model => model.Name)*@
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
 
         <dd>
-            @*@Html.DisplayFor(model => model.Name)*@
+            @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
-            @Html.HiddenFor(model => model.Description  )
-            @*@Html.DisplayNameFor(model => model.Description)*@
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            <div class="description">   
             @Html.DisplayFor(model => model.Description)
-            </div>
         </dd>
 
         <dt>

@@ -53,35 +53,50 @@
         </dt>
 
         <dd>
-            <table>
-                @foreach (var activity in Model.Activities)
-            {
-
-           <tr>
-            <td class="tablemargin">@Html.ActionLink(activity.Name, "Details", "Activities", new { id = activity.Id }, null)</td>
-            <td class="tablemargin">@activity.StartDate.ToShortDateString() - @activity.EndDate.ToShortDateString()</td>
-            <td class="tablemargin">@activity.Days days</td>
-
-                    
-         <td class="tablemargin">
+            <table class="table table-bordered lms">
+                <thead>
+                    <tr>
+                        <th>Activity name</th>
+                        <th>Date range</th>
+                        <th>Number Of Days</th>
 @if (User.IsInRole("teacher"))
 {
-    @Html.ActionLink("Edit", "Edit", "Activities", new { id = activity.Id }, null) <span> | </span>
-    @Html.ActionLink("Delete", "Delete", "Activities", new { id = activity.Id, courseID = Model.Id }, null)
+                        <th>Administration</th>
 }
-    </td>
-    @if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
-       {
-           <td class="tablemargin">
-            Some dates are out of boundry!
-            </td>
-       }
+else
+{
+    <th>Options</th>
+}
+                    </tr>
+                </thead>
+                @foreach (var activity in Model.Activities)
+            {
+ 
+                        <tr>
+                            <td class="tablemargin">@Html.ActionLink(activity.Name, "Details", "Activities", new { id = activity.Id }, null)</td>
+                            <td class="tablemargin">@activity.StartDate.ToShortDateString() - @activity.EndDate.ToShortDateString()</td>
+                            <td class="tablemargin">@activity.Days days</td>
 
 
-</tr>
+                            <td class="tablemargin">
+                                @if (User.IsInRole("teacher"))
+                                {
+                                    @Html.ActionLink("Edit", "Edit", "Activities", new { id = activity.Id }, null) <span> | </span>
+                                    @Html.ActionLink("Delete", "Delete", "Activities", new { id = activity.Id, courseID = Model.Id }, null)
+                                }
+                            </td>
+                            @*@if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
+                            {
+                                <td class="tablemargin">
+                                    Some dates are out of boundry!
+                                </td>
+                            }*@
 
-                }
-            </table>
+
+                        </tr>
+
+                        }
+</table>
 
         </dd>
 
