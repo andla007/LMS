@@ -5,6 +5,7 @@
 }
 
 <h3>Details for module @Model.Name</h3>
+
 <div class="control">
     <a href="@Url.Action("IndexFiles", "Modules", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Upload or view files</a>
 
@@ -64,7 +65,22 @@
         </dt>
 
         <dd>
-            <table>
+            <table class="table table-bordered lms">
+                <thead>
+                    <tr>
+                        <th>Activity name</th>
+                        <th>Date range</th>
+                        <th>Number Of Days</th>
+@if (User.IsInRole("teacher"))
+{
+                        <th>Administration</th>
+}
+else
+{
+    <th>Options</th>
+}
+                    </tr>
+                </thead>
                 @foreach (var activity in Model.Activities)
             {
 
@@ -81,12 +97,12 @@
     @Html.ActionLink("Delete", "Delete", "Activities", new { id = activity.Id, courseID = Model.Id }, null)
 }
     </td>
-    @if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
+                            @*@if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
        {
            <td class="tablemargin">
             Some dates are out of boundry!
             </td>
-       }
+                            }*@
 
 
 </tr>
