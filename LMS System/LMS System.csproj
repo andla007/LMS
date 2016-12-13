@@ -178,6 +178,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612131529520_newone.cs" />
+    <Compile Include="Migrations\201612131529520_newone.Designer.cs">
+      <DependentUpon>201612131529520_newone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612131533149_tt.cs" />
+    <Compile Include="Migrations\201612131533149_tt.Designer.cs">
+      <DependentUpon>201612131533149_tt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -300,6 +308,14 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201612131529520_newone.resx">
+      <DependentUpon>201612131529520_newone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612131533149_tt.resx">
+      <DependentUpon>201612131533149_tt.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

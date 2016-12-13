@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-<h3>Details for module @Model.Name</h3>
+<h3> @Model.Name</h3>
 <br />
 <br />
 <div class="control">
@@ -25,14 +25,12 @@
 
 
 
-
-
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
                 @Html.HiddenFor(model => model.Name)
-                @*@Html.DisplayNameFor(model => model.Name)*@
+            
         </dt>
 
         <dd>
