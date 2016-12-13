@@ -9,7 +9,7 @@
 <div class="control">
     <a href="@Url.Action("IndexFiles", "Modules", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Upload or view files</a>
 
-<div class="control">
+
     @if (User.IsInRole("teacher"))
     {
 
