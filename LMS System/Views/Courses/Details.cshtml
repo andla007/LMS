@@ -15,15 +15,14 @@
 @if (User.IsInRole("teacher"))
 {
 <div>
-    @Html.ActionLink("Add module", "Create", "Modules",
-                                                       new { id = Model.Id },
-                                                       new { @class = "btn btn-default" })
-    @Html.ActionLink("Add student", "CourseTeacherView", "Account",
-                                                       new { id = Model.Id, orderBy = "firstname" },
-                                                       new { @class = "btn btn-default" })
-    @Html.ActionLink("Show Schedule", "Schedule", "Courses",
-                                                       new { id = Model.Id },
-                                                       new { @class = "btn btn-default" })
+
+    
+    <a href="@Url.Action("Create", "Modules", new { id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span> Add module</a>
+    <a href="@Url.Action("CourseTeacherView", "Account", new { id = Model.Id, orderBy = "firstname" })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add student</a>
+    <a href="@Url.Action("Schedule", "Courses", new { id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span> Show Schedule</a>
+
+
+
 
 </div>
 }

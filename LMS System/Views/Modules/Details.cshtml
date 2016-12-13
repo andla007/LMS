@@ -6,11 +6,16 @@
 
 <h3>Details for module @Model.Name</h3>
 
-@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
+<a href="@Url.Action("IndexFiles", "Modules", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Upload or view files</a>
+
+
+
+
 
 @if (User.IsInRole("teacher"))
 {
-       @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, new { @class = "btn btn-default" })
+        <a href="@Url.Action("Create", "Activities", new { id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-certificate"></span> Create New Activity</a>
+
 }
 <div>
     <hr />
