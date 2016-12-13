@@ -11,12 +11,12 @@
 @if (User.IsInRole("teacher"))
     {
 <div class="control">
-    <a href="@Url.Action("Create", "Courses")" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add new course</a>
+    <a href="@Url.Action("Create", "Courses")" class="btn btn-default"><span class="glyphicon glyphicon-certificate"></span> Add new course</a>
     <a href="@Url.Action("RegisterTeacher", "Account")" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add teacher</a>
 
 </div>
 }
-
+<hr/>
 
 
 <table class="table table-bordered lms">
