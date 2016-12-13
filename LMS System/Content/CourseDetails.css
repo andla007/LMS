@@ -9,3 +9,8 @@ table.lms th {
 table.lms tr:nth-child(even) {
     background-color: aliceblue;
 }
+
+h3 {
+    color:antiquewhite;
+   
+}

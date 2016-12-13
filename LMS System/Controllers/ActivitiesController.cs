@@ -60,6 +60,9 @@ namespace LMS_System.Controllers
             {
                 var teachers = GetUsersInRole("teacher");
                 var doclist = new List<Document>();
+
+                var sortedDate = new List<Document>();
+                var sortedUsers = new List<Document>();
                 foreach (var item in documentfiles)
                 {
                     //var context = new ApplicationDbContext();
@@ -77,9 +80,12 @@ namespace LMS_System.Controllers
                         }
                     }
 
+                    //sortering
+                    sortedUsers = doclist.OrderBy(d => d.AppUser.FullName).ToList(); 
+                    sortedDate = doclist.OrderBy(d=>d.EndDate).ToList();
 
                 }
-                return View(doclist);
+                return View(sortedDate);
             }
             else if(User.IsInRole("teacher"))
             {
