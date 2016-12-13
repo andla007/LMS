@@ -6,13 +6,15 @@
 
 
 <h2>Courses Overview</h2>
-
+<br />
+<br />
 @if (User.IsInRole("teacher"))
     {
-<p>
-    @Html.ActionLink("Add new course", "Create", null, new { @class = "btn btn-default" })
-    @Html.ActionLink("Add teacher", "RegisterTeacher", "Account", null, new { @class = "btn btn-default" })
-</p>
+<div class="control">
+    <a href="@Url.Action("Create", "Courses")" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add new course</a>
+    <a href="@Url.Action("RegisterTeacher", "Account")" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add teacher</a>
+
+</div>
 }
 
 

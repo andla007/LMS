@@ -7,57 +7,57 @@
 <h3>@Model.Name</h3>
 
 <div class="control">
-    @Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id, ActivityId = Model.Id }, new { @class = "btn btn-default" })
+@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id, ActivityId = Model.Id }, new { @class = "btn btn-default" })
 </div>
 
-    <div>
+<div>
       
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
                 @Html.HiddenFor(model => model.Name)
 
-            </dt>
+        </dt>
 
-            <dd>
+        <dd>
 
-            </dd>
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
 
-            <dd>
+        <dd>
                 <div class="description">
-                    @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Description)
                 </div>
-            </dd>
+        </dd>
 
-            <dt>
+        <dt>
                 Dates
-            </dt>
+        </dt>
             <dd class="dates">
 
                 <div class="startdate">
                     @Html.DisplayNameFor(model => model.StartDate)
-                    @Html.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.StartDate)
                 </div>
                 <div class="enddate">
                     @Html.DisplayNameFor(model => model.EndDate)
                     @Html.DisplayFor(model => model.EndDate)
                 </div>
-            </dd>
+        </dd>
             <dt>
 
-            </dt>
+        </dt>
 
 
-        </dl>
-    </div>
-    <p>
-        @if (User.IsInRole("teacher"))
-        {
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })    <span> | </span>
-        }
-        @Html.ActionLink("Back to List", "Details", "Modules", new { Id = Model.ModuleId }, null)
-    </p>
+    </dl>
+</div>
+<p>
+@if (User.IsInRole("teacher"))
+{
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })    <span> | </span>
+}
+    @Html.ActionLink("Back to List", "Details", "Modules", new { Id = Model.ModuleId }, null)
+</p>
