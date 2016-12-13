@@ -10,7 +10,7 @@
 
 <h3>Details for course @Model.Name</h3>
 
-@Html.ActionLink("Show files", "IndexFiles", new { parentId = Model.Id })
+
 
 @if (User.IsInRole("teacher"))
 {
@@ -24,6 +24,7 @@
     @Html.ActionLink("Show Schedule", "Schedule", "Courses",
                                                        new { id = Model.Id },
                                                        new { @class = "btn btn-default" })
+    @Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
 
 </div>
 }
@@ -36,6 +37,7 @@ else
         @Html.ActionLink("Show Schedule", "Schedule", "Courses",
                                                        new { id = Model.Id },
                                                        new { @class = "btn btn-default" })
+        @Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
     </div>
 }
 

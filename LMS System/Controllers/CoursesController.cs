@@ -21,7 +21,27 @@ namespace LMS_System.Controllers
         [Authorize(Roles = "teacher,student")]
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            var courses = db.Courses.ToList();
+            var deadlineact = new List<Activity>();
+            foreach (var course in courses)
+            {
+                var modules = course.Modules.ToList();
+                foreach (var module in modules)
+                {
+                    var activities = module.Activities.Where(a=>a.Assignment==true && a.EndDate>=DateTime.Today).ToList();
+                    foreach (var activity in activities)
+                    {
+                        var hasdoc = activity.ModuleDocuments.Where(m => m.AppUser.Email == User.Identity.Name).Any();
+                        if(!hasdoc)
+                        {
+                            deadlineact.Add(activity);
+                        }
+                    }
+
+                }
+            }
+            ViewBag.deadlineact = deadlineact;
+            return View(courses);
         }
 
 
