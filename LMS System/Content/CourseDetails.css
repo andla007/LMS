@@ -9,3 +9,12 @@ table.lms th {
 table.lms tr:nth-child(even) {
     background-color: aliceblue;
 }
+
+body {
+    font-family: 'Lucida Sans Unicode'; 
+    font-size:medium;
+}
+
+table.lms th a {
+    text-decoration: none;
+}

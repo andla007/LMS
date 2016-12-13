@@ -170,3 +170,11 @@ else
 }
     @Html.ActionLink("Back to course list", "Index")
 </p>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#triangle").click(function () {
+            $(this).text($(this).text() == '\u25B2' ? '\u25BC' : '\u25B2');
+        });
+    });
+</script>
