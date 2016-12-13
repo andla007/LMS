@@ -5,20 +5,21 @@
 }
 
 <h3>Details for module @Model.Name</h3>
-
+<br />
+<br />
 <div class="control">
     <a href="@Url.Action("IndexFiles", "Modules", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Upload or view files</a>
 
-<div class="control">
     @if (User.IsInRole("teacher"))
     {
+        <a href="@Url.Action("Create", "Activities", new { Id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Create New Activity</a>
 
-            @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, new { @class = "btn btn-default" })
-       
     }
 
-&nbsp;@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
 </div>
+
+
+
 
 
 <div>
