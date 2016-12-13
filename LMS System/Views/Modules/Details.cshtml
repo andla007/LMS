@@ -8,14 +8,18 @@
 <br />
 <br />
 <div class="control">
-    <a href="@Url.Action("IndexFiles", "Modules", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Upload or view files</a>
 
 
     @if (User.IsInRole("teacher"))
     {
-        <a href="@Url.Action("Create", "Activities", new { Id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Create New Activity</a>
+        <a href="@Url.Action("Create", "Activities", new { Id = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-certificate"></span> Create New Activity</a>
 
     }
+
+    <a href="@Url.Action("IndexFiles", "Modules", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Upload or view files</a>
+
+
+
 
 </div>
 
