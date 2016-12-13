@@ -10,7 +10,7 @@
 
 <h3>Details for course @Model.Name</h3>
 
-@Html.ActionLink("Show files", "IndexFiles", new { parentId = Model.Id })
+@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id })
 
 @if (User.IsInRole("teacher"))
 {

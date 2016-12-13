@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
 </head>
 <h2>Schedule</h2>
+<div  class="btn btn-default">
+    <span class="glyphicon glyphicon-print"></span>
+    <a href="#" onClick="window.print()">Print schedule</a>
+</div>
 
 <table class="table lms">
     <thead>
@@ -80,7 +84,6 @@
 
                             }
 
-            <td></td>
             </tr>
         }
         else
@@ -106,14 +109,14 @@
                 }
                 <td></td>
                 <td></td>
-                <td></td>
+
             </tr>
 
 
             if(item.Date.DayOfWeek == DayOfWeek.Sunday)
             {
                 <tr>
-                    <td colspan="5"><b>Week: @ApplicationHelpers.WeekNumber(item.Date.AddDays(1))</b></td>
+                    <td colspan="4"><b>Week: @ApplicationHelpers.WeekNumber(item.Date.AddDays(1))</b></td>
 
                 </tr>
                                 }

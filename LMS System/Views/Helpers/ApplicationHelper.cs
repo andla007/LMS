@@ -114,6 +114,10 @@ namespace LMS_System.Views.Helpers
                 if (controller == "activities" && action != "create")
                 {
                     Activity a = dbContext.Activities.Where(activity => activity.Id == Id).FirstOrDefault();
+                    if(a==null)
+                    {
+                        return "";
+                    }
                     Module m = dbContext.Modules.Where(modules => modules.Id == a.ModuleId).FirstOrDefault();
                     Course c = dbContext.Courses.Where(course => course.Id == m.CourseId).FirstOrDefault();
                     breadcrumb.Append("<li>").Append(helper.ActionLink("Course " + c.Name, "Details", "Courses", new { Id = m.CourseId }, null).ToHtmlString()).Append("</li>");
