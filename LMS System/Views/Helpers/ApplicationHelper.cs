@@ -155,6 +155,7 @@ namespace LMS_System.Views.Helpers
                 // Exceptions
                 linktitle = linktitle.Replace("registerteacher", "Register teacher");
                 linktitle = linktitle.Replace("courseteacherview", "Register student");
+                linktitle = linktitle.Replace("indexfiles", "Documents");
 
 
                 breadcrumb.Append("<li>");
