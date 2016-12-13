@@ -2,6 +2,10 @@
     color: white;
 }
 
+a.triangle {
+    visibility: hidden;
+}
+
 table.lms th {
     background-color: cornflowerblue;
 }

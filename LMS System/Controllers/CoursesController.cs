@@ -47,13 +47,13 @@ namespace LMS_System.Controllers
 
         // GET: Courses/Details/5
         [Authorize(Roles = "teacher,student")]
-        public ActionResult Details(int? id, string orderBy)
+        public ActionResult Details(int? id, string orderBy, bool ascending = true)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
+            ViewBag.Ascending = !ascending;
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
             if (course == null)
                 return Index();
@@ -63,24 +63,27 @@ namespace LMS_System.Controllers
                 switch (orderBy.ToLower())
                 {
                     case "name":
-                        modules = course.Modules.OrderBy(m => m.Name).ToList();
+                        modules = ascending? course.Modules.OrderBy(m => m.Name).ToList()
+                                           : course.Modules.OrderByDescending(m => m.Name).ToList();
                         break;
                     case "startdate":
-                        modules = course.Modules.OrderBy(m => m.StartDate).ToList();
+                        modules = ascending? course.Modules.OrderBy(m => m.StartDate).ToList()
+                                           : course.Modules.OrderByDescending(m => m.StartDate).ToList();
                         break;
                     case "enddate":
-                        modules = course.Modules.OrderBy(m => m.EndDate).ToList();
+                        modules = ascending? course.Modules.OrderBy(m => m.EndDate).ToList()
+                                           : course.Modules.OrderByDescending(m => m.EndDate).ToList();
                         break;
                     case "duration":
                         modules = modules
-                                    .Select(m => new
-                                    {
-                                        Duration = m.EndDate - m.StartDate,
-                                        Module2 = m
-                                    })
-                                    .OrderBy(d => d.Duration)
-                                    .Select(d => d.Module2)
-                                    .ToList();
+                                 .Select(m => new
+                                 {
+                                     Duration = m.EndDate - m.StartDate,
+                                     Module2 = m
+                                 })
+                                 .OrderBy(d => d.Duration)
+                                 .Select(d => d.Module2)
+                                 .ToList();
                         break;
                     default:
                         break;

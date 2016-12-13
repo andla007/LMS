@@ -86,16 +86,31 @@ else
                 <thead>
                     <tr>
                         <th>
-                            <a href="?orderby=name" data-toggle="tooltip" title="Sort by name">Name</a>
+                            <a href="?orderby=name" data-toggle="tooltip" title="Sort by name">
+                                @Html.DisplayNameFor(m => m.Name)
+                            </a>
+                            @*<a href=@($"?orderby=name&ascending={(bool)ViewBag.Ascending}") class="triangle" id="Name">&#9650;</a>*@
+                            @*@Html.ActionLink("\u25B2", "Details", "Course",
+                                                 new { id = Model.Id, orderBy = "name", ascending = ViewBag.Ascending },
+                                                 null)*@
                         </th>
                         <th>
-                            <a href="?orderby=startdate" data-toggle="tooltip" title="Sort by start date">Start Date</a>
+                            <a href="?orderby=startdate" data-toggle="tooltip" title="Sort by start date">
+                                @Html.DisplayNameFor(m => m.StartDate)
+                            </a>
+                            <a href="?orderby=startdate" class="triangle" id="startdate">&#9650;</a>
                         </th>
                         <th>
-                            <a href="?orderby=enddate" data-toggle="tooltip" title="Sort by end date">End Date</a>
+                            <a href="?orderby=enddate" data-toggle="tooltip" title="Sort by end date">
+                                @Html.DisplayNameFor(m => m.EndDate)
+                            </a>
+                            <a href="?orderby=enddate" class="triangle" id="enddate">&#9650;</a>
                         </th>
                         <th>
-                            <a href="?orderby=duration" data-toggle="tooltip" title="Sort by duration">Duration</a>
+                            <a href="?orderby=duration" data-toggle="tooltip" title="Sort by duration">
+                                Duration
+                            </a>
+                            <a href="?orderby=duraion" class="triangle" id="duration">&#9650;</a>
                         </th>
                         @if (User.IsInRole("teacher"))
                         {
@@ -172,9 +187,11 @@ else
 </p>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#triangle").click(function () {
-            $(this).text($(this).text() == '\u25B2' ? '\u25BC' : '\u25B2');
-        });
-    });
+    function OnClicked(link)
+    {
+        if (link.innerText === '\u25B2')
+            link.innerText = '\u25BC';
+        else
+            link.innerText = '\u25B2';
+    }
 </script>
