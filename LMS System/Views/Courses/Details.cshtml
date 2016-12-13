@@ -13,12 +13,10 @@
 {
 <div class="control">
 
-    @Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
-
-    
     <a href="@Url.Action(" Create", "Modules" , new { id=Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span> Add module</a>
     <a href="@Url.Action(" CourseTeacherView", "Account" , new { id=Model.Id, orderBy="firstname" })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Add student</a>
     <a href="@Url.Action(" Schedule", "Courses" , new { id=Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span> Show Schedule</a>
+    <a href="@Url.Action("IndexFiles", "Courses", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span> Upload or view files</a>
 
 
 
