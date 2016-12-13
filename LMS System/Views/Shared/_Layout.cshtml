@@ -27,13 +27,18 @@
                     <ul class="nav navbar-nav">
                         @if (User.IsInRole("teacher"))
                         {
+                           
                             <li> @Html.ActionLink("Home", "Index", "Courses")</li>
+                            <li>@Html.ActionLink("User Manager", "Index", "Appusers")</li>
                         }
                         else
                         {
+                            if (ViewContext.RouteData.Values["id"] != null)
+                            {
                             <li>@Html.ActionLink("Home", "Details", "Courses")</li>
+                            }
                         }
-                        <li>@Html.ActionLink("User Manager", "Index", "Appusers")</li>
+                        
                     </ul>
                 @Html.Partial("_LoginPartial")
             </div>

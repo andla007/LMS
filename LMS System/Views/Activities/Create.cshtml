@@ -71,6 +71,13 @@
                 <input type="submit" value="Add activity" class="btn btn-default" />
             </div>
         </div>
+
+        @if (ViewBag.ModuleId != null)
+        {
+            <input type="hidden" name="id" value=@ViewBag.ModuleId />
+            @Html.Hidden("ModuleId", (int)@ViewBag.ModuleId)
+        }
+
     </div>
 }
 

@@ -51,9 +51,10 @@
             </div>
         </div>
 
-        <input type="hidden" name="id" value=@ViewBag.CourseId />
-        @if(ViewBag.CourseId!=null)
+       
+        @if (ViewBag.CourseId != null)
         {
+            <input type="hidden" name="id" value=@ViewBag.CourseId />
             @Html.Hidden("id", (int)@ViewBag.CourseId)
         }
 

@@ -91,7 +91,8 @@ namespace LMS_System.Views.Helpers
                 if ((controller == "courses" && action != "index") || (controller == "modules" && action == "create"))
                 {
                     Course c = dbContext.Courses.Where(course => course.Id == Id).FirstOrDefault();
-                 
+                    if (c == null)
+                        return "";
                     breadcrumb.Append("<li>").Append(helper.ActionLink("Course " + c.Name, "Details", "Courses", new { Id = c.Id }, null).ToHtmlString()).Append("</li>");
                   
                     if (controller == "modules" && action == "create") { addtoaction = " module"; }
@@ -122,7 +123,7 @@ namespace LMS_System.Views.Helpers
                     Course c = dbContext.Courses.Where(course => course.Id == m.CourseId).FirstOrDefault();
                     breadcrumb.Append("<li>").Append(helper.ActionLink("Course " + c.Name, "Details", "Courses", new { Id = m.CourseId }, null).ToHtmlString()).Append("</li>");
                     breadcrumb.Append("<li>").Append(helper.ActionLink("Module " + m.Name, "Details", "Modules", new { Id = a.ModuleId }, null).ToHtmlString()).Append("</li>");
-                    breadcrumb.Append("<li>").Append(helper.ActionLink("Activity " + a.Name, "Details", "Modules", new { Id = a.Id }, null).ToHtmlString()).Append("</li>");
+                    breadcrumb.Append("<li>").Append(helper.ActionLink("Activity " + a.Name, "Details", "Activities", new { Id = a.Id }, null).ToHtmlString()).Append("</li>");
                 }
 
 
