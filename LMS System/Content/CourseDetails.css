@@ -24,6 +24,23 @@ h3 {
 .description {
     font-size: 15px;
     padding-top : 10px;
+    padding-bottom : 10px;
     width: 350px;
     height: 100px;
+}
+
+.dates {
+
+  padding-left: 00px;
+  padding-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.startdate {
+    float: left;
+    padding-right: 50px;
+}
+
+.enddate {
+    padding-left: 20px;
 }

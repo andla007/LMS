@@ -5,23 +5,31 @@
 }
 
 <h3>Details for module @Model.Name</h3>
+<div class="control">
+    <a href="@Url.Action("IndexFiles", "Modules", new { parentId = Model.Id })" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Upload or view files</a>
 
-
-
+<div class="control">
 @if (User.IsInRole("teacher"))
 {
-       @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, new { @class = "btn btn-default" })
+    
+            @Html.ActionLink("Create New Activity", "Create", "Activities", new { ModuleId = Model.Id }, new { @class = "btn btn-default" })
+       
 }
+
 &nbsp;@Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id }, new { @class = "btn btn-default" })
+   </div>
+
+
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+                @Html.HiddenFor(model => model.Name)
+                @*@Html.DisplayNameFor(model => model.Name)*@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+              
         </dd>
 
         <dt>
@@ -33,20 +41,23 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
+                Start and end dates
         </dt>
+            <dd class="dates">
 
-        <dd>
+                <div class="startdate">
+                    @Html.DisplayNameFor(model => model.StartDate)
             @Html.DisplayFor(model => model.StartDate)
+                </div>
+                <div class="enddate">
+                    @Html.DisplayNameFor(model => model.EndDate)
+                    @Html.DisplayFor(model => model.EndDate)
+                </div>
         </dd>
+            <dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Activities)
