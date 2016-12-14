@@ -122,9 +122,23 @@ namespace LMS_System.Controllers
         {
             if (ModelState.IsValid)
             {
+                var enrolledCourse = (from course in db.Courses
+                                      from student in course.Students
+                                      where student.Id == appUsers.Id
+                                      select course).FirstOrDefault();
+
+
                 db.Entry(appUsers).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("RegisterTeacher", "Account");
+
+                if (appUsers.RoleName == "teacher")
+                {
+                    return RedirectToAction("RegisterTeacher", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("CourseTeacherView", "Account", new { Id = enrolledCourse.Id, orderBy = "firstname" });
+                }
             }
             return View(appUsers);
         }
@@ -137,6 +151,16 @@ namespace LMS_System.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             AppUsers appUsers = db.Users.Find(id);
+            var enrolledCourse = (from course in db.Courses
+                                  from student in course.Students
+                                  where student.Id == id
+                                  select course).FirstOrDefault();
+            if (enrolledCourse != null)
+            {
+                ViewBag.CourseId = enrolledCourse.Id;
+            }
+
+
             if (appUsers == null)
             {
                 return HttpNotFound();
@@ -151,13 +175,28 @@ namespace LMS_System.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             try
-            { 
-            AppUsers appUsers = db.Users.Find(id);
-            db.Users.Remove(appUsers);
-            db.SaveChanges();
-            return RedirectToAction("RegisterTeacher", "Account");
+            {
+                AppUsers appUsers = db.Users.Find(id);
+                string Rolename = appUsers.RoleName;
+                
+                var enrolledCourse = (from course in db.Courses
+                                      from student in course.Students
+                                      where student.Id == id
+                                      select course).FirstOrDefault();
+
+                db.Users.Remove(appUsers);
+                db.SaveChanges();
+
+                if (Rolename == "teacher")
+                {
+                    return RedirectToAction("RegisterTeacher", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("CourseTeacherView", "Account", new { Id= enrolledCourse.Id, orderBy = "firstname" });
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Content("<h1>You need to remove all files uploaded by the teacher before you can delete him/her.</h>");
             }

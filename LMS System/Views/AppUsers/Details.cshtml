@@ -81,6 +81,6 @@
     }
     else
     {
-        @Html.ActionLink("Back to registration", "CourseTeacherView", "Account", new { id = ViewBag.CourseId, orderBy = "firstName" }, null);
+        @Html.ActionLink("Back to registration", "CourseTeacherView", "Account", new { id = @HttpContext.Current.Request.QueryString["CourseId"], orderBy="firstname" }, null);
     }
 </p>

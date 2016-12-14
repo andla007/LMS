@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Delete";
+    string Rolename = Model.RoleName;
 }
 
 <h2>Delete</h2>
@@ -11,10 +12,11 @@
     <h4>Users</h4>
     <hr />
     <dl class="dl-horizontal">
+        
         <dt>
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
-
+        
         <dd>
             @Html.DisplayFor(model => model.FirstName)
         </dd>
@@ -50,7 +52,23 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to registration", "CourseTeacherView", "Account", new { id = ViewBag.CourseId, orderBy = "firstname" }, null)
+
+
+
+
+
+
+
+            @if (Rolename == "teacher")
+            {
+                @Html.ActionLink("Back to registration", "RegisterTeacher", "Account", null, null)
+            }
+            else
+            {
+                @Html.ActionLink("Back to registration", "CourseTeacherView", "Account", new { Id = ViewBag.CourseId, orderBy = "firstname" }, null)
+            }
+
+
         </div>
     }
 </div>

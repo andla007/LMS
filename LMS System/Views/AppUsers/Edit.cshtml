@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
+    string Rolename = Model.RoleName;
 }
 
 <h2>Edit @Html.DisplayFor(model => model.RoleName)</h2>
@@ -81,7 +82,14 @@
 }
 
 <div>
-    @Html.ActionLink("Back to registration", "CourseTeacherView", "Account", new {id = ViewBag.CourseId, orderby = "firstname" }, null)
+    @if(Rolename == "teacher")
+    {
+        @Html.ActionLink("Back to registration", "RegisterTeacher", "Account",null, null)
+    }
+    else
+    {
+        @Html.ActionLink("Back to registration", "CourseTeacherView", "Account", new { Id= 1, orderBy = "firstname" }, null)
+    }
 </div>
 
 @section Scripts {

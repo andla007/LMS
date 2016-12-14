@@ -189,6 +189,7 @@ namespace LMS_System.Controllers
                 if (course != null)
                 {
                     var students = course.Students;
+                    if(orderby == null) { orderby = "firstname"; }
                     switch (orderby.ToLower())
                     {
                         case "firstname":
