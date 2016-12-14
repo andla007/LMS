@@ -143,10 +143,18 @@ namespace LMS_System.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int courseID)
         {
-            Module module = db.Modules.Find(id);
-            db.Modules.Remove(module);
-            db.SaveChanges();
-            return RedirectToAction("Details", "Courses", new { id = courseID });
+            try
+            {
+
+                Module module = db.Modules.Find(id);
+                db.Modules.Remove(module);
+                db.SaveChanges();
+                return RedirectToAction("Details", "Courses", new { id = courseID });
+            }
+            catch (Exception ex)
+            {
+                return Content("<h1>You need to remove all items before you can delete this module.</h>");
+            }
         }
 
         protected override void Dispose(bool disposing)

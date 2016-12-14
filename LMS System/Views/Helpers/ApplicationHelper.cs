@@ -24,6 +24,9 @@ namespace LMS_System.Views.Helpers
             //{
             //    return string.Empty;
             //}
+
+            try
+            { 
             if (helper.ViewContext.RouteData.Values["controller"].ToString() == "Home")
             {
                 return string.Empty;
@@ -140,6 +143,7 @@ namespace LMS_System.Views.Helpers
 
 
 
+
             ////breadcrumb.Append("<li>");
 
             ////Länktext, action och controller. Action blir index som default om inget annat hittas.
@@ -162,8 +166,15 @@ namespace LMS_System.Views.Helpers
                 breadcrumb.Append(helper.ActionLink(linktitle.Titleize() + addtoaction, action, controller));
                 breadcrumb.Append("</li>");
             }
+                return breadcrumb.Append("</div>").ToString();
+            }
+            catch (Exception ex)
+            {
+                return "";
 
-            return breadcrumb.Append("</div>").ToString();
+            }
+
+          
         }
 
 

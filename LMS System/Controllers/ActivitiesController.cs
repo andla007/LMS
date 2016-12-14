@@ -308,10 +308,17 @@ namespace LMS_System.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Activity activity = db.Activities.Find(id);
-            db.Activities.Remove(activity);
-            db.SaveChanges();
-            return RedirectToAction("Details", "Modules", new { Id = activity.ModuleId });
+            try
+            {
+                Activity activity = db.Activities.Find(id);
+                db.Activities.Remove(activity);
+                db.SaveChanges();
+                return RedirectToAction("Details", "Modules", new { Id = activity.ModuleId });
+            }
+            catch (Exception ex)
+            {
+                return Content("<h1>You need to remove all items before you can delete this activity.</h>");
+            }
         }
 
         public ActionResult DeleteFile(int? id, int? parentId)
