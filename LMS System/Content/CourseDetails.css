@@ -14,11 +14,15 @@ table.lms tr:nth-child(even) {
     background-color: aliceblue;
 }
 
-/*table.lms th:last-child a {
+table.lms thead th a:last-child {
+    float:right;
+}
+
+table.lms tr:last-child a {
     text-decoration:none;
     cursor: default;
     pointer-events:none;
-}*/
+}
 
 
 h3 {

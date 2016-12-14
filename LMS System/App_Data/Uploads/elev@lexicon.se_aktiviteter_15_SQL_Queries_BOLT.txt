@@ -1,0 +1,65 @@
+SELECT Name, Role FROM Employees LEFT JOIN Buildings ON Building_name = Building
+
+SELECT Name, Role FROM Employees WHERE Building IS NULL;
+
+SELECT Building_name FROM Buildings LEFT JOIN Employees ON Building_name = Building WHERE Name IS NULL;
+
+SELECT  Title, Year FROM Movies INNER JOIN Movies ON ID = Movie_Id WHERE MOD(Year, 2) = 0;
+
+SELECT MAX(Years_employed) FROM Employees;
+
+SELECT Role, AVG(Years_employed) AS Average_years_emplyed FROM employees GROUP BY Role;
+
+SELECT Building, SUM(Years_employed) FROM Employees GROUP BY Building;
+
+SELECT SUM(Years_employed) FROM Employees WHERE Role = "Engineer";
+
+SELECT Director, SUM(*) AS Total_no_of_movies_Directed FROM Movies GROUP BY Director;
+
+SELECT Director, COUNT(*) AS Total FROM Movies GROUP BY Director;
+
+SELECT Director, SUM(Domestic_sales) AS Total_doestic_sales, SUM(International_sales) AS Total_international_sales 
+FROM Movies INNER JOIN Boxoffice ON Id = Movie_id GROUP BY Director;
+
+INSERT INTO Movies
+VALUES (4, "Toy Story 4", "Mark Andersson", 2009, 95);
+
+INSERT INTO Boxoffice
+VALUES (4, 8.7, 340000000, 270000000);
+
+UPDATE Movies
+SET Director = "John Lasseter"
+WHERE Title = "A Bug's Life";
+
+
+UPDATE Movies
+SET Year = 1999
+WHERE Title = "Toy Story 2";
+
+UPDATE Movies
+SET Title = "Toy Story 3",
+    Director = "Lee Unkrich"
+WHERE Title = "Toy Story 8";
+
+DELETE FROM Movies
+WHERE Year < 2005;
+
+DELETE FROM Movies
+WHERE Director = "Andrew Stanton";
+
+CREATE TABLE IF NOT EXISTS Database(
+    Name TEXT,
+    Version FLOAT,
+    Download_count INTEGER
+);
+
+ALTER TABLE Movies
+ADD Aspect_ratio FLOAT;
+
+ALTER TABLE Movies
+ADD Language TEXT
+DEFAULT "English";
+
+DROP TABLE IF EXISTS Movies;
+
+DROP TABLE IF EXISTS Boxoffice;

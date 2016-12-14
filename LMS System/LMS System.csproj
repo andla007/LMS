@@ -178,9 +178,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612131519175_initial.cs" />
-    <Compile Include="Migrations\201612131519175_initial.Designer.cs">
-      <DependentUpon>201612131519175_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201612141209324_init.cs" />
+    <Compile Include="Migrations\201612141209324_init.Designer.cs">
+      <DependentUpon>201612141209324_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
@@ -196,10 +196,6 @@
     <Compile Include="Views\Helpers\ApplicationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-LMS System-20161125035635.mdf" />
-    <Content Include="App_Data\aspnet-LMS System-20161125035635_log.ldf">
-      <DependentUpon>aspnet-LMS System-20161125035635.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CourseDetails.css" />
@@ -305,12 +301,12 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612131519175_initial.resx">
-      <DependentUpon>201612131519175_initial.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="App_Data\Uploads\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Uploads\" />
+    <EmbeddedResource Include="Migrations\201612141209324_init.resx">
+      <DependentUpon>201612141209324_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

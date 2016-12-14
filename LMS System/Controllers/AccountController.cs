@@ -181,7 +181,7 @@ namespace LMS_System.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher,student")]
-        public ActionResult CourseTeacherView(int? id, string orderby)
+        public ActionResult CourseTeacherView(int? id, string orderby = "firstname")
         {
             if (id != null)
             {

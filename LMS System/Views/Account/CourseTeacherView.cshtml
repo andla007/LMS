@@ -46,11 +46,11 @@
         @if (User.IsInRole("teacher"))
         {
         <td>
-            @Html.ActionLink("Edit", "Edit", "Appusers",  new { id = student.Id }, null) |
+            @Html.ActionLink("Edit", "Edit", "Appusers",  new { id = student.Id, courseId = ViewBag.CourseId }, null) |
 
-            @Html.ActionLink("Details", "Details", "Appusers", new { id = student.Id, CourseId = ViewBag.CourseId }, null) |
+            @Html.ActionLink("Details", "Details", "Appusers", new { id = student.Id, courseId = ViewBag.CourseId }, null) |
 
-            @Html.ActionLink("Delete", "Delete", "Appusers", new { id = student.Id }, null)
+            @Html.ActionLink("Delete", "Delete", "Appusers", new { id = student.Id, courseId = ViewBag.CourseId }, null)
         </td>
         }
 

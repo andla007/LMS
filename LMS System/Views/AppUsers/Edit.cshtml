@@ -81,7 +81,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to registration", "RegisterTeacher", "Account",null, null)
+    @Html.ActionLink("Back to registration", "CourseTeacherView", "Account", new {id = ViewBag.CourseId, orderby = "firstname" }, null)
 </div>
 
 @section Scripts {
