@@ -213,11 +213,6 @@ namespace LMS_System.Controllers
                 where modules.CourseId == id
                 select new ScheduleItem { Modulename = modules.Name, Id = modules.Id, ModuleId=modules.Id, ModuleStartDate = modules.StartDate, ModuleEndDate = modules.EndDate, CourseId = modules.CourseId };
 
-            //var Activities =
-            //    from activities in db.Activities
-            //    orderby activities.StartDate
-            //    where activities.ModuleId == 
-
             var Activities =
                 from modules in db.Modules
                 join activities in db.Activities on modules.Id equals activities.ModuleId
@@ -261,19 +256,6 @@ namespace LMS_System.Controllers
                 sItem.CourseId = id;
                 sItem.Date = date;
                 schedule.Add(sItem);
-
-
-
-                //sItem.Date = date.AddDays(i);
-                //ScheduleItem si = ModulesActivities.Where(s => s.Activitystartdate <= sItem.Date && s.Activityenddate >= sItem.Date).FirstOrDefault();
-                //if (si != null)
-                //{
-                //    sItem.Activityname = si.Activityname;
-                //    sItem.Modulename = si.Modulename;
-                //    sItem.Activitystartdate = si.Activitystartdate;
-                //    sItem.Activityenddate = si.Activityenddate;
-                //}
-                //schedule.Add(sItem);
             }
             return View(schedule);
         }
