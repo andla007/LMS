@@ -147,10 +147,17 @@ namespace LMS_System.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
+            try
+            { 
             AppUsers appUsers = db.Users.Find(id);
             db.Users.Remove(appUsers);
             db.SaveChanges();
             return RedirectToAction("RegisterTeacher", "Account");
+            }
+            catch(Exception ex)
+            {
+                return Content("<h1>You need to remove all files uploaded by the teacher before you can delete him/her.</h>");
+            }
         }
 
         protected override void Dispose(bool disposing)
