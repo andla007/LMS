@@ -183,7 +183,7 @@ namespace LMS_System.Controllers
         //
         // GET: /Account/Register
         [Authorize(Roles = "teacher,student")]
-        public ActionResult CourseTeacherView(int? id, string orderby)
+        public ActionResult CourseTeacherView(int? id, string orderby = "firstname")
         {
             if (id != null)
             {
@@ -191,6 +191,7 @@ namespace LMS_System.Controllers
                 if (course != null)
                 {
                     var students = course.Students;
+                    if(orderby == null) { orderby = "firstname"; }
                     switch (orderby.ToLower())
                     {
                         case "firstname":

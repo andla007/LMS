@@ -79,13 +79,22 @@ else
                     <a href="?orderby=name" data-toggle="tooltip" title="Sort by name">Module name</a>
                         </th>
                         <th>
-                            <a href="?orderby=startdate" data-toggle="tooltip" title="Sort by start date">Start Date</a>
+                            <a href="?orderby=startdate" data-toggle="tooltip" title="Sort by start date">
+                                @Html.DisplayNameFor(m => m.StartDate)
+                            </a>
+                            <a href="?orderby=startdate" class="triangle" id="startdate">&#9650;</a>
                         </th>
                         <th>
-                            <a href="?orderby=enddate" data-toggle="tooltip" title="Sort by end date">End Date</a>
+                            <a href="?orderby=enddate" data-toggle="tooltip" title="Sort by end date">
+                                @Html.DisplayNameFor(m => m.EndDate)
+                            </a>
+                            <a href="?orderby=enddate" class="triangle" id="enddate">&#9650;</a>
                         </th>
                         <th>
-                            <a href="?orderby=duration" data-toggle="tooltip" title="Sort by duration">Duration</a>
+                            <a href="?orderby=duration" data-toggle="tooltip" title="Sort by duration">
+                                Duration
+                            </a>
+                            <a href="?orderby=duraion" class="triangle" id="duration">&#9650;</a>
                         </th>
                         @if (User.IsInRole("teacher"))
                         {
@@ -138,12 +147,12 @@ else
                                 @Html.ActionLink("Edit", "Edit", "Modules", new { id = module.Id, courseID = Model.Id }, null) |
                                 @Html.ActionLink("Delete", "Delete", "Modules", new { id = module.Id, courseID = Model.Id }, null)
                             </td>
-                    @*@if (Model.StartDate > module.StartDate || Model.EndDate < module.EndDate || module.StartDate > module.EndDate)
-                            {
-                                <td>
-                                    Some dates are out of bounds!
-                                </td>
-                    }*@
+                            @if (Model.StartDate > module.StartDate || Model.EndDate < module.EndDate || module.StartDate > module.EndDate)
+                                    {
+                                        <td>
+                                            Some dates are out of bounds!
+                                        </td>
+                            }
                         </tr>
                     }
 
