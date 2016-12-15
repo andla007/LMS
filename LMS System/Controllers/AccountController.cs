@@ -97,14 +97,16 @@ namespace LMS_System.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    //if (returnUrl == "/" && User.IsInRole("teacher")) { returnUrl = "/Courses"; }
-                    //else if (returnUrl == "/" && User.IsInRole("student"))
+
                     {
+                        //Return user with current email. The goal is to get the ID of the user for comparison.
                         var user = UserManager
                                   .Users
                                   .Where(u => u.Email == model.Email)
                                   .FirstOrDefault();
                         var userRoleIsTeacher = UserManager.IsInRole(user.Id, "teacher");
+
+                        //Teacher will be redirected to index.
                         if (userRoleIsTeacher)
                             return RedirectToAction("Index", "Courses");
                         else
@@ -112,14 +114,14 @@ namespace LMS_System.Controllers
                             // Find course student is enrolled in 
                           
                             var dbContext = new ApplicationDbContext();
-                            var enrolledCourse = (from course in dbContext.Courses
-                                                 from student in course.Students
-                                                 where student.Id == user.Id
-                                                 select course).FirstOrDefault();
+                            var enrolledCourse = (from course in dbContext.Courses //for each course in Courses
+                                                 from student in course.Students//for each student in current course
+                                                 where student.Id == user.Id//Check if user exists in this course.
+                                                 select course).FirstOrDefault(); //if so then return only the first course.
                             if (enrolledCourse == null)
-                                return RedirectToAction("Index", "Courses");
+                                return RedirectToAction("Index", "Courses"); //Orphan registered users will be redirected to the courses overview page.
                             else
-                                return RedirectToAction("Details", "Courses", new { Id = enrolledCourse.Id });
+                                return RedirectToAction("Details", "Courses", new { Id = enrolledCourse.Id });//Students assigned to a course will be redirected to that course.
 
                         }
                     }
