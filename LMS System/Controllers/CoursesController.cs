@@ -46,48 +46,55 @@ namespace LMS_System.Controllers
 
 
         // GET: Courses/Details/5
-        [Authorize(Roles = "teacher,student")]
-        public ActionResult Details(int? id, string orderBy)
+        [Authorize(Roles = "teacher,student")]                                          //  Begränsar åtkomsten för användaren
+        public ActionResult Details(int? id, string orderBy)                            //  Action tar kursens Id som parameter och ordning parametern orderBy
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
 
-            Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
-            if (course == null)
-                return Index();
-            else if (orderBy != null)
             {
-                var modules = course.Modules;
-                switch (orderBy.ToLower())
+                if (id == null)
                 {
-                    case "name":
-                        modules = course.Modules.OrderBy(m => m.Name).ToList();
-                        break;
-                    case "startdate":
-                        modules = course.Modules.OrderBy(m => m.StartDate).ToList();
-                        break;
-                    case "enddate":
-                        modules = course.Modules.OrderBy(m => m.EndDate).ToList();
-                        break;
-                    case "duration":
-                        modules = modules
-                                    .Select(m => new
-                                    {
-                                        Duration = m.EndDate - m.StartDate,
-                                        Module2 = m
-                                    })
-                                    .OrderBy(d => d.Duration)
-                                    .Select(d => d.Module2)
-                                    .ToList();
-                        break;
-                    default:
-                        break;
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                course.Modules = modules;
+
+                Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+
+                                                                                        // Sök efter kursen med id numret  id i databsen genom att använda link, och tar första träffen
+
+
+                if (course == null)
+                    return Index();
+                else if (orderBy != null)
+                {
+                    var modules = course.Modules;                                       // Skapar en lista med moduler kopplade till kursen 
+                    switch (orderBy.ToLower())                                          // Omordna modulelistan efter ordning parametern orderBy
+                    {
+                        case "name":
+                            modules = course.Modules.OrderBy(m => m.Name).ToList();
+                            break;
+                        case "startdate":
+                            modules = course.Modules.OrderBy(m => m.StartDate).ToList();
+                            break;
+                        case "enddate":
+                            modules = course.Modules.OrderBy(m => m.EndDate).ToList();
+                            break;
+                        case "duration":
+                            modules = modules
+                                        .Select(m => new
+                                        {
+                                            Duration = m.EndDate - m.StartDate,
+                                            Module2 = m
+                                        })
+                                        .OrderBy(d => d.Duration)
+                                        .Select(d => d.Module2)
+                                        .ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                    course.Modules = modules;                                            // Uppdaterar kurs moduler med den ordnade modulelistan
+                }
+                return View(course);                                                     // Anropar Details vyn och skickar modelen course till den
             }
-            return View(course);
         }
 
         // GET: Courses/Create
