@@ -111,9 +111,10 @@ namespace LMS_System.Controllers
                             return RedirectToAction("Index", "Courses");
                         else
                         {
+                            
                             // Find course student is enrolled in 
                           
-                            var dbContext = new ApplicationDbContext();
+                            var dbContext = new ApplicationDbContext(); 
                             var enrolledCourse = (from course in dbContext.Courses //for each course in Courses
                                                  from student in course.Students//for each student in current course
                                                  where student.Id == user.Id//Check if user exists in this course.

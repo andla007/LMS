@@ -87,7 +87,7 @@ namespace LMS_System.Views.Helpers
 
 
 
-
+             
             string addtoaction = ""; //This will always be used when the action is create. We want the title to be create module, create activity, create lussebulle etc.
 
             if (controller == "courses" && action == "create")
