@@ -3,30 +3,34 @@
 @{
     ViewBag.Title = "Schedule";
 }
-
+<head>
+    <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
+</head>
 <h2>Schedule</h2>
 <br/><br/>
 <div  class="btn btn-default">
     <span class="glyphicon glyphicon-print"></span>
     <a href="#" onClick="window.print()">Print schedule</a>
 </div>
-<hr />
-<table class="table table-striped table-bordered">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            Day
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Modulename)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Activityname)
-        </th>
-    </tr>
 
+<table class="table lms">
+    <thead>
+        <tr style="color:white">
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                Day
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modulename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Activityname)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
 @foreach (var item in Model) {
 
 

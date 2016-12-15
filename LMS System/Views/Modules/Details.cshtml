@@ -101,12 +101,12 @@ else
     @Html.ActionLink("Delete", "Delete", "Activities", new { id = activity.Id, courseID = Model.Id }, null)
 }
     </td>
-                            @*@if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
-       {
-           <td class="tablemargin">
-            Some dates are out of boundry!
-            </td>
-                            }*@
+                            @if (Model.StartDate > activity.StartDate || Model.EndDate < activity.EndDate || activity.StartDate > activity.EndDate)
+                           {
+                               <td class="tablemargin">
+                                Some dates are out of bounds!
+                                </td>
+                            }
 
 
 </tr>

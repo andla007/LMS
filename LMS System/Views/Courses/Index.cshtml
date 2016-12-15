@@ -23,18 +23,18 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <a href="#">@Html.DisplayNameFor(model => model.Name)</a>
             </th>
             <th class="descriptioncolumn">
-                @Html.DisplayNameFor(model => model.Description)
+                <a href="#">@Html.DisplayNameFor(model => model.Description)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                <a href="#">@Html.DisplayNameFor(model => model.StartDate)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                <a href="#">@Html.DisplayNameFor(model => model.EndDate)</a>
             </th>
-            <th>Administration</th>
+            <th><a href="#">Administration</a></th>
         </tr>
     </thead>
         @foreach (var item in Model)

@@ -59,7 +59,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: AppUsers/Details/5
-        public ActionResult Details(string id, string courseid)
+        public ActionResult Details(string id, string courseId)
         {
             if (id == null)
             {
@@ -70,6 +70,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseId = courseId;
             return View(appUsers);
         }
 
@@ -97,7 +98,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: AppUsers/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, int? courseId)
         {
             if (id == null)
             {
@@ -108,6 +109,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseId = courseId;
             return View(appUsers);
         }
 
@@ -120,25 +122,50 @@ namespace LMS_System.Controllers
         {
             if (ModelState.IsValid)
             {
+                var enrolledCourse = (from course in db.Courses
+                                      from student in course.Students
+                                      where student.Id == appUsers.Id
+                                      select course).FirstOrDefault();
+
+
                 db.Entry(appUsers).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("RegisterTeacher", "Account");
+
+                if (appUsers.RoleName == "teacher")
+                {
+                    return RedirectToAction("RegisterTeacher", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("CourseTeacherView", "Account", new { Id = enrolledCourse.Id, orderBy = "firstname" });
+                }
             }
             return View(appUsers);
         }
 
         // GET: AppUsers/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string id, int? courseId)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             AppUsers appUsers = db.Users.Find(id);
+            var enrolledCourse = (from course in db.Courses
+                                  from student in course.Students
+                                  where student.Id == id
+                                  select course).FirstOrDefault();
+            if (enrolledCourse != null)
+            {
+                ViewBag.CourseId = enrolledCourse.Id;
+            }
+
+
             if (appUsers == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseId = courseId;
             return View(appUsers);
         }
 
@@ -147,10 +174,32 @@ namespace LMS_System.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            AppUsers appUsers = db.Users.Find(id);
-            db.Users.Remove(appUsers);
-            db.SaveChanges();
-            return RedirectToAction("RegisterTeacher", "Account");
+            try
+            {
+                AppUsers appUsers = db.Users.Find(id);
+                string Rolename = appUsers.RoleName;
+                
+                var enrolledCourse = (from course in db.Courses
+                                      from student in course.Students
+                                      where student.Id == id
+                                      select course).FirstOrDefault();
+
+                db.Users.Remove(appUsers);
+                db.SaveChanges();
+
+                if (Rolename == "teacher")
+                {
+                    return RedirectToAction("RegisterTeacher", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("CourseTeacherView", "Account", new { Id= enrolledCourse.Id, orderBy = "firstname" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Content("<h1>You need to remove all files uploaded by the teacher before you can delete him/her.</h>");
+            }
         }
 
         protected override void Dispose(bool disposing)
