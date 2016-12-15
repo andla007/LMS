@@ -58,15 +58,15 @@ namespace LMS_System.Controllers
             ViewBag.Ascending = !ascending;
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
 
-                                                                                        // Sök efter kursen med id numret  id i databsen genom att använda link, och tar första träffen
+            // Sök efter kursen med id numret  id i databsen genom att använda LinQ, och tar första träffen
 
 
             if (course == null)
                 return Index();
             else if (orderBy != null)
             {
-                    var modules = course.Modules;                                       // Skapar en lista med moduler kopplade till kursen 
-                    switch (orderBy.ToLower())                                          // Omordna modulelistan efter ordning parametern orderBy
+                    var modules = course.Modules;  // Tilldelar en lista med moduler kopplade till kursen till en temporär variabel.
+                    switch (orderBy.ToLower()) // Omordna modulelistan efter ordning parametern orderBy
                 {
                     case "name":
                         modules = ascending? course.Modules.OrderBy(m => m.Name).ToList()

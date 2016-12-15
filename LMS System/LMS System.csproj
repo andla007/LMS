@@ -178,7 +178,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\UserSeed.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -289,6 +288,9 @@
     <Content Include="Views\Activities\DeleteFile.cshtml" />
     <Content Include="Views\Activities\EditFile.cshtml" />
     <Content Include="Views\Activities\IndexFiles.cshtml" />
+    <Content Include="Visual studio stuff Andreas.hnd" />
+    <Content Include="Visual studio stuff_micke.chm" />
+    <Content Include="Visual studio stuff_micke.hnd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -301,7 +303,6 @@
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
   </ItemGroup>
-
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
