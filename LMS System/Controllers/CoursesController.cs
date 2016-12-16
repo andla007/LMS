@@ -22,17 +22,25 @@ namespace LMS_System.Controllers
         public ActionResult Index()
         {
             var courses = db.Courses.ToList();
+            //if (User.IsInRole("student"))
+            //{
+            //    courses = ((from course in db.Courses
+            //                            from student in course.Students
+            //                            where student.Id == User.Identity.GetUserId()
+            //                            select course)).ToList();
+
+            //}
             var deadlineact = new List<Activity>();
             foreach (var course in courses)
             {
                 var modules = course.Modules.ToList();
                 foreach (var module in modules)
                 {
-                    var activities = module.Activities.Where(a=>a.Assignment==true && a.EndDate>=DateTime.Today).ToList();
+                    var activities = module.Activities.Where(a => a.Assignment == true && a.EndDate >= DateTime.Today && a.StartDate <= DateTime.Today).ToList();
                     foreach (var activity in activities)
                     {
                         var hasdoc = activity.ModuleDocuments.Where(m => m.AppUser.Email == User.Identity.Name).Any();
-                        if(!hasdoc)
+                        if (!hasdoc)
                         {
                             deadlineact.Add(activity);
                         }
@@ -96,9 +104,9 @@ namespace LMS_System.Controllers
                         break;
                 }
                     course.Modules = modules;                                            // Uppdaterar kurs moduler med den ordnade modulelistan
-                }
-                return View(course);                                                     // Anropar Details vyn och skickar modelen course till den
             }
+                return View(course);                                                     // Anropar Details vyn och skickar modelen course till den
+        }
         }
 
         // GET: Courses/Create
@@ -186,7 +194,7 @@ namespace LMS_System.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Content("<h1>You need to remove all items before you can delete this course.</h>");
             }
@@ -259,15 +267,25 @@ namespace LMS_System.Controllers
 
                     //Same check for activities
                     List<ScheduleItem> asi = Activities.Where(s => s.Activitystartdate <= date && s.Activityenddate >= date).ToList();
+                    List<ActivityLink> alinks = new List<ActivityLink>();
                     foreach (var aitem in asi)
                     {
-                        sItem.Activityname = aitem.Activityname + ",";
+                        //http://localhost:63965/Activities/Details/25
+
+                        ActivityLink alink = new ActivityLink();
+
+                        alink.ActivityName = aitem.Activityname;
+                        alink.Id = aitem.ActivityId;
+                        alinks.Add(alink);
+
+                        sItem.Activityname = aitem.Activityname;
                         sItem.Activitystartdate = aitem.Activitystartdate;
                         sItem.Activityenddate = aitem.Activityenddate;
                         sItem.ModuleId = aitem.ModuleId;
+                        sItem.ActivityDocuments = aitem.ActivityDocuments;
                         
                     }
-
+                    sItem.ActivityLink = alinks;
                 }
                 //After running the for each we will have the last module and the last activity in the array.
 
@@ -277,6 +295,8 @@ namespace LMS_System.Controllers
                 sItem.Activityname = sItem.Activityname.TrimEnd(' ', ',');
                 sItem.CourseId = id;
                 sItem.Date = date;
+
+
                 schedule.Add(sItem);
             }
             return View(schedule);
@@ -474,10 +494,18 @@ namespace LMS_System.Controllers
         public DateTime ModuleStartDate { get; set; }
         public DateTime ModuleEndDate { get; set; }
         public string Activityname { get; set; }
+        public List<ActivityLink> ActivityLink { get; set; }
+        public int ActivityId { get; set; }
         public DateTime Activitystartdate { get; set; }
         public DateTime Activityenddate { get; set; }
         public int CourseId { get; set; }
         public int ModuleId { get; set; }
+        public ICollection<Document> ActivityDocuments { get; set; }
+    }
+    public class ActivityLink
+    {
+        public string ActivityName { get; set; }
+        public int Id { get; set; }
     }
 }
 

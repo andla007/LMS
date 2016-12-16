@@ -192,6 +192,14 @@
     <Compile Include="Views\Helpers\ApplicationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-LMS System-20161125035635.mdf" />
+    <Content Include="App_Data\aspnet-LMS System-20161125035635_log.ldf">
+      <DependentUpon>aspnet-LMS System-20161125035635.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_aktiviteter_1_schemeit-project.png" />
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_kurser_3_schemeit-project.png" />
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_moduler_1_schemeit-project.png" />
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_moduler_1_Sökta jobb.txt" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CourseDetails.css" />
@@ -199,11 +207,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\background.png" />
     <Content Include="Images\logo-lexicon2x.gif" />
     <Content Include="Images\threat.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Redovisning Fredag.hnd" />
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_kurser_1_PersonligtBrev_KFM.pdf" />
+    <Content Include="App_Data\Uploads\elev%40lexicon.se_aktiviteter_12_PersonligtBrev_KFM.pdf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -289,8 +299,6 @@
     <Content Include="Views\Activities\EditFile.cshtml" />
     <Content Include="Views\Activities\IndexFiles.cshtml" />
     <Content Include="Visual studio stuff Andreas.hnd" />
-    <Content Include="Visual studio stuff_micke.chm" />
-    <Content Include="Visual studio stuff_micke.hnd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -299,9 +307,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\Uploads\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

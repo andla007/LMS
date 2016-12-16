@@ -8,6 +8,14 @@
 
 <div class="control">
 @Html.ActionLink("Upload or view files", "IndexFiles", new { parentId = Model.Id, ActivityId = Model.Id }, new { @class = "btn btn-default" })
+    @if(Model.ModuleDocuments.Count > 0)
+    {
+        <span>Files:  @Model.ModuleDocuments.Count</span>
+    }
+    else
+    {
+        <span>No documents</span>
+    }
 </div>
 
 <div>

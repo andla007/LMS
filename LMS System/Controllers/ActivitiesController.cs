@@ -37,6 +37,9 @@ namespace LMS_System.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Activity activity = db.Activities.Find(id);
+            var x = activity.ModuleDocuments;
+
+
             if (activity == null)
             {
                 return HttpNotFound();
@@ -186,7 +189,7 @@ namespace LMS_System.Controllers
 
                     if (doc.StartDate > doc.EndDate)
                     {
-                        ViewBag.Error = "Start date cannot be greater than end date stupid!!";
+                        ViewBag.Error = "Start date cannot be greater than end date!";
                     }
                 }
 
