@@ -46,8 +46,9 @@ namespace LMS_System.Controllers
 
 
         // GET: Courses/Details/5
-        [Authorize(Roles = "teacher,student")]
-        public ActionResult Details(int? id, string orderBy, bool ascending = true)
+        [Authorize(Roles = "teacher,student")]                                          //  Begränsar åtkomsten för användaren
+        public ActionResult Details(int? id, string orderBy, bool ascending = true)     //  Action tar kursens Id som parameter och ordnings parametern orderBy
+                                                                                        //  och sätter ordning sätt till ascending
         {
 
             {

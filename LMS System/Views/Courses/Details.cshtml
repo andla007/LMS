@@ -13,7 +13,7 @@
 <br />
 
 @if (User.IsInRole("teacher"))
-                                                                               //Visas bara för en inloggad lärare
+                                                                               //  Visas bara för en inloggad lärare
             {
 <div class="control">
     
@@ -24,19 +24,19 @@
 
 
 
-                                                                              @*Tre knappar “Add module” , “Add student” , “Show Schedule” , och tre actions :
+                                                                              @*  Tre knappar “Add module” , “Add student” , “Show Schedule” , och tre actions :
 
-                                                                                1.	“Create” I Controllern “Module” anropas när man klickar på knappen “Add module”
+                                                                                  1.	“Create” I Controllern “Module” anropas när man klickar på knappen “Add module”
 
-                                                                                2.	”Schedule” i Controllern ”Course” anropas när man kickar på knappen ”Show Schedule”
+                                                                                  2.	”Schedule” i Controllern ”Course” anropas när man kickar på knappen ”Show Schedule”
 
-                                                                                3.	”IndexFiles” i COntrollen ”Course” anropas när man klickar på knappen ”Upload or view files”*@
+                                                                                  3.	”IndexFiles” i COntrollen ”Course” anropas när man klickar på knappen ”Upload or view files”*@
 
 
 </div>
         }
         else
-                                                                              //Visas bara för en inloggad student
+                                                                              //  Visas bara för en inloggad student
         {
     <div class="control">
         <a href="@Url.Action("CourseTeacherView", "Account", new { id = Model.Id, orderBy = "firstname" })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Show student</a>
