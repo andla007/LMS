@@ -59,7 +59,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: AppUsers/Details/5
-        public ActionResult Details(string id, string courseid)
+        public ActionResult Details(string id, string courseId)
         {
             if (id == null)
             {
@@ -70,6 +70,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseId = courseId;
             return View(appUsers);
         }
 
@@ -97,7 +98,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: AppUsers/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, int? courseId)
         {
             if (id == null)
             {
@@ -108,6 +109,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseId = courseId;
             return View(appUsers);
         }
 
@@ -142,7 +144,7 @@ namespace LMS_System.Controllers
         }
 
         // GET: AppUsers/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string id, int? courseId)
         {
             if (id == null)
             {
@@ -163,6 +165,7 @@ namespace LMS_System.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseId = courseId;
             return View(appUsers);
         }
 

@@ -3,16 +3,19 @@
 @{
     ViewBag.Title = "Schedule";
 }
-
+<head>
+    <link rel="stylesheet" href="~/Content/CourseDetails.css" type="text/css" />
+</head>
 <h2>Schedule</h2>
 <br/><br/>
 <div  class="btn btn-default">
     <span class="glyphicon glyphicon-print"></span>
     <a href="#" onClick="window.print()">Print schedule</a>
 </div>
-<hr />
-<table class="table table-striped table-bordered">
-    <tr>
+
+<table class="table lms">
+    <thead>
+        <tr style="color:white">
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
@@ -25,6 +28,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Activityname)
         </th>
+            <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -50,20 +54,20 @@
             <td>@Html.DisplayFor(modelItem => item.Date.DayOfWeek)</td>
 
             @if (item.Modulename != null)
-            {
-                <td>@Html.DisplayFor(modelItem => item.Modulename)</td>
-            }
-            else
-            {
-                if (User.IsInRole("teacher"))
                 {
-                    <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true }, new { @class = "btn btn-default btn-xs" })</td>
+                    <td>@Html.DisplayFor(modelItem => item.Modulename)</td>
                 }
                 else
                 {
-                    <td></td>
+                    if (User.IsInRole("teacher"))
+                    {
+                    <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true }, new { @class = "btn btn-default btn-xs" })</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
                 }
-            }
 
             @if (item.ActivityLink != null && item.ActivityLink.Count != 0)
             {
@@ -76,38 +80,38 @@
                             <span class="glyphicon glyphicon-floppy-disk"></span>
                         }
                         else
-                        {
+                {
                             <span></span>
                         }
                     }
                 </td>
-            }
-            else
-            {
-                if (item.Modulename != null)
+                }
+                else
                 {
-                    if (User.IsInRole("teacher"))
+                    if (item.Modulename != null)
                     {
+                        if (User.IsInRole("teacher"))
+                        {
                         <td>@Html.ActionLink("Add activity", "Create", "Activities", new { ModuleId = item.ModuleId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true, CourseId = item.CourseId }, new { @class = "btn btn-default btn-xs" }) </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
                     }
                     else
                     {
                         <td></td>
                     }
-                }
-                else
-                {
-                    <td></td>
-                }
 
 
-           }
+                            }
 
 
-           </tr>
-    }
-    else
-    {
+            </tr>
+        }
+        else
+        {
             <tr>
                 @if (item.Date.DayOfWeek == DayOfWeek.Sunday)
                 {
@@ -134,13 +138,13 @@
 
 
         if (item.Date.DayOfWeek == DayOfWeek.Sunday)
-        {
+            {
                 <tr>
                     <td colspan="4"><b>Week: @ApplicationHelpers.WeekNumber(item.Date.AddDays(1))</b></td>
                 </tr>
-        }
-    }
+                                }
+                            }
 
-}
+                        }
 
 </table>

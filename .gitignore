@@ -223,3 +223,4 @@ ModelManifest.xml
 /LMS System/Migrations/201611281533597_w.Designer.cs
 /LMS System/Migrations/201611281533597_w.cs
 *.zip
+/LMS System/App_Data/uploads

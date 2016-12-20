@@ -55,29 +55,38 @@ namespace LMS_System.Controllers
 
         // GET: Courses/Details/5
         [Authorize(Roles = "teacher,student")]
-        public ActionResult Details(int? id, string orderBy)
+        public ActionResult Details(int? id, string orderBy, bool ascending = true)
         {
+
+            {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
+            ViewBag.Ascending = !ascending;
             Course course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+
+            // Sök efter kursen med id numret  id i databsen genom att använda LinQ, och tar första träffen
+
+
             if (course == null)
                 return Index();
             else if (orderBy != null)
             {
-                var modules = course.Modules;
-                switch (orderBy.ToLower())
+                    var modules = course.Modules;  // Tilldelar en lista med moduler kopplade till kursen till en temporär variabel.
+                    switch (orderBy.ToLower()) // Omordna modulelistan efter ordning parametern orderBy
                 {
                     case "name":
-                        modules = course.Modules.OrderBy(m => m.Name).ToList();
+                        modules = ascending? course.Modules.OrderBy(m => m.Name).ToList()
+                                           : course.Modules.OrderByDescending(m => m.Name).ToList();
                         break;
                     case "startdate":
-                        modules = course.Modules.OrderBy(m => m.StartDate).ToList();
+                        modules = ascending? course.Modules.OrderBy(m => m.StartDate).ToList()
+                                           : course.Modules.OrderByDescending(m => m.StartDate).ToList();
                         break;
                     case "enddate":
-                        modules = course.Modules.OrderBy(m => m.EndDate).ToList();
+                        modules = ascending? course.Modules.OrderBy(m => m.EndDate).ToList()
+                                           : course.Modules.OrderByDescending(m => m.EndDate).ToList();
                         break;
                     case "duration":
                         modules = modules
@@ -93,9 +102,10 @@ namespace LMS_System.Controllers
                     default:
                         break;
                 }
-                course.Modules = modules;
+                    course.Modules = modules;                                            // Uppdaterar kurs moduler med den ordnade modulelistan
             }
-            return View(course);
+                return View(course);                                                     // Anropar Details vyn och skickar modelen course till den
+        }
         }
 
         // GET: Courses/Create
@@ -175,7 +185,7 @@ namespace LMS_System.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-
+       
             try
             {
                 Course course = db.Courses.Find(id);
@@ -211,41 +221,50 @@ namespace LMS_System.Controllers
         [Authorize(Roles = "teacher,student")]
         public ActionResult Schedule(int id)
         {
-            var course = db.Courses.Where(c => c.Id == id).FirstOrDefault();
+            var course = db.Courses.Where(c => c.Id == id).FirstOrDefault();//Pick the course we want to work with.
+
+            //For easier handling
             DateTime coursestartdate = course.StartDate;
             DateTime courseenddate = course.EndDate;
 
             var Modules =
-                from modules in db.Modules
-                orderby modules.StartDate
-                where modules.CourseId == id
-                select new ScheduleItem { Modulename = modules.Name, Id = modules.Id, ModuleId = modules.Id, ModuleStartDate = modules.StartDate, ModuleEndDate = modules.EndDate, CourseId = modules.CourseId };
+                from modules in db.Modules //pick modules
+                orderby modules.StartDate //order them low to high
+                where modules.CourseId == id //Only pick the modules which has the course id we are interested in.
+                //Assign a new ScheduleItem for each hit. This is something that is called a projection and we can transform the data to any shape we want. In this case a ScheduledItem.
+                select new ScheduleItem { Modulename = modules.Name, Id = modules.Id, ModuleId=modules.Id, ModuleStartDate = modules.StartDate, ModuleEndDate = modules.EndDate, CourseId = modules.CourseId };
+
 
             var Activities =
-                from modules in db.Modules
-                join activities in db.Activities on modules.Id equals activities.ModuleId
-                orderby modules.StartDate, activities.StartDate
-                where modules.CourseId == id
-                select new ScheduleItem { Activityname = activities.Name, ActivityId = activities.Id, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate, ModuleId = modules.Id, ModuleStartDate = modules.StartDate, ActivityDocuments = activities.ModuleDocuments };
+                from modules in db.Modules //pick modules
+                join activities in db.Activities on modules.Id equals activities.ModuleId //Join activities and modules and find those that use the same moduleid.
+                orderby modules.StartDate, activities.StartDate //sort both modules and activites 
+                where modules.CourseId == id //pick modules that have the same id for the current course
+                //Project into an array of ScheduleItem that we access through Activities.
+                select new ScheduleItem { Activityname = activities.Name, Activitystartdate = activities.StartDate, Activityenddate = activities.EndDate, ModuleId = modules.Id, ModuleStartDate = modules.StartDate };
 
             DateTime date = coursestartdate;
             List<ScheduleItem> schedule = new List<ScheduleItem>();
             for (int i = 0; i <= (courseenddate - coursestartdate).Days; i++)
             {
                 date = coursestartdate.AddDays(i);
+                //Modules that are overlapping the star date of the course are extracted. This will always be zero for the first iteration.
+                //The second and continous iterations will move the course start date forward and find modules that are in range of the overlap check below.
                 List<ScheduleItem> msi = Modules.Where(s => s.ModuleStartDate <= date && s.ModuleEndDate >= date).ToList();
+                //List<ScheduleItem> msi = Modules.ToList();
+                ScheduleItem sItem = new ScheduleItem(); //Create a new addable ScheduleItem that we assign from the projectable objects.
 
-                ScheduleItem sItem = new ScheduleItem();
-
-
+                //Modules that are overlapping the current date pointer are assigned and added in new ScheduleItem list.
                 foreach (var item in msi)
                 {
                     sItem.Modulename += item.Modulename + ",";
+                    
                     sItem.ModuleStartDate = item.ModuleStartDate;
                     sItem.ModuleEndDate = item.ModuleEndDate;
                     sItem.CourseId = item.CourseId;
                     sItem.ModuleId = item.ModuleId;
 
+                    //Same check for activities
                     List<ScheduleItem> asi = Activities.Where(s => s.Activitystartdate <= date && s.Activityenddate >= date).ToList();
                     List<ActivityLink> alinks = new List<ActivityLink>();
                     foreach (var aitem in asi)
@@ -263,14 +282,16 @@ namespace LMS_System.Controllers
                         sItem.Activityenddate = aitem.Activityenddate;
                         sItem.ModuleId = aitem.ModuleId;
                         sItem.ActivityDocuments = aitem.ActivityDocuments;
-
+                        
                     }
                     sItem.ActivityLink = alinks;
                 }
-                if (sItem.Modulename != null)
-                    sItem.Modulename = sItem.Modulename.TrimEnd(' ', ',');
-                if (sItem.Activityname != null)
-                    sItem.Activityname = sItem.Activityname.TrimEnd(' ', ',');
+                //After running the for each we will have the last module and the last activity in the array.
+
+                if(sItem.Modulename != null)
+                sItem.Modulename = sItem.Modulename.TrimEnd(' ', ','); //Trim space and comma
+                if(sItem.Activityname != null)
+                sItem.Activityname = sItem.Activityname.TrimEnd(' ', ',');
                 sItem.CourseId = id;
                 sItem.Date = date;
 
