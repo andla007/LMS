@@ -196,6 +196,10 @@
     <Content Include="App_Data\aspnet-LMS System-20161125035635_log.ldf">
       <DependentUpon>aspnet-LMS System-20161125035635.mdf</DependentUpon>
     </Content>
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_aktiviteter_1_schemeit-project.png" />
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_kurser_3_schemeit-project.png" />
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_moduler_1_schemeit-project.png" />
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_moduler_1_Sökta jobb.txt" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CourseDetails.css" />
@@ -208,6 +212,8 @@
     <Content Include="Images\threat.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="App_Data\Uploads\admin%40lexicon.se_kurser_1_PersonligtBrev_KFM.pdf" />
+    <Content Include="App_Data\Uploads\elev%40lexicon.se_aktiviteter_12_PersonligtBrev_KFM.pdf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

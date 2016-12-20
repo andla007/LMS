@@ -27,66 +27,89 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
-
-
+    @foreach (var item in Model)
+    {
         if (item.Date.DayOfWeek != DayOfWeek.Saturday && item.Date.DayOfWeek != DayOfWeek.Sunday)
         {
             <tr>
-                <td>
-                    @item.Date.ToShortDateString()
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date.DayOfWeek)
-                </td>
-
-                @if(item.Modulename != null)
+            @if (item.Date < DateTime.Today)
+            {
+                <td style="color: grey;">@item.Date.ToShortDateString()</td>
+            }
+            else
+            {
+                if (item.Date == DateTime.Today)
                 {
-                    <td>@Html.DisplayFor(modelItem => item.Modulename)</td>
+                    <td style="color: blue; font-weight: bolder;">@item.Date.ToShortDateString()</td>
                 }
                 else
                 {
-                    if (User.IsInRole("teacher"))
-                    {
-                    <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule=true }, new { @class = "btn btn-default btn-xs" })</td>
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
+                    <td>@item.Date.ToShortDateString()</td>
                 }
+            }
+            <td>@Html.DisplayFor(modelItem => item.Date.DayOfWeek)</td>
 
-                @if (item.Activityname != null)
+            @if (item.Modulename != null)
+            {
+                <td>@Html.DisplayFor(modelItem => item.Modulename)</td>
+            }
+            else
+            {
+                if (User.IsInRole("teacher"))
                 {
-                    <td>@Html.DisplayFor(modelItem => item.Activityname)</td>
+                    <td>@Html.ActionLink("Add module", "Create", "Modules", new { Id = item.CourseId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true }, new { @class = "btn btn-default btn-xs" })</td>
                 }
                 else
                 {
-                    if (item.Modulename != null)
+                    <td></td>
+                }
+            }
+
+            @if (item.ActivityLink != null && item.ActivityLink.Count != 0)
+            {
+                <td>
+                    @foreach (var al in item.ActivityLink)
                     {
-                        if (User.IsInRole("teacher"))
+                        @Html.ActionLink(al.ActivityName, "Details", "Activities", new { Id = al.Id }, null)<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        if (item.ActivityDocuments.Count > 0)
                         {
-                            <td>@Html.ActionLink("Add activity", "Create", "Activities", new { ModuleId = item.ModuleId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true, CourseId = item.CourseId }, new { @class = "btn btn-default btn-xs" })</td>
+                            <span class="glyphicon glyphicon-floppy-disk"></span>
                         }
                         else
                         {
-                            <td></td>
+                            <span></span>
                         }
+                    }
+                </td>
+            }
+            else
+            {
+                if (item.Modulename != null)
+                {
+                    if (User.IsInRole("teacher"))
+                    {
+                        <td>@Html.ActionLink("Add activity", "Create", "Activities", new { ModuleId = item.ModuleId, StartDate = item.Date.ToShortDateString(), ReturnToSchedule = true, CourseId = item.CourseId }, new { @class = "btn btn-default btn-xs" }) </td>
                     }
                     else
                     {
                         <td></td>
                     }
+                }
+                else
+                {
+                    <td></td>
+                }
 
 
-                            }
+           }
 
-            </tr>
-        }
-        else
-        {
+
+           </tr>
+    }
+    else
+    {
             <tr>
-                @if(item.Date.DayOfWeek == DayOfWeek.Sunday)
+                @if (item.Date.DayOfWeek == DayOfWeek.Sunday)
                 {
                 <td class="weekendtype">
                     @item.Date.ToShortDateString()
@@ -110,15 +133,14 @@
             </tr>
 
 
-            if(item.Date.DayOfWeek == DayOfWeek.Sunday)
-            {
+        if (item.Date.DayOfWeek == DayOfWeek.Sunday)
+        {
                 <tr>
                     <td colspan="4"><b>Week: @ApplicationHelpers.WeekNumber(item.Date.AddDays(1))</b></td>
-
                 </tr>
-                                }
-                            }
+        }
+    }
 
-                        }
+}
 
 </table>
